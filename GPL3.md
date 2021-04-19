@@ -1,6 +1,6 @@
 # This is an attachement of the GNU GPL v3 License.
 *This repository is under LGPL v3, found [here](./LICENSE.md), 
-this is mentioned and adapted in that license.*
+this license is mentioned and adapted in that license.*
 
 
 # License
