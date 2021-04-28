@@ -1,7 +1,6 @@
 import * as fs from 'fs';
 import * as rd from 'readline';
 
-var reader = rd.createInterface(fs.createReadStream("./enron-v1.csv"));
 var emails: Array<Email> = [];
 var lookup: { [id: number]: Employee } = {};
 
@@ -23,30 +22,14 @@ class Employee {
         public jobTitle: string
     ) {}
 }
-        
-class MailGroup {
-    count: number = 0;
-    appreciations: number[] = [];
-
-    add (appreciation: number) {
-        this.appreciations[this.count++] = appreciation;
-    }
-}
 
 class MailGraph {
-    private graph: { [fId: number]: {[tId: number]: MailGroup} } = {};
+    private graph: { [fId: number]: {[tId: number]: number[]} } = {};
 
     // Add a new edge to the graph.
     // If any one of the required nodes is missing, they are added.
     addMail(mail: Email) {
-        if (!(mail.fromId in this.graph)) {
-            this.graph[mail.fromId] = {};
-        }
-        if (!(mail.toId in this.graph[mail.fromId])) {
-            this.graph[mail.fromId][mail.toId] = new MailGroup();
-        }
-
-        this.graph[mail.fromId][mail.toId].add(mail.appreciation);
+        this.graph[mail.fromId][mail.toId].push(mail.appreciation);
     }
 
     // Yet to be defined
@@ -61,16 +44,11 @@ function nextMail(mailData: string): Email {
     
     var date = new Date(tokens[0]);
     var fromId = parseInt(tokens[1]);
-
-    if (Number.isNaN(fromId)) {
-        return;
-    }
-
     var toId = parseInt(tokens[4]);
     var mailType = tokens[7];
     var appreciation = parseFloat(tokens[8]);
     
-    emails.push(new Email(date, fromId, toId, mailType, appreciation));
+    var mail = new Email(date, fromId, toId, mailType, appreciation);
 
     if (!(fromId in lookup)) {
         lookup[fromId] = new Employee(tokens[2], tokens[3]);
@@ -78,6 +56,10 @@ function nextMail(mailData: string): Email {
     if (!(toId in lookup)) {
         lookup[toId] = new Employee(tokens[5], tokens[6]);
     }
+
+    // TODO: Insert in a way that maintains sortedness!
+    emails.push(mail);
+    return mail;
 }
 
 // Create a Graph object for all correspondence in a timeframe.
@@ -92,20 +74,26 @@ function createGraph(startIndex: number, endIndex: number): MailGraph {
     return G;
 }
 
-// Reads all lines from a csv file with email data.
-reader.on("line", (line: string) => {
-    nextMail(line);
-})
+function readCsv(filename: string) {
+    var notFirst = false;
+    var reader = rd.createInterface(fs.createReadStream("./enron-v1.csv"));
 
-reader.on("close", ()=> {
-    emails.sort((e1, e2) => e1.date.getTime() - e2.date.getTime());
+    // Reads all lines from the csv file with email data.
+    reader.on("line", (line: string) => {
+        if (notFirst) {
+            nextMail(line);
+        } else {
+            notFirst = true;
+        }
+    })
+    
+    reader.on("close", ()=> {
+        emails.sort((e1, e2) => e1.date.getTime() - e2.date.getTime());
+    })
+}
 
-    emails.forEach((mail) => {
-        console.log(`${mail.date}, ${mail.mailType}`);
-    });
 
-    // console.log(`${emails[0].date <= emails[1].date}`);
-})
+readCsv("./enron-v1.csv");
 
 
 // Find neighbours:
