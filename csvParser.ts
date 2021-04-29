@@ -36,6 +36,14 @@ class MailGraph {
     distance (from: number, to: number): number {
         return 10;
     }
+
+    copynodes() {
+        return Object.keys(this.graph)
+    }
+
+    neighbours(node: number) {
+        return Object.keys(this.graph[node])
+    }
 }
 
 /** Analyses a row of csv or user-given data and adds it's data to the emails array and lookup table. */
