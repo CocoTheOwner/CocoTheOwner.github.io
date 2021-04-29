@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import SearchBar from './SearchBar';
+import PageHeader from './PageHeader';
 import reportWebVitals from './reportWebVitals';
 import 'bootstrap/dist/css/bootstrap.css';
 import './custom.scss';
@@ -12,6 +13,13 @@ ReactDOM.render(
     <SearchBar />
   </React.StrictMode>,
   document.getElementById('root')
+);
+
+ReactDOM.render(
+  <React.StrictMode>
+    <PageHeader />
+  </React.StrictMode>,
+  document.getElementById('header')
 );
 
 

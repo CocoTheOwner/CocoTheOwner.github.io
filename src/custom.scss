@@ -1,5 +1,7 @@
 // Override default variables before the import
-$body-bg: rgba(255, 255, 255, 0.719);
+//$body-bg: rgb(38, 6, 156);
+$body-bg: rgba(33, 33, 96, 0.932);
+//$body-bg: rgb(21, 21, 60);
 
 // Import Bootstrap and its default variables
 @import '~bootstrap/scss/bootstrap.scss';
