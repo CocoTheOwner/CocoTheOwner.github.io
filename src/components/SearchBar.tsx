@@ -1,4 +1,4 @@
-function SearchBar() {
+export default function SearchBar() {
     return (
         <nav className="navbar navbar-expand-md navbar-dark bg-custom" style={{backgroundColor: "#121B37"}}>
             <div className="navbar-collapse collapse w-100 order-3 dual-collapse2">
@@ -17,5 +17,3 @@ function SearchBar() {
         </nav>
     );
 }
-
-export default SearchBar
