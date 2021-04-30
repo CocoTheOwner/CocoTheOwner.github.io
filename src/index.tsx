@@ -1,17 +1,38 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import App from './App';
-import SearchBar from './SearchBar';
 import reportWebVitals from './reportWebVitals';
 import 'bootstrap/dist/css/bootstrap.css';
 import './custom.scss';
+import SearchBar from './components/SearchBar'
+import PageHeader from './components/PageHeader'
+
+
+/*
+Uncomment for example.
+
+import ExampleComponent from './components/ExampleComponent';
+ReactDOM.render(
+  <React.StrictMode>
+    <ExampleComponent />
+  </React.StrictMode>,
+  document.getElementById('example')
+)
+*/
+
 
 ReactDOM.render(
   <React.StrictMode>
     <SearchBar />
   </React.StrictMode>,
   document.getElementById('root')
+);
+
+ReactDOM.render(
+  <React.StrictMode>
+    <PageHeader />
+  </React.StrictMode>,
+  document.getElementById('header')
 );
 
 
