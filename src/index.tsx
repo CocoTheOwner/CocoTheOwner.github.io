@@ -6,11 +6,12 @@ import 'bootstrap/dist/css/bootstrap.css';
 import './custom.scss';
 import SearchBar from './components/SearchBar'
 import PageHeader from './components/PageHeader'
-import ExampleComponent from './components/ExampleComponent';
+
 
 /*
 Uncomment for example.
-Also uncomment corresponding lines in index.html
+
+import ExampleComponent from './components/ExampleComponent';
 ReactDOM.render(
   <React.StrictMode>
     <ExampleComponent />
