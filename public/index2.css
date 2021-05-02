@@ -5,6 +5,7 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  
 }
 
 code {
@@ -18,9 +19,9 @@ ul {
   padding: 0;
   overflow: hidden;
   background-color: #333;
-  position: fixed;
   top: 0;
   width: 100%;
+  position: fixed;
 }
 
 li {
@@ -30,6 +31,8 @@ li {
 li a {
   display: block;
   color: white;
+  font-size:x-large;
+  font-family: 'Bauhaus 93', fantasy;
   text-align: center;
   padding: 14px 16px;
   text-decoration: none;
@@ -41,4 +44,43 @@ li a {
 
 li a:hover:not(.active) {
   background-color: 	#111;
+}
+
+.container{
+width: 100%;
+height: 100%;
+background-color:#151557;
+padding: 0;
+margin: 0;
+}
+
+h1{
+  padding: 20px;
+  margin: 5px;
+  text-align: center;
+  color: rgb(0, 0, 0);
+  font-size: 60px;
+  font-family: 'Bauhaus 93', fantasy;
+   
+}
+  
+.box{
+  border: 5px solid #A9A9FF;
+  width: 180px;
+  margin-left: 45%;
+}
+
+.text{
+  font-size: 30px;
+  font-family: 'Bauhaus 93', fantasy;
+  text-align: center;
+  margin: 60px;
+}
+
+.text2{
+  font-size: 30px;
+  font-family: 'Bauhaus 93', fantasy;
+  text-align: center;
+  margin: 60px;
+  color: white;
 }
