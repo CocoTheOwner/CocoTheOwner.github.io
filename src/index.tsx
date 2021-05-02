@@ -4,7 +4,6 @@ import './index.css';
 import reportWebVitals from './reportWebVitals';
 import 'bootstrap/dist/css/bootstrap.css';
 import './custom.scss';
-import SearchBar from './components/SearchBar'
 import PageHeader from './components/PageHeader'
 
 
@@ -21,12 +20,6 @@ ReactDOM.render(
 */
 
 
-ReactDOM.render(
-  <React.StrictMode>
-    <SearchBar />
-  </React.StrictMode>,
-  document.getElementById('root')
-);
 
 ReactDOM.render(
   <React.StrictMode>
