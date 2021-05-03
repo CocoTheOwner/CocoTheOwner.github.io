@@ -38,6 +38,14 @@ export class MailGraph {
         this.graph[mail.fromId][mail.toId].push(mail.appreciation);
     }
 
+    /**
+    * Function which normalizes the data points into the interval [0...1]
+    * To be used for the distance function.
+    */
+    normalizeData(value: number, minimum: number, maximum: number): number {
+	    return (value - minimum) / (maximum - minimum);
+    }
+
     // Yet to be defined
     distance (from: number, to: number): number {
         return 10;
@@ -93,3 +101,4 @@ function findTimeIndex(date: Date): number {
         return r + 1;
     }
 }
+
