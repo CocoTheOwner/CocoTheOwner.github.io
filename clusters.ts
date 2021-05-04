@@ -1,4 +1,4 @@
-import { MailGraph } from "./csvParser" // needs proper exports
+import { MailGraph } from "./mailGraph" // needs proper exports
 
 class clusters { //class to hold clusters
 
@@ -7,7 +7,7 @@ class clusters { //class to hold clusters
         let cluster: number[] = [center]                    // cluster to return
         while (Q.length > 0){
             let node: number | undefined = Q.shift()                 // pop queue
-            for (let i of graph.neigbours(node)){                    // add neighbours that are not yet in and within dist
+            for (let i of graph.neighbours(node)){                    // add neighbours that are not yet in and within dist
                 if (Q.includes(i) && graph.distance(center, i) <= t) {
                     cluster.push(i)
                     Q.push(i)
