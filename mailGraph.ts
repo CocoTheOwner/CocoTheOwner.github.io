@@ -1,9 +1,10 @@
+import { mainModule } from "node:process";
 import { Email } from "./csvParser";
 
 /** A class representing a directed graph for email traffic. */
 export class MailGraph {
     private emails: Email[];
-    private graph: { [fId: number]: {[tId: number]: number[]} } = {};
+    private graph: { [fId: number]: { [tId: number]: number[] } } = {};
 
     /**
      * Create a new graph based on an interval between two dates.  
@@ -37,26 +38,33 @@ export class MailGraph {
     addMail(mail: Email) {
         this.graph[mail.fromId][mail.toId].push(mail.appreciation);
     }
-
-    /**
-    * Function which normalizes the data points into the interval [0...1]
-    * To be used for the distance function.
-    */
-    normalizeData(value: number, minimum: number, maximum: number): number {
-	    return (value - minimum) / (maximum - minimum);
-    }
-
-    // Yet to be defined
-    distance (from: number, to: number): number {
-        return 10;
-    }
-
+    
     copynodes() {
         return Object.keys(this.graph)
     }
 
     neighbours(node: number) {
         return Object.keys(this.graph[node])
+    }
+
+
+    /**
+     * Distance function
+     * Input: ID's of two employees, A and B
+     * Output: #emails A->B + #emails B->A
+    */
+    distance(employeeA: number, employeeB: number): number { // !! needs proper test
+        let count = 0;
+        
+        // Number of emails from A to B
+        for (let emails in this.graph[employeeA][employeeB])
+            count++;
+        
+        // Number of emails from B to A
+        for (let emails in this.graph[employeeB][employeeA])
+            count++;
+
+        return count;
     }
 }
 
@@ -101,4 +109,8 @@ function findTimeIndex(date: Date): number {
         return r + 1;
     }
 }
+
+console.log(MailGraph.distance(65, 67))
+
+
 
