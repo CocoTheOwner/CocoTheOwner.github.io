@@ -30,6 +30,8 @@ export default class Canvas extends React.Component {
     const x = canvas.width/2;
     const y = canvas.height/2;
     const r = canvas.height/3;
+
+    
     let red = getRandomInt(0, 255);
     let green = getRandomInt(0, 255);
     let blue = getRandomInt(0, 255);
