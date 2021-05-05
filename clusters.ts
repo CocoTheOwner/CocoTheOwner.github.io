@@ -7,10 +7,10 @@ class clusters { //class to hold clusters
         let cluster: number[] = [center]                    // cluster to return
         while (Q.length > 0){
             let node: number | undefined = Q.shift()                 // pop queue
-            for (let i of graph.neighbours(node)){                    // add neighbours that are not yet in and within dist
-                if (Q.includes(i) && graph.distance(center, i) <= t) {
-                    cluster.push(i)
-                    Q.push(i)
+            for (let employee of graph.neighbours(node)){                    // add neighbours that are not yet in and within dist
+                if (Q.includes(employee) && graph.distance(center, employee) <= t) {
+                    cluster.push(employee)
+                    Q.push(employee)
                 }
             }
         }

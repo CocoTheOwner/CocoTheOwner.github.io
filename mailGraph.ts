@@ -41,19 +41,15 @@ export class MailGraph {
     
     copynodes(): number[] {
         let nodes: number[] = [];
-        for (key in this.graph) {
+        for (let key in this.graph) {
           nodes.push(parseInt(key));
         }
         return nodes;
     }
 
-    neighbours(node: number) {
-        return Object.keys(this.graph[node])
-    }
-
     neighbours(node: number): number[] {
         let neighbours: number[] = [];
-        for (key in this.graph[node]) {
+        for (let key in this.graph[node]) {
           neighbours.push(parseInt(key));
         }
         return neighbours;
@@ -121,8 +117,3 @@ function findTimeIndex(date: Date): number {
         return r + 1;
     }
 }
-
-console.log(MailGraph.distance(65, 67))
-
-
-
