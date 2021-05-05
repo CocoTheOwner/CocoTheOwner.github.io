@@ -1,8 +1,8 @@
 // Definitely not html ok
 
-import {Email, Employee, readCsv} from "./csv.js"
-import {emails} from "./csvData.js"
-console.log("yeet")
+import {Email, Employee, readCsv} from "./csvParser.js";
+import {emails} from "./csvData.js";
+console.log("yeet");
 var lookup = {};
 var input = document.querySelector('input[type="file"]');
 input.addEventListener('change', function (e) {

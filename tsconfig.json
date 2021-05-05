@@ -22,5 +22,5 @@
   },
   "include": [
     "src"
-, "csvParser.ts"  ]
+, "csvParser.ts", "public/fileInput.js", "public/csvData.js"  ]
 }
