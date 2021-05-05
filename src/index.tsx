@@ -35,6 +35,8 @@ ReactDOM.render(
   </React.StrictMode>,
   document.getElementById('vis')
 );
+// Solution for vis page: https://stackoverflow.com/questions/41956465/how-to-create-multiple-page-app-using-react
+// Takes time to implement. Will spend that on vis for now
 
 
 // If you want to start measuring performance in your app, pass a function
