@@ -39,13 +39,21 @@ export class MailGraph {
         this.graph[mail.fromId][mail.toId].push(mail.appreciation);
     }
     
-    copynodes() {
-        return Object.keys(this.graph)
+    copynodes(): number[] {
+        let nodes: number[] = [];
+        for (key in this.graph) {
+          nodes.push(parseInt(key));
+        }
+        return nodes;
+    }
+
+    neighbours(node: number) {
+        return Object.keys(this.graph[node])
     }
 
     neighbours(node: number): number[] {
         let neighbours: number[] = [];
-        for (key in this.graph[node] {
+        for (key in this.graph[node]) {
           neighbours.push(parseInt(key));
         }
         return neighbours;
