@@ -32,9 +32,12 @@
           <li><a class="active" href="index.html">Home</a></li>
           <li><a href="visualize.html">Visualize</a></li>
           <li><a href="help.html">Help</a></li>
+          <li>
+            <input id="f_input" type="file" accept=".csv"/>
+            <script type="text/javascript" src="../src/fileInput.js" charset="utf-8"></script>
+          </li>
         </ul>
       </nav>
-    
      <!-- <img class="container" src="visualization.jpg" alt=""> -->
       <section style="padding-top:100px">
         <p>
@@ -80,8 +83,7 @@
     <div id="root"></div>
     <div id="header"></div>
     <div id="example"></div>
-    <div id="vis" style="border: 5px solid #FFFFFF; width: 1000px; height: 700px; border-radius:25px; margin:auto; background-color: white;" >
-    
+    <div id="vis" style="border: 5px solid #FFFFFF; width: 1000px; height: 700px; border-radius:25px; margin:auto; background-color: white;"></div>
     <!--
       This HTML file is a template.
       If you open it directly in the browser, you will see an empty page.
