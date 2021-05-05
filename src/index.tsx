@@ -2,8 +2,8 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import reportWebVitals from './reportWebVitals';
-import 'bootstrap/dist/css/bootstrap.css';
-import './custom.scss';
+/*import 'bootstrap/dist/css/bootstrap.css';
+import './custom.scss';*/
 import PageHeader from './components/PageHeader'
 import ProtoVisual from './components/ProtoVisual'
 
@@ -24,8 +24,8 @@ ReactDOM.render(
 
 ReactDOM.render(
   <React.StrictMode>
-    <PageHeader />
-    <ProtoVisual />
+    
+    
   </React.StrictMode>,
   document.getElementById('header')
 );
