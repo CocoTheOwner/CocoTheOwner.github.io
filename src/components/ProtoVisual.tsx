@@ -4,6 +4,15 @@ export default class Canvas extends React.Component {
   drawArcs(element: HTMLCanvasElement) {
 
     const clusters : number[] = [4, 4, 4, 20];
+    const links = [
+      [1, 4, 69],
+      [-1, 6, 20],
+      [-1, -1, 10],
+      [-1, -1, -1]
+    ]
+    let angles : number[] = [clusters.length];
+
+    // Make sure canvas is reachable
     const canvas = document.getElementById("visCanv") as HTMLCanvasElement;
     if (canvas == null) {
       console.log("Failed to find canvas for visualisation with the name 'visCanv'");
@@ -23,18 +32,14 @@ export default class Canvas extends React.Component {
     clusters.forEach(c => elements += c)
     console.log("Circle has " + elements + " elements across " + clusters.length + " indices")
 
-    // Roof
+    // Angle and color counter
     let angle = 0;
+    let colnr = 0;
 
     // Get position on screen + radius
     const x = canvas.width/2;
     const y = canvas.height/2;
     const r = canvas.height/3;
-
-    
-    let red = getRandomInt(0, 255);
-    let green = getRandomInt(0, 255);
-    let blue = getRandomInt(0, 255);
 
     // Loop over arc parts and show them
     for (let index = 0; index < clusters.length; index++) {
@@ -45,13 +50,10 @@ export default class Canvas extends React.Component {
       // Calculate new arc angle
       const newang = angle + element / elements * Math.PI*2;
 
-      red = getRandomInt(0, 255)
-      green = getRandomInt(0, 255)
-      blue = getRandomInt(0, 255)
-
       // Draw arc
       ctx.beginPath();
-      ctx.strokeStyle = "#" + red.toString(16) + green.toString(16) + blue.toString(16);
+      angles[colnr] = (angle + newang) / 2;
+      ctx.strokeStyle = selectColor(colnr++, clusters.length);
       ctx.arc(x, y, r, angle, newang);
       ctx.arc(x, y, r, newang, angle, true); // Required to prevent weird loop behaviour
       ctx.closePath();
@@ -63,6 +65,11 @@ export default class Canvas extends React.Component {
       // Update angle
       angle = newang;
     }
+
+    /*
+      We now have an array of angles, where they are in order and represent an angle from 0* (right) to the middle of its arc
+      We have a list of links that need to connect these angle positions with lines, representing a connection
+    */
   }
 
   render () {
@@ -78,8 +85,7 @@ export default class Canvas extends React.Component {
   }
 }
 
-function getRandomInt(min: number, max: number) {
-  min = Math.ceil(min);
-  max = Math.floor(max);
-  return Math.floor(Math.random() * (max - min + 1)) + min;
+function selectColor(colorNum: number, colors: number){
+  if (colors < 1) colors = 1; // defaults to one color - avoid divide by zero
+  return "hsl(" + (colorNum * (360 / colors) % 360) + ",100%,50%)";
 }
