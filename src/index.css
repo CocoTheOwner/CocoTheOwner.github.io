@@ -5,7 +5,7 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-image: url("./img/visualization.jpg");
+  background-color:#151557;
 }
 
 code {
@@ -75,7 +75,7 @@ h1{
   font-family: 'Bauhaus 93', fantasy;
   text-align: center;
   margin: 60px;
-  color:white;
+  color: black;
 }
 
 .text2{
