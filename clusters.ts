@@ -1,4 +1,4 @@
-import { MailGraph } from "./mailGraph" // needs proper exports
+import { MailGraph } from "./mailGraph"
 
 class clusters { //class to hold clusters
 
@@ -6,7 +6,7 @@ class clusters { //class to hold clusters
         let Q: number[] = [center]                          // queue of nodes to pass through
         let cluster: number[] = [center]                    // cluster to return
         while (Q.length > 0){
-            let node: number | undefined = Q.shift()                 // pop queue
+            let node: number = Q.shift() as number                           // pop queue
             for (let employee of graph.neighbours(node)){                    // add neighbours that are not yet in and within dist
                 if (Q.includes(employee) && graph.distance(center, employee) <= t) {
                     cluster.push(employee)
@@ -32,6 +32,22 @@ class clusters { //class to hold clusters
         }
         return clustering
     }
+
+
+
+    clusterLinks(graph: MailGraph, clustering: number[][]){
+        let links: number[][] = []
+        for (let i = 0; i < clustering.length; i++){
+            let link: number[] = Array(i).fill(-1)
+            for (let j = i+1; j < clustering.length; j++){
+                link.push(graph.clusterDist(clustering[i], clustering[j]))
+            }
+            links.push(link)
+        }
+        return links
+    }
+
+
 
 }
 
