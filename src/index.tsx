@@ -24,7 +24,7 @@ ReactDOM.render(
 
 ReactDOM.render(
   <React.StrictMode>
-    <PageHeader />
+   
   </React.StrictMode>,
   document.getElementById('header')
 );
