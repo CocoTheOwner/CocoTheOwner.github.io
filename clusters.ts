@@ -2,13 +2,13 @@ import { MailGraph } from "./mailGraph"
 
 class clusters { //class to hold clusters
 
-    stoQuery(graph: MailGraph, t: number, center: number) { //creates single cluster from center
+    stoQuery(graph: MailGraph, nodes: number[], t: number, center: number) { //creates single cluster from center
         let Q: number[] = [center]                          // queue of nodes to pass through
         let cluster: number[] = [center]                    // cluster to return
         while (Q.length > 0){
             let node: number = Q.shift() as number                           // pop queue
             for (let employee of graph.neighbours(node)){                    // add neighbours that are not yet in and within dist
-                if (Q.includes(employee) && graph.distance(center, employee) <= t) {
+                if (!cluster.includes(employee) && !Q.includes(employee) && nodes.includes(employee) && graph.distance(center, employee) <= t) {
                     cluster.push(employee)
                     Q.push(employee)
                 }
@@ -24,10 +24,10 @@ class clusters { //class to hold clusters
     stoC(graph: MailGraph, t: number){
         let nodes: number[] = graph.copynodes()
         let clustering: number[][] = [[]]
-        while (nodes) {                                 // as long as there are unclustered
+        while (nodes.length > 0) {                                 // as long as there are unclustered
             let node: number = this.pickNode(nodes)
-            let cluster: number[] = this.stoQuery(graph, t, node)  //get cluster
-            nodes.filter( x => !cluster.includes(x))        // remove from nodes
+            let cluster: number[] = this.stoQuery(graph, nodes, t, node)  //get cluster
+            nodes = nodes.filter( x => !cluster.includes(x))        // remove from nodes
             clustering.push(cluster)
         }
         return clustering
@@ -46,9 +46,6 @@ class clusters { //class to hold clusters
         }
         return links
     }
-
-
-
 }
 
 export default clusters

@@ -64,10 +64,14 @@ export class MailGraph {
         let count = 0;
         
         // Number of emails from A to B
-        count += this.graph[employeeA][employeeB].length
-        
+        try { //dirty check to prevent non existant mails
+            count += this.graph[employeeA][employeeB].length
+        }catch {}
+
         // Number of emails from B to A
-        count += this.graph[employeeB][employeeA].length
+        try {
+            count += this.graph[employeeB][employeeA].length
+        }catch {}
 
         return count;
     }
@@ -77,7 +81,9 @@ export class MailGraph {
         let dist = 0
         for(let i of c1){
             for(let j of c2){
-                dist += this.graph[i][j].length
+                try {
+                    dist += this.graph[i][j].length
+                }catch {}
             }
         }
         return dist
