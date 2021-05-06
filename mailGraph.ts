@@ -64,14 +64,23 @@ export class MailGraph {
         let count = 0;
         
         // Number of emails from A to B
-        for (let emails in this.graph[employeeA][employeeB])
-            count++;
+        count += this.graph[employeeA][employeeB].length
         
         // Number of emails from B to A
-        for (let emails in this.graph[employeeB][employeeA])
-            count++;
+        count += this.graph[employeeB][employeeA].length
 
         return count;
+    }
+
+    //distance of 2 clusters (for edgebundling)
+    clusterDist(c1: number[], c2: number[]){
+        let dist = 0
+        for(let i of c1){
+            for(let j of c2){
+                dist += this.graph[i][j].length
+            }
+        }
+        return dist
     }
 }
 

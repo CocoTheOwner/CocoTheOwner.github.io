@@ -1,11 +1,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import PageHeader from './components/PageHeader';
+import ProtoVisual from './components/ProtoVisual';
 import './index.css';
 import reportWebVitals from './reportWebVitals';
 /*import 'bootstrap/dist/css/bootstrap.css';
 import './custom.scss';*/
-import PageHeader from './components/PageHeader'
-import ProtoVisual from './components/ProtoVisual'
 
 
 /*
@@ -24,12 +24,19 @@ ReactDOM.render(
 
 ReactDOM.render(
   <React.StrictMode>
-    
-    
+    <PageHeader />
   </React.StrictMode>,
   document.getElementById('header')
 );
 
+ReactDOM.render(
+  <React.StrictMode>
+    <ProtoVisual />
+  </React.StrictMode>,
+  document.getElementById('vis')
+);
+// Solution for vis page: https://stackoverflow.com/questions/41956465/how-to-create-multiple-page-app-using-react
+// Takes time to implement. Will spend that on vis for now
 
 
 // If you want to start measuring performance in your app, pass a function

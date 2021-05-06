@@ -5,7 +5,7 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  
+  background-image: url("./visualization.jpg");
 }
 
 code {
@@ -58,7 +58,7 @@ h1{
   padding: 20px;
   margin: 5px;
   text-align: center;
-  color: rgb(0, 0, 0);
+  color: white;
   font-size: 60px;
   font-family: 'Bauhaus 93', fantasy;
    
@@ -71,13 +71,6 @@ h1{
 }
 
 .text{
-  font-size: 30px;
-  font-family: 'Bauhaus 93', fantasy;
-  text-align: center;
-  margin: 60px;
-}
-
-.text2{
   font-size: 30px;
   font-family: 'Bauhaus 93', fantasy;
   text-align: center;
