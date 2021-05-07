@@ -1,6 +1,5 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import PageHeader from './components/PageHeader';
 import ProtoVisual from './components/ProtoVisual';
 import './index.css';
 import reportWebVitals from './reportWebVitals';
