@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import ProtoVisual from './components/ProtoVisual';
+import InputBox from './components/InputBox';
 import './index.css';
 import reportWebVitals from './reportWebVitals';
 /*import 'bootstrap/dist/css/bootstrap.css';
@@ -33,6 +34,13 @@ ReactDOM.render(
     <ProtoVisual />
   </React.StrictMode>,
   document.getElementById('vis')
+);
+
+ReactDOM.render(
+  <React.StrictMode>
+    <InputBox />
+  </React.StrictMode>,
+  document.getElementById('inputbox')
 );
 // Solution for vis page: https://stackoverflow.com/questions/41956465/how-to-create-multiple-page-app-using-react
 // Takes time to implement. Will spend that on vis for now
