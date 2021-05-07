@@ -1,15 +1,36 @@
 import React from "react"
+import {Email, readCsv} from "../backend/csvParser";
+import {MailGraph} from "../backend/mailGraph";
+import cluster from "../backend/clusters";
+
+function sleep(ms: number) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
+
 export default class Canvas extends React.Component {
   
-  drawArcs(element: HTMLCanvasElement) {
+  async drawArcs(element: HTMLCanvasElement) {
 
-    const clusters : number[] = [4, 4, 4, 20];
+    let mailArray: Email[] = []
+
+    readCsv("../../enron-v1.csv", mailArray, {})
+    await sleep(1000)
+
+    let graph: MailGraph = new MailGraph(mailArray)
+    let cl: cluster = new cluster()
+
+    let clustering: number[][] = cl.stoC(graph, 10)
+
+    let links: number[][] = cl.clusterLinks(graph, clustering)
+    let clusters : number[] = clustering.map(i => i.length)
+
+    /*const clusters : number[] = [4, 4, 4, 20];
     const links = [
       [1, 4, 69],
       [-1, 6, 20],
       [-1, -1, 10],
       [-1, -1, -1]
-    ]
+    ]*/
     let angles : number[] = [clusters.length];
 
     // Make sure canvas is reachable

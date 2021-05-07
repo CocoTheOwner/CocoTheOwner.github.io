@@ -1,6 +1,6 @@
 import { MailGraph } from "./mailGraph"
 
-class clusters { //class to hold clusters
+class cluster { //class to hold clusters
 
     stoQuery(graph: MailGraph, nodes: number[], t: number, center: number) { //creates single cluster from center
         let Q: number[] = [center]                          // queue of nodes to pass through
@@ -48,4 +48,4 @@ class clusters { //class to hold clusters
     }
 }
 
-export default clusters
+export default cluster
