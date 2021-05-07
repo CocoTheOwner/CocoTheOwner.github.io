@@ -65,12 +65,7 @@ export default class Canvas extends React.Component {
       // Update angle
       angle = newang;
     }
-    angles.forEach(ang => {
-      console.log("X:" + Math.cos(ang))
-      console.log("Y:" + (-Math.sin(ang)))
-      console.log(ang/Math.PI)
-    })
-    console.log(angles)
+
     const lineWidthMod = 20
     for (let index = 0; index < links.length; index++){
       let row = links[index]
@@ -79,33 +74,21 @@ export default class Canvas extends React.Component {
       let p1y = y + r * Math.sin(p1Angle)
       for (let jndex = 0; jndex < row.length; jndex++){
         let element = row[jndex]
-        let p2Angle = angles[jndex + 1]
-        let angle = (p2Angle - p1Angle) / 2
-        let p2x = x + r * Math.cos(p2Angle)
-        let p2y = x + r * Math.sin(p2Angle)- 150
-        
-        //https://upload.wikimedia.org/wikipedia/commons/thumb/9/9d/Circle-trig6.svg/250px-Circle-trig6.svg.png
-        
-        ctx.strokeStyle = "#000000"
-        ctx.beginPath();
-        ctx.arc(p2x, p2y, 5, 0, Math.PI * 2)
-        ctx.arc(p2x, p2y, 4, 0, Math.PI * 2)
-        ctx.arc(p2x, p2y, 3, 0, Math.PI * 2)
-        ctx.arc(p2x, p2y, 2, 0, Math.PI * 2)
-        ctx.arc(p2x, p2y, 1, 0, Math.PI * 2)
-        ctx.closePath();
-        ctx.stroke();
         if (element === 0 || element === -1){
           continue
         }
+        let p2Angle = angles[jndex + 1]
+        let p2x = x + r * Math.cos(p2Angle)
+        let p2y = y + r * Math.sin(p2Angle)
+        
+        //https://upload.wikimedia.org/wikipedia/commons/thumb/9/9d/Circle-trig6.svg/250px-Circle-trig6.svg.png
+        
+
         ctx.lineWidth = element / lineWidthMod
         ctx.strokeStyle = selectColor(angles.length, clusters.length)
         ctx.beginPath();
         ctx.moveTo(p1x, p1y)
         ctx.lineTo(p2x, p2y)
-        ctx.closePath();
-        ctx.stroke();
-        ctx.beginPath();
         ctx.closePath();
         ctx.stroke();
       }
