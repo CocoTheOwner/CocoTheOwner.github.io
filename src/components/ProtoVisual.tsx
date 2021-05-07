@@ -84,7 +84,7 @@ export default class Canvas extends React.Component {
         let p2x = x + r * Math.cos(p2Angle)
         let p2y = x + r * Math.sin(p2Angle)- 150
         
-        
+        //https://upload.wikimedia.org/wikipedia/commons/thumb/9/9d/Circle-trig6.svg/250px-Circle-trig6.svg.png
         
         ctx.strokeStyle = "#000000"
         ctx.beginPath();
