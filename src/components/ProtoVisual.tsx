@@ -2,6 +2,7 @@ import React from "react"
 import {Email, readCsv} from "../backend/csvParser";
 import {MailGraph} from "../backend/mailGraph";
 import cluster from "../backend/clusters";
+import { emails } from "../backend/csvData.js";
 
 function sleep(ms: number) {
   return new Promise(resolve => setTimeout(resolve, ms));
@@ -11,15 +12,15 @@ export default class Canvas extends React.Component {
   
   async drawArcs(element: HTMLCanvasElement) {
 
-    let mailArray: Email[] = []
+    let mailArray: Email[] = emails
 
-    readCsv("../../enron-v1.csv", mailArray, {})
-    await sleep(1000)
+    // readCsv("../../enron-v1.csv", mailArray, {})
+    // await sleep(1000)
 
     let graph: MailGraph = new MailGraph(mailArray)
     let cl: cluster = new cluster()
 
-    let clustering: number[][] = cl.stoC(graph, 10)
+    let clustering: number[][] = cl.stoC(graph, 1)
 
     let links: number[][] = cl.clusterLinks(graph, clustering)
     let clusters : number[] = clustering.map(i => i.length)
@@ -87,7 +88,7 @@ export default class Canvas extends React.Component {
       angle = newang;
     }
 
-    const lineWidthMod = 20
+    const lineWidthMod = 200
     for (let index = 0; index < links.length; index++){
       let row = links[index]
       let p1Angle = angles[index]

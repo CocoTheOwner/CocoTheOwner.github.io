@@ -23,5 +23,5 @@
   "include": [
     "src"
 ,
-    "src/backend/csvParser.ts", "public/fileInput.js", "public/csvData.js"  ]
+    "src/backend/csvParser.ts", "src/backend/fileInput.js", "public/csvData.js"  ]
 }
