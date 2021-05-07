@@ -81,9 +81,7 @@ export class MailGraph {
         let dist = 0
         for(let i of c1){
             for(let j of c2){
-                try {
-                    dist += this.graph[i][j].length
-                }catch {}
+                dist += this.distance(i,j)
             }
         }
         return dist
