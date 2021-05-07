@@ -8,7 +8,7 @@ class clusters { //class to hold clusters
         while (Q.length > 0){
             let node: number = Q.shift() as number                           // pop queue
             for (let employee of graph.neighbours(node)){                    // add neighbours that are not yet in and within dist
-                if (!cluster.includes(employee) && !Q.includes(employee) && nodes.includes(employee) && graph.distance(center, employee) <= t) {
+                if (!cluster.includes(employee) && !Q.includes(employee) && nodes.includes(employee) && graph.distance(center, employee) > t) {
                     cluster.push(employee)
                     Q.push(employee)
                 }
@@ -23,7 +23,7 @@ class clusters { //class to hold clusters
 
     stoC(graph: MailGraph, t: number){
         let nodes: number[] = graph.copynodes()
-        let clustering: number[][] = [[]]
+        let clustering: number[][] = []
         while (nodes.length > 0) {                                 // as long as there are unclustered
             let node: number = this.pickNode(nodes)
             let cluster: number[] = this.stoQuery(graph, nodes, t, node)  //get cluster
