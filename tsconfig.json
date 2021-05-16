@@ -2,7 +2,7 @@
     "compileOnSave": true,
     "compilerOptions": {
 
-        "module": "commonjs",
+        "module": "amd",
         "target": "ES5",
         "outDir": "./website/backend_js",
         "rootDir": "./website/typescript"
