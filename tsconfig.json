@@ -1,11 +1,18 @@
 {
     "compileOnSave": true,
     "compilerOptions": {
-        "emitDecoratorMetadata": true,
-        "experimentalDecorators": true,
+
         "module": "commonjs",
         "target": "ES5",
         "outDir": "./website/backend_js",
         "rootDir": "./website/typescript"
-    }
+    },
+    "files": [
+        "./website/typescript/clusters.ts",
+        "./website/typescript/csvData.ts",
+        "./website/typescript/csvParser.ts",
+        "./website/typescript/edgeBundling.ts",
+        "./website/typescript/fileInput.ts",
+        "./website/typescript/mailGraph.ts"
+    ]
 }
