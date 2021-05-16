@@ -1,4 +1,6 @@
-/** A class for email data with light employee data. */
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.readCsv = exports.nextMail = exports.Employee = exports.Email = void 0;
 var Email = /** @class */ (function () {
     // Constructor creates class letiables and immediately assigns their values.
     function Email(date, fromId, toId, mailType, appreciation) {
@@ -10,6 +12,7 @@ var Email = /** @class */ (function () {
     }
     return Email;
 }());
+exports.Email = Email;
 /** A class for employee specifics. */
 var Employee = /** @class */ (function () {
     function Employee(email, jobTitle) {
@@ -18,6 +21,7 @@ var Employee = /** @class */ (function () {
     }
     return Employee;
 }());
+exports.Employee = Employee;
 /** Analyses a row of csv or user-given data and adds it's data to the emails array and lookup table. */
 function nextMail(mailData, mailArr, lookup) {
     var tokens = mailData.split(',');
@@ -40,17 +44,16 @@ function nextMail(mailData, mailArr, lookup) {
     mailArr.push(mail);
     return mail;
 }
-/** Process a `.csv` file and add their contents to the `emails` array and lookup table. */
+exports.nextMail = nextMail;
+/** Process an uploaded `.csv` file and add their contents to the `emails` array and lookup table. */
 function readCsv(csvString, mailArr, lookup) {
     var notFirst = false;
-    // Reads all lines from the csv file *with email data*.
     var lines = csvString.split("\n");
     lines.splice(0, 1);
     if (lines[lines.length - 1].length === 0) {
         lines.splice(lines.length - 1, 1);
     }
-    lines.forEach(line => nextMail(line, mailArr, lookup));
+    lines.forEach(function (line) { return nextMail(line, mailArr, lookup); });
     mailArr.sort(function (e1, e2) { return e1.date.getTime() - e2.date.getTime(); });
 }
-
-export {Email, Employee, readCsv}
+exports.readCsv = readCsv;
