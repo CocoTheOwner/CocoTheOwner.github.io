@@ -6,8 +6,9 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   /* background-color:#151557; */
-  background-image: url("./img/visualization.jpg");
-  background-position: -5% 0.6%;                     /* Move background image down a bit to make it look clearer */
+  background-image: url("../images/visualization.jpg");
+  background-position: -5% 0.6%; /* Move background image down a bit to make it look clearer */
+  width: 100%;
 }
 
 code {

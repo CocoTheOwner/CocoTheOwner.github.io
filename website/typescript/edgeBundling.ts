@@ -1,16 +1,15 @@
-import React from "react"
-import {Email, readCsv} from "../backend/csvParser";
-import {MailGraph} from "../backend/mailGraph";
-import cluster from "../backend/clusters";
-import { emails } from "../backend/csvData.js";
+import {Email, readCsv} from "./csvParser";
+import {MailGraph} from "./mailGraph";
+import cluster from "./clusters";
+import { emails } from "./csvData.js";
 
-function sleep(ms: number) {
-  return new Promise(resolve => setTimeout(resolve, ms));
-}
+// function sleep(ms: number) {
+//   return new Promise(resolve => setTimeout(resolve, ms));
+// }
 
-export default class Canvas extends React.Component {
+class EdgeBundling {
   
-  async drawArcs(element: HTMLCanvasElement) {
+  public drawArcs(element: HTMLCanvasElement) {
 
     let mailArray: Email[] = emails
 
@@ -35,7 +34,7 @@ export default class Canvas extends React.Component {
     let angles : number[] = [clusters.length];
 
     // Make sure canvas is reachable
-    const canvas = document.getElementById("visCanv") as HTMLCanvasElement;
+    const canvas = document.getElementById("edgeBundling") as HTMLCanvasElement;
     if (canvas == null) {
       console.log("Failed to find canvas for visualisation with the name 'visCanv'");
       return;
@@ -121,21 +120,11 @@ export default class Canvas extends React.Component {
       We have a list of links that need to connect these angle positions with lines, representing a connection
     */
   }
-
-  render () {
-      return (
-      // TODO: Link visualization to div
-      // Width and height are currently fixed (do not automatically resize)
-      <div style={{border: "1px solid #FFFFFF", width: "1000px", height: "700px", margin:"auto", borderRadius:"25px"}} className="">
-        <canvas id="visCanv" width="1000px" height="700px" ref={this.drawArcs}>
-          Your browser does not support the HTML5 canvas tag. Please use another browser or our visualisation will not be visible for you.
-        </canvas>
-      </div>
-    );
-  }
 }
 
 function selectColor(colorNum: number, colors: number){
   if (colors < 1) colors = 1; // defaults to one color - avoid divide by zero
   return "hsl(" + (colorNum * (360 / colors) % 360) + ",100%,50%)";
 }
+
+new EdgeBundling().drawArcs(<HTMLCanvasElement> document.getElementById("edgeBundling"))

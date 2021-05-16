@@ -1,6 +1,5 @@
-import * as fs from 'fs';
-import * as rd from 'readline';
-
+import { createReadStream } from 'fs';
+import { createInterface } from '../node_modules/readline';
 
 // let emails: Array<Email> = [];                  // Array for all emails' details, except for employee specifics
 // let lookup: { [id: number]: Employee } = {};    // Dictionary for all employees' specifics with their ID as key
@@ -19,7 +18,7 @@ export class Email {
 }
 
 /** A class for employee specifics. */
-class Employee {
+export class Employee {
     constructor (
         public email: string,
         public jobTitle: string
@@ -56,7 +55,7 @@ export function nextMail(mailData: string, mailArr: Email[], lookup: { [id: numb
 /** Process a `.csv` file and add their contents to the `emails` array and lookup table. */
 export function readCsv(filename: string, mailArr: Email[], lookup: { [id: number]: Employee }) {
     let notFirst = false;
-    let reader = rd.createInterface(fs.createReadStream(filename));
+    let reader = createInterface(createReadStream(filename));
 
     // Reads all lines from the csv file *with email data*.
     reader.on("line", (line: string) => {
