@@ -1,0 +1,129 @@
+/** A class representing a directed graph for email traffic. */
+export class MailGraph {
+    emails;
+    graph = {};
+
+    /**
+     * Create a new graph based on an interval between two dates.  
+     * If any one of the indices is not given, we assume the beginning/end of time.
+     * 
+     * Please remember that the `to` time is _exclusive_. E-mails from this day are **not** added.
+    */
+    constructor(mailArr, from = new Date(0), to = new Date(1)) {
+        this.emails = mailArr;
+        let startIndex = findTimeIndex(mailArr, from);
+        let endIndex = findTimeIndex(mailArr, to);
+
+        // Loop through all emails in the interval
+        while (startIndex < endIndex) {
+            let mail = this.emails[startIndex++];
+
+            // If this is fromId's first mail, add fromId to the graph as a node.
+            if (!(mail.fromId in this.graph)) {
+                this.graph[mail.fromId] = {};
+            }
+            // If this mail is the first fromId->toId mail, add toId to fromId's neighbours
+            if (!(mail.toId in this.graph[mail.fromId])) {
+                this.graph[mail.fromId][mail.toId] = [];
+            }
+            this.graph[mail.fromId][mail.toId].push(mail.appreciation);
+        }
+    }
+
+    // Add a new edge (email) to the graph.
+    // If any one of the required nodes is missing, they are added.
+    addMail(mail) {
+        this.graph[mail.fromId][mail.toId].push(mail.appreciation);
+    }
+    
+    copynodes() {
+        let nodes = [];
+        for (let key in this.graph) {
+          nodes.push(parseInt(key));
+        }
+        return nodes;
+    }
+
+    neighbours(node) {
+        let neighbours = [];
+        for (let key in this.graph[node]) {
+          neighbours.push(parseInt(key));
+        }
+        return neighbours;
+      }
+
+
+    /**
+     * Distance function
+     * Input: ID's of two employees, A and B
+     * Output: #emails A->B + #emails B->A
+    */
+    distance(employeeA, employeeB) { // !! needs proper test
+        let count = 0;
+        
+        // Number of emails from A to B
+        try { //dirty check to prevent non existant mails
+            count += this.graph[employeeA][employeeB].length
+        }catch {}
+
+        // Number of emails from B to A
+        try {
+            count += this.graph[employeeB][employeeA].length
+        }catch {}
+
+        return count;
+    }
+
+    //distance of 2 clusters (for edgebundling)
+    clusterDist(c1, c2){
+        let dist = 0
+        for(let i of c1){
+            for(let j of c2){
+                dist += this.distance(i,j)
+            }
+        }
+        return dist
+    }
+}
+
+/**
+ * Finds the index of the first or last mail sent on the specified date, based on whether we look on the low end or the high end.  
+ * If no such date exists, the index of the date right after what we looked for is returned.  
+ * lowEnd does not have to be specified. If it isn't, default value `true` will be used.
+ * 
+ * Two special cases are included for returning the first and last index of the array:
+ * ```let i1 = findTimeIndex(new Date(0));  // Returns 0```  
+ * ```let i2 = findTimeIndex(new Date(1));  // Returns emails.length```
+*/
+function findTimeIndex(mailArr, date) {
+    if (date.getTime() === 0) {             // Special case: Return the first element of the array
+        return 0;
+    } else if (date.getTime() === 1) {      // Special case: Return the last element of the array
+        return mailArr.length;
+    } else {                                // Normal case: Perform binary search to find the correct indices.
+        let l = 0;
+        let r = mailArr.length - 1;
+
+        // While true, keep searching
+        while(l <= r) {
+            let m = Math.floor((l + r) / 2);
+            if (mailArr[m].date < date) {
+                l = m + 1;
+            } else if (mailArr[m].date > date) {
+                r = m - 1;
+            } else {
+                // If we found the right date, look for duplicates that may
+                //   occur before or after the current item.
+                while (mailArr[--m].date.getTime() === date.getTime()) {} ;
+
+                // Return the index of the first or last occurrance of our date.
+                // First if we look for a date on the low end, last if not.
+                return m + 1;
+            }
+        }
+
+        // If we did not find our date in the array, return the next acceptable thing.
+        // Return the first date after what we looked for.
+        return r + 1;
+    }
+}
