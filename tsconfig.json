@@ -1,7 +1,8 @@
 {
     "compileOnSave": true,
     "compilerOptions": {
-
+        "emitDecoratorMetadata": true,
+        "experimentalDecorators": true,
         "module": "amd",
         "target": "ES5",
         "outDir": "./website/backend_js",

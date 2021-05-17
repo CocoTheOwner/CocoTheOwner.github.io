@@ -1,7 +1,7 @@
-import {Email, readCsv} from "./csvParser";
+import {Email} from "./csvParser";
 import {MailGraph} from "./mailGraph";
 import cluster from "./clusters";
-import { emails } from "./csvData.js";
+import { emails } from "./csvData";
 
 // function sleep(ms: number) {
 //   return new Promise(resolve => setTimeout(resolve, ms));
