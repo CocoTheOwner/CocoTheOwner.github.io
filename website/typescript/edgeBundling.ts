@@ -3,40 +3,29 @@ import {MailGraph} from "./mailGraph";
 import cluster from "./clusters";
 import { emails } from "./csvData";
 
-// function sleep(ms: number) {
-//   return new Promise(resolve => setTimeout(resolve, ms));
-// }
-
 class EdgeBundling {
-  
-  public drawArcs(element: HTMLCanvasElement) {
 
-    let mailArray: Email[] = emails
+  //draws the visualization on the screen
+  //params:
+  //  -canvas: the canvas to draw on
+  //returns: nothing
+  public drawArcs(canvas: HTMLCanvasElement) {
 
-    // readCsv("../../enron-v1.csv", mailArray, {})
-    // await sleep(1000)
+    let mailArray: Email[] = emails //use preprocessed mailarry for now
 
+    //all backend calculating
     let graph: MailGraph = new MailGraph(mailArray)
     let cl: cluster = new cluster()
-
     let clustering: number[][] = cl.stoC(graph, 1)
-
     let links: number[][] = cl.clusterLinks(graph, clustering)
-    let clusters : number[] = clustering.map(i => i.length)
+    let clusters : number[] = clustering.map(i => i.length) //array of cluster sizes
 
-    /*const clusters : number[] = [4, 4, 4, 20];
-    const links = [
-      [1, 4, 69],
-      [-1, 6, 20],
-      [-1, -1, 10],
-      [-1, -1, -1]
-    ]*/
-    let angles : number[] = [clusters.length];
+    //array of angles where center of a cluster is, used to draw the lines
+    let angles : number[] = [];
 
     // Make sure canvas is reachable
-    const canvas = document.getElementById("edgeBundling") as HTMLCanvasElement;
     if (canvas == null) {
-      console.log("Failed to find canvas for visualisation with the name 'visCanv'");
+      console.log("Failed to find canvas for visualisation");
       return;
     }
     const ctx = canvas.getContext("2d");
@@ -49,13 +38,11 @@ class EdgeBundling {
     ctx.lineWidth = 10;
 
     // Retrieve amount of elements that were clustered
-    let elements = 0
-    clusters.forEach(c => elements += c)
+    let elements = clusters.reduce((a, b) => a+b)
     console.log("Circle has " + elements + " elements across " + clusters.length + " indices")
 
-    // Angle and color counter
-    let angle = 0;
-    let colnr = 0;
+    //angle to draw arcs
+    let startAngle = 0;
 
     // Get position on screen + radius
     const x = canvas.width/2;
@@ -63,48 +50,49 @@ class EdgeBundling {
     const r = canvas.height/3;
 
     // Loop over arc parts and show them
-    for (let index = 0; index < clusters.length; index++) {
+    for (let i = 0; i < clusters.length; i++) {
       
       // Retrieve current element
-      const element = clusters[index];
+      const element = clusters[i];
 
-      // Calculate new arc angle
-      const newang = angle + element / elements * Math.PI*2;
+      // Calculate arc endPoint
+      const endAngle = startAngle + (element / elements) * Math.PI*2;
+
+      //store cluster center
+      angles[i] = (startAngle + endAngle) / 2;
 
       // Draw arc
       ctx.beginPath();
-      angles[colnr] = (angle + newang) / 2;
-      ctx.strokeStyle = selectColor(colnr++, clusters.length);
-      ctx.arc(x, y, r, angle, newang);
-      ctx.arc(x, y, r, newang, angle, true); // Required to prevent weird loop behaviour
+      ctx.strokeStyle = selectColor(i, clusters.length);
+      ctx.arc(x, y, r, startAngle, endAngle);
+      ctx.arc(x, y, r, endAngle, startAngle, true); // Required to prevent weird loop behaviour
       ctx.closePath();
       ctx.stroke();
 
       // Log information
-      console.log("Drawing (" + x + "/" + y + ") w" + r + " @ " + angle/Math.PI + " to " + newang/Math.PI);
+      console.log("Drawing (" + x + "/" + y + ") w" + r + " @ " + startAngle + " to " + endAngle);
 
       // Update angle
-      angle = newang;
+      startAngle = endAngle;
     }
 
+    //draw lines between clusters
     const lineWidthMod = 200
-    for (let index = 0; index < links.length; index++){
-      let row = links[index]
-      let p1Angle = angles[index]
+    for (let i = 0; i < links.length; i++){
+      let row = links[i]
+      let p1Angle = angles[i]
       let p1x = x + r * Math.cos(p1Angle)
       let p1y = y + r * Math.sin(p1Angle)
-      for (let jndex = 0; jndex < row.length; jndex++){
-        let element = row[jndex]
-        if (element === 0 || element === -1){
-          continue
-        }
-        let p2Angle = angles[jndex + 1]
+      for (let j = i+1; j < row.length; j++){
+        let element = row[j]
+        if (element === 0 || element === -1){ continue } //skip over lines that dont need to be drawn
+        let p2Angle = angles[j]
         let p2x = x + r * Math.cos(p2Angle)
         let p2y = y + r * Math.sin(p2Angle)
         
         //https://upload.wikimedia.org/wikipedia/commons/thumb/9/9d/Circle-trig6.svg/250px-Circle-trig6.svg.png
         
-
+        //draw line
         ctx.lineWidth = element / lineWidthMod
         ctx.strokeStyle = selectColor(angles.length, clusters.length)
         ctx.beginPath();
@@ -114,17 +102,19 @@ class EdgeBundling {
         ctx.stroke();
       }
     }
-
-    /*
-      We now have an array of angles, where they are in order and represent an angle from 0* (right) to the middle of its arc
-      We have a list of links that need to connect these angle positions with lines, representing a connection
-    */
   }
 }
 
+//select a color to make a beautiful rainbow :)
+//params:
+//  -colorNum: how far on the rainbow are we
+//  -colors:   how many diffrent colors in this rainbow
+//returns:
+//  -string whith hsl color code
 function selectColor(colorNum: number, colors: number){
   if (colors < 1) colors = 1; // defaults to one color - avoid divide by zero
   return "hsl(" + (colorNum * (360 / colors) % 360) + ",100%,50%)";
 }
 
+//call the function to actually run the code
 new EdgeBundling().drawArcs(<HTMLCanvasElement> document.getElementById("edgeBundling"))
