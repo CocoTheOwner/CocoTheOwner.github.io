@@ -3,23 +3,21 @@ define(["require", "exports"], function (require, exports) {
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.MailGraph = void 0;
     /** A class representing a directed graph for email traffic. */
-    var MailGraph = /** @class */ (function () {
+    class MailGraph {
         /**
          * Create a new graph based on an interval between two dates.
          * If any one of the indices is not given, we assume the beginning/end of time.
          *
          * Please remember that the `to` time is _exclusive_. E-mails from this day are **not** added.
         */
-        function MailGraph(mailArr, from, to) {
-            if (from === void 0) { from = new Date(0); }
-            if (to === void 0) { to = new Date(1); }
+        constructor(mailArr, from = new Date(0), to = new Date(1)) {
             this.graph = {};
             this.emails = mailArr;
-            var startIndex = findTimeIndex(mailArr, from);
-            var endIndex = findTimeIndex(mailArr, to);
+            let startIndex = findTimeIndex(mailArr, from);
+            let endIndex = findTimeIndex(mailArr, to);
             // Loop through all emails in the interval
             while (startIndex < endIndex) {
-                var mail = this.emails[startIndex++];
+                let mail = this.emails[startIndex++];
                 // If this is fromId's first mail, add fromId to the graph as a node.
                 if (!(mail.fromId in this.graph)) {
                     this.graph[mail.fromId] = {};
@@ -33,30 +31,30 @@ define(["require", "exports"], function (require, exports) {
         }
         // Add a new edge (email) to the graph.
         // If any one of the required nodes is missing, they are added.
-        MailGraph.prototype.addMail = function (mail) {
+        addMail(mail) {
             this.graph[mail.fromId][mail.toId].push(mail.appreciation);
-        };
-        MailGraph.prototype.copynodes = function () {
-            var nodes = [];
-            for (var key in this.graph) {
+        }
+        copynodes() {
+            let nodes = [];
+            for (let key in this.graph) {
                 nodes.push(parseInt(key));
             }
             return nodes;
-        };
-        MailGraph.prototype.neighbours = function (node) {
-            var neighbours = [];
-            for (var key in this.graph[node]) {
+        }
+        neighbours(node) {
+            let neighbours = [];
+            for (let key in this.graph[node]) {
                 neighbours.push(parseInt(key));
             }
             return neighbours;
-        };
+        }
         /**
          * Distance function
          * Input: ID's of two employees, A and B
          * Output: #emails A->B + #emails B->A
         */
-        MailGraph.prototype.distance = function (employeeA, employeeB) {
-            var count = 0;
+        distance(employeeA, employeeB) {
+            let count = 0;
             // Number of emails from A to B
             try { //dirty check to prevent non existant mails
                 count += this.graph[employeeA][employeeB].length;
@@ -68,21 +66,18 @@ define(["require", "exports"], function (require, exports) {
             }
             catch (_b) { }
             return count;
-        };
+        }
         //distance of 2 clusters (for edgebundling)
-        MailGraph.prototype.clusterDist = function (c1, c2) {
-            var dist = 0;
-            for (var _i = 0, c1_1 = c1; _i < c1_1.length; _i++) {
-                var i = c1_1[_i];
-                for (var _a = 0, c2_1 = c2; _a < c2_1.length; _a++) {
-                    var j = c2_1[_a];
+        clusterDist(c1, c2) {
+            let dist = 0;
+            for (let i of c1) {
+                for (let j of c2) {
                     dist += this.distance(i, j);
                 }
             }
             return dist;
-        };
-        return MailGraph;
-    }());
+        }
+    }
     exports.MailGraph = MailGraph;
     /**
      * Finds the index of the first or last mail sent on the specified date, based on whether we look on the low end or the high end.
@@ -101,11 +96,11 @@ define(["require", "exports"], function (require, exports) {
             return mailArr.length;
         }
         else { // Normal case: Perform binary search to find the correct indices.
-            var l = 0;
-            var r = mailArr.length - 1;
+            let l = 0;
+            let r = mailArr.length - 1;
             // While true, keep searching
             while (l <= r) {
-                var m = Math.floor((l + r) / 2);
+                let m = Math.floor((l + r) / 2);
                 if (mailArr[m].date < date) {
                     l = m + 1;
                 }

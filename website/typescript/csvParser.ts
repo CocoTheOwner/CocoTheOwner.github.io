@@ -1,3 +1,4 @@
+//a class to store email details
 export class Email {
     // Constructor creates class letiables and immediately assigns their values.
     constructor (
@@ -9,7 +10,7 @@ export class Email {
     ) {}
 }
 
-/** A class for employee specifics. */
+//a class to store employee details
 export class Employee {
     constructor (
         public email: string,
@@ -17,7 +18,13 @@ export class Employee {
     ) {}
 }
 
-/** Analyses a row of csv or user-given data and adds it's data to the emails array and lookup table. */
+//Analyses a row of csv or user-given data and adds it's data to the emails array and lookup table
+//params:
+//  -mailData: the string of data to add
+//  -mailArr:  emailArray to add the mail to
+//  -lookup:   lookupTable to add the data to
+//returns:
+//  -email object
 export function nextMail(mailData: string, mailArr: Email[], lookup: { [id: number]: Employee }): Email {
     let tokens = mailData.split(',');
     
@@ -27,7 +34,8 @@ export function nextMail(mailData: string, mailArr: Email[], lookup: { [id: numb
     let toId = parseInt(tokens[4]);
     let mailType = tokens[7];
     let appreciation = parseFloat(tokens[8]);
-    
+
+    //create email object
     let mail = new Email(date, fromId, toId, mailType, appreciation);
 
     // If the sender is not registered in the lookup table, add them.
@@ -44,14 +52,18 @@ export function nextMail(mailData: string, mailArr: Email[], lookup: { [id: numb
     return mail;
 }
 
-/** Process an uploaded `.csv` file and add their contents to the `emails` array and lookup table. */
+//Process csv-file data and add their contents to the emails array and lookup table
+//params:
+//  -csvString: the data read from a .csv file
+//  -mailArr:   emailArray to add the mails to
+//  -lookup:    lookupTable to add the data to
+//returns: nothing
 export function readCsv(csvString: string, mailArr: Email[], lookup: { [id: number]: Employee }) {
-    let notFirst = false;
-    var lines = csvString.split("\n");
-    lines.splice(0, 1);
-    if (lines[lines.length - 1].length === 0) {
+    let lines = csvString.split("\n");
+    lines.splice(0, 1);             //cut off first line, they are just column names
+    while (lines[lines.length - 1].length === 0) {  //remove all emptylines from end
         lines.splice(lines.length - 1, 1);
     }
-    lines.forEach(line => nextMail(line, mailArr, lookup));
+    lines.forEach(line => nextMail(line, mailArr, lookup)); //parse line by line
     mailArr.sort(function (e1, e2) { return e1.date.getTime() - e2.date.getTime(); });
 }

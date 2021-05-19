@@ -4,7 +4,7 @@
         "emitDecoratorMetadata": true,
         "experimentalDecorators": true,
         "module": "amd",
-        "target": "ES5",
+        "target": "es2016",
         "outDir": "./website/backend_js",
         "rootDir": "./website/typescript"
     },
