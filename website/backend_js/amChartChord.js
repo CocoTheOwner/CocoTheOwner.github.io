@@ -1,7 +1,6 @@
-define(["require", "exports", "@amcharts/amcharts4/core", "@amcharts/amcharts4/charts", "@amcharts/amcharts4/themes/animated"], function (require, exports, am4core, am4charts, animated_1) {
+define(["require", "exports", "./@amcharts/amcharts4/core", "./@amcharts/amcharts4/charts", "./@amcharts/amcharts4/themes/animated"], function (require, exports, am4core, am4charts, animated_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
-    console.log("Visualsing chords :}");
     /* Chart code */
     // Themes begin
     am4core.useTheme(animated_1.default);
