@@ -61,7 +61,7 @@ h1{
   padding: 20px;
   margin: 5px;
   text-align: center;
-  color: rgb(0, 0, 0);
+  color: white;
   font-size: 60px;
   font-family: 'Bauhaus 93', fantasy;
    
@@ -83,7 +83,8 @@ h1{
 
 .text2{
   font-size: 30px;
-  font-family: 'Bauhaus 93', fantasy;
+  font-family: 'Trebuchet MS';
+  font-weight: bold;
   text-align: center;
   margin: 60px;
   color: white;
