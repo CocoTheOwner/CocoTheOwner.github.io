@@ -14,6 +14,7 @@ define(["require", "exports", "./mailGraph", "./clusters", "./csvData"], functio
             let clustering = cl.stoC(graph, 1);
             let links = cl.clusterLinks(graph, clustering);
             let clusters = clustering.map(i => i.length); //array of cluster sizes
+            //array of angles where center of a cluster is, used to draw the lines
             let angles = [];
             // Make sure canvas is reachable
             if (canvas == null) {
@@ -52,7 +53,7 @@ define(["require", "exports", "./mailGraph", "./clusters", "./csvData"], functio
                 ctx.closePath();
                 ctx.stroke();
                 // Log information
-                console.log("Drawing (" + x + "/" + y + ") w" + r + " @ " + startAngle + " to " + endAngle);
+                //console.log("Drawing (" + x + "/" + y + ") w" + r + " @ " + startAngle + " to " + endAngle);
                 // Update angle
                 startAngle = endAngle;
             }
@@ -72,6 +73,7 @@ define(["require", "exports", "./mailGraph", "./clusters", "./csvData"], functio
                     let p2x = x + r * Math.cos(p2Angle);
                     let p2y = y + r * Math.sin(p2Angle);
                     //https://upload.wikimedia.org/wikipedia/commons/thumb/9/9d/Circle-trig6.svg/250px-Circle-trig6.svg.png
+                    //draw line
                     ctx.lineWidth = element / lineWidthMod;
                     ctx.strokeStyle = selectColor(angles.length, clusters.length);
                     ctx.beginPath();
@@ -81,16 +83,19 @@ define(["require", "exports", "./mailGraph", "./clusters", "./csvData"], functio
                     ctx.stroke();
                 }
             }
-            /*
-              We now have an array of angles, where they are in order and represent an angle from 0* (right) to the middle of its arc
-              We have a list of links that need to connect these angle positions with lines, representing a connection
-            */
         }
     }
+    //select a color to make a beautiful rainbow :)
+    //params:
+    //  -colorNum: how far on the rainbow are we
+    //  -colors:   how many diffrent colors in this rainbow
+    //returns:
+    //  -string whith hsl color code
     function selectColor(colorNum, colors) {
         if (colors < 1)
             colors = 1; // defaults to one color - avoid divide by zero
         return "hsl(" + (colorNum * (360 / colors) % 360) + ",100%,50%)";
     }
+    //call the function to actually run the code
     new EdgeBundling().drawArcs(document.getElementById("edgeBundling"));
 });

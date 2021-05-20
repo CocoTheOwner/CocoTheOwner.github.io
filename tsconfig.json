@@ -6,7 +6,8 @@
         "module": "amd",
         "target": "es2016",
         "outDir": "./website/backend_js",
-        "rootDir": "./website/typescript"
+        "rootDir": "./website/typescript",
+        "moduleResolution": "node"
     },
     "files": [
         "./website/typescript/clusters.ts",
@@ -14,6 +15,7 @@
         "./website/typescript/csvParser.ts",
         "./website/typescript/edgeBundling.ts",
         "./website/typescript/fileInput.ts",
-        "./website/typescript/mailGraph.ts"
+        "./website/typescript/mailGraph.ts",
+        "./website/typescript/amChartChord.ts"
     ]
 }

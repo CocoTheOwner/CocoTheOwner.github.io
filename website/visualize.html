@@ -6,6 +6,7 @@
   <head>
     <title>DBL - Visualisation</title>
     <script data-main="./backend_js/edgeBundling" src="./backend_js/require.js"></script>
+    <script data-main="./backend_js/amChartChord" src="./backend_js/require.js"></script>
     <meta charset="utf-8"/>
     <link rel="stylesheet" href="./css/index2.css">
     <link rel="icon" href="./images/DBL.ico" />
@@ -20,8 +21,13 @@
       </ul>
     </nav>
     <section style="padding-top:3%">
-      <div class="container" style="padding-top:1%;padding-bottom:1%">
-        <div style="border:1px solid #FFFFFF;width:99%;height:100%;margin:auto;border-radius:25px" className="">
+      <div class="container" style="height:100%;padding-top:1%;padding-bottom:1%">
+        <div id="chartdiv" style="border:1px solid #FFFFFF;width:99%;height:700px;margin:auto;border-radius:25px" className=""></div>
+      </div>
+    </section>
+    <section>
+      <div class="container" style="height:100%;padding-top:1%;padding-bottom:1%">
+        <div id="chartdiv" style="border:1px solid #FFFFFF;width:99%;height:700px;margin:auto;border-radius:25px" className="">
           <canvas id="edgeBundling" width="1000px" height="700px">
             Your browser does not support the HTML5 canvas tag. Please use another browser or our visualisation will not be visible for you.
           </canvas>

@@ -1,0 +1,22 @@
+{
+  "name": "dbl-legends",
+  "version": "1.0.0",
+  "description": "DBL Legends Visualisations",
+  "main": "index.js",
+  "scripts": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/CocoTheOwner/DBL-Legends.git"
+  },
+  "author": "",
+  "license": "GPL-3.0-or-later",
+  "bugs": {
+    "url": "https://github.com/CocoTheOwner/DBL-Legends/issues"
+  },
+  "homepage": "https://github.com/CocoTheOwner/DBL-Legends#readme",
+  "dependencies": {
+    "@amcharts/amcharts4": "^4.10.18"
+  }
+}

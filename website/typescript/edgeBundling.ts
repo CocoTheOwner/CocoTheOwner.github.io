@@ -70,7 +70,7 @@ class EdgeBundling {
       ctx.stroke();
 
       // Log information
-      console.log("Drawing (" + x + "/" + y + ") w" + r + " @ " + startAngle + " to " + endAngle);
+      //console.log("Drawing (" + x + "/" + y + ") w" + r + " @ " + startAngle + " to " + endAngle);
 
       // Update angle
       startAngle = endAngle;
