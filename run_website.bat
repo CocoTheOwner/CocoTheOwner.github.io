@@ -1,1 +1,1 @@
-start "" "file://%cd:\=/%/website/index.html"
+start firefox -new-tab "file://%cd:\=/%/website/index.html"
