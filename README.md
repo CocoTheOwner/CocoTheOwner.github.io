@@ -3,9 +3,6 @@
 
 Repo for DBL Legends only
 
+To run the web application, click on the file `run_website.bat`
 
-# How to run
-1. Install Firefox
-2. Open any of the `.html` files using Firefox
-
-You can run it in another browser, but you will not be able to see the Hierarchical edge bundle.
+If the hierarchical edge bundle does not load in the Chrome web browser, open the file manually in Firefox. This file can be found in `/website/index.html`.
