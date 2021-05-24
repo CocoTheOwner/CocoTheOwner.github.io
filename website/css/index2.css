@@ -137,6 +137,14 @@ padding: 0;
 margin: 0;
 }
 
+.container-fluid{
+  width: 100%;
+  height: 100%;
+  background-color:#151557;
+  padding: 0;
+  margin: 0;
+}
+
 h1{
   padding: 20px;
   margin: 5px;
