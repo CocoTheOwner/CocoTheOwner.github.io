@@ -1,6 +1,3 @@
-/// <reference path ="/node_modules/@types/jquery/jquery.d.ts"/>
-import * as $ from ‘jquery’;
-
 $(function () {
   $('input[name="daterange"]').daterangepicker({
       opens: 'right'
