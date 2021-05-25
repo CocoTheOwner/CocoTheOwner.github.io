@@ -39,8 +39,8 @@ define(["require", "exports"], function (require, exports) {
         //returns:
         //  -array of clusters
         stoC(graph, t) {
-            let nodes = graph.copynodes(); //get a copy to modify
-            let clustering = []; //array to hold result
+            let nodes = graph.copynodes(); // get a copy to modify
+            let clustering = []; // array to hold result
             while (nodes.length > 0) { // as long as there are unclustered
                 let node = this.pickNode(nodes);
                 let cluster = this.stoQuery(graph, nodes, t, node); //get cluster
