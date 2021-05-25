@@ -17,9 +17,9 @@
   },
   "homepage": "https://github.com/CocoTheOwner/DBL-Legends#readme",
   "dependencies": {
-    "@amcharts/amcharts4": "^4.10.18",
     "@types/jqueryui": "^1.12.15",
-    "jquery": "^3.6.0"
+    "jquery": "^3.6.0",
+    "typescript": "^4.2.4"
   },
   "devDependencies": {
     "@types/jquery": "^3.5.5",

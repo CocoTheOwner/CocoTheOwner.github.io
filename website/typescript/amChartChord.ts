@@ -1,7 +1,6 @@
-/* Imports */
-import * as am4core from "./@amcharts/amcharts4/core";
-import * as am4charts from "./@amcharts/amcharts4/charts";
-import am4themes_animated from "./@amcharts/amcharts4/themes/animated";
+let am4core = window["am4core"]
+let am4charts = window["am4charts"]
+let am4themes_animated = window["am4themes_animated"]
 
 /* Chart code */
 // Themes begin
@@ -25,7 +24,7 @@ let colors = {
 // data was provided by: https://www.reddit.com/user/notrudedude
 
 chart.data = [
-// node property fields take data from data items where they are first mentioned, that's 
+// node property fields take data from data items where they are first mentioned, that's
 // why we add empty data items at the beginning and set colors here
 {"from":"Monica", "image":"monica.png", "color":colors.Monica},
 {"from":"Rachel", "image":"rachel.png", "color":colors.Rachel},
@@ -166,7 +165,7 @@ nodeTemplate.propertyFields.fill = "color";
 nodeTemplate.tooltipText = "{name}'s kisses: {total}";
 
 // when rolled over the node, make all the links rolled-over
-nodeTemplate.events.on("over", function(event) {    
+nodeTemplate.events.on("over", function(event) {
     let node = event.target;
     node.outgoingDataItems.each(function(dataItem) {
         if(dataItem.toNode){
@@ -179,17 +178,17 @@ nodeTemplate.events.on("over", function(event) {
             dataItem.link.isHover = true;
             dataItem.fromNode.label.isHover = true;
         }
-    }) 
+    })
 
-    node.label.isHover = true;   
+    node.label.isHover = true;
 })
 
 // when rolled out from the node, make all the links rolled-out
 nodeTemplate.events.on("out", function(event) {
     let node = event.target;
-    node.outgoingDataItems.each(function(dataItem) {        
+    node.outgoingDataItems.each(function(dataItem) {
         if(dataItem.toNode){
-            dataItem.link.isHover = false;                
+            dataItem.link.isHover = false;
             dataItem.toNode.isHover = false;
         }
     })
@@ -240,13 +239,13 @@ nodeTemplate.adapter.add("fill", function(fill, target) {
     for(var name in counters){
         if(counters[name] > biggest){
             biggestName = name;
-            biggest = counters[name]; 
-        }        
+            biggest = counters[name];
+        }
     }
     if(colors[biggestName]){
         fill = colors[biggestName];
     }
-  
+
     return fill;
 })
 
