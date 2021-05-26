@@ -17,6 +17,7 @@
         "./website/typescript/fileInput.ts",
         "./website/typescript/mailGraph.ts",
         "./website/typescript/amChartChord.ts",
-        "./website/typescript/amChartSankey.ts"
+        "./website/typescript/amChartSankey.ts",
+        "./website/typescript/calendar.ts"
     ]
 }
