@@ -1,13 +1,13 @@
-let am4core = window["am4core"]
-let am4charts = window["am4charts"]
-let am4themes_animated = window["am4themes_animated"]
+var am4core = window["am4core"]
+var am4charts = window["am4charts"]
+var am4themes_animated = window["am4themes_animated"]
 
 /* Chart code */
 // Themes begin
 am4core.useTheme(am4themes_animated);
 // Themes end
 
-let chart = am4core.create("chartdiv", am4charts.ChordDiagram);
+var chart = am4core.create("chorddiv", am4charts.ChordDiagram);
 
 // colors of main characters
 chart.colors.saturation = 0.45;
@@ -158,7 +158,7 @@ chart.endAngle = chart.startAngle + 360;
 chart.sortBy = "value";
 chart.fontSize = 10;
 
-let nodeTemplate = chart.nodes.template;
+var nodeTemplate = chart.nodes.template;
 nodeTemplate.readerTitle = "Click to show/hide or drag to rearrange";
 nodeTemplate.showSystemTooltip = true;
 nodeTemplate.propertyFields.fill = "color";
@@ -255,7 +255,7 @@ linkTemplate.strokeOpacity = 0;
 linkTemplate.fillOpacity = 0.15;
 linkTemplate.tooltipText = "{fromName} & {toName}:{value.value}";
 
-let hoverState = linkTemplate.states.create("hover");
+var hoverState = linkTemplate.states.create("hover");
 hoverState.properties.fillOpacity = 0.7;
 hoverState.properties.strokeOpacity = 0.7;
 
