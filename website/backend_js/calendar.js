@@ -1,7 +1,10 @@
 // import {Email} from "./csvParser"
+// import { MailGraph } from "./mailGraph";
 // // let min_date = Email[0].date
 // // let max_date = Email[Email.length].date
 // // console.log(min_date)
+// function date(){
+// let startDate, endDate;
 $(function () {
     $('input[name="daterange"]').daterangepicker({
         "locale": {
@@ -49,8 +52,10 @@ $(function () {
         // input: start date, end date
         // output: should output the filtered visualizations
     }, function (start, end) {
-        let startDate = start.format('YYYY-MM-DD');
-        let endDate = end.format('YYYY-MM-DD');
-        console.log('New date range selected: from ' + startDate + ' to ' + endDate);
+        let startDate = new Date(start.format('YYYY-MM-DD'));
+        let endDate = new Date(end.format('YYYY-MM-DD'));
+        // console.log('New date range selected: from ' + startDate + ' to ' + endDate);
     });
 });
+console.log(startDate, endDate);
+date();
