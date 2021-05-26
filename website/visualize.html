@@ -20,7 +20,7 @@
 </head>
 
 <body>
-  <nav style="position:fixed">
+  <nav style="position:fixed;z-index:1">
     <ul>
       <li><a href="index.html">Home</a></li>
       <li><a class="active" href="visualize.html">Visualize</a></li>
@@ -45,7 +45,7 @@
               <script src="https://cdn.amcharts.com/lib/4/themes/animated.js"></script>
               <script src="./backend_js/amChartChord.js"></script>
             </div>
-
+            <input id="f_input" type="file" accept=".csv" class="btn" style="margin:auto;padding-top:3%"/>
           </div>
           <div style="border:1px solid #FFFFFF; height:960px;border-radius:25px;padding:1%;width:44%" class="col-lg-5 col-md-offset-1">    <!-- Using width to get more control over box size-->
             <div id="sankeydiv" styke="width:100%;height:90%">
