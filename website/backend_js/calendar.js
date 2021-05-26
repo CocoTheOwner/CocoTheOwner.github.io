@@ -52,9 +52,9 @@ $(function () {
         // input: start date, end date
         // output: should output the filtered visualizations
     }, function (start, end) {
-        let startDate = new Date(start.format('YYYY-MM-DD'));
-        let endDate = new Date(end.format('YYYY-MM-DD'));
-        // console.log('New date range selected: from ' + startDate + ' to ' + endDate);
+        let startDate = start.format('YYYY-MM-DD');
+        let endDate = end.format('YYYY-MM-DD');
+        console.log('New date range selected: from ' + startDate + ' to ' + endDate);
     });
 });
 console.log(startDate, endDate);
