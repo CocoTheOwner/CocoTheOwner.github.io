@@ -21,8 +21,7 @@ chart.data = [
   { from: "D", to: "H", value: apple[6] },
   { from: "E", to: "H", value: apple[7] },    
   { from: "G", to: "J", value: apple[8] },
-  { from: "I", to: "J", value: apple[9] },
-  { from: "H", to: "J", value: 9 }    
+  { from: "I", to: "J", value: apple[9] }
 ];
 
 var hoverState = chart.links.template.states.create("hover");

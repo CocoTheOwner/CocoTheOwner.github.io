@@ -37,19 +37,11 @@
           <div style="border:1px solid #FFFFFF; height:960px;border-radius:25px;padding:1%;width:44%" class="col-lg-5">   <!-- Using width to get more control over box size-->
             <span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>
             <input class="input-sm" type="text" name="daterange" value="" />
-            <!-- calendar script -->
-            <script src="./backend_js/calendar.js"></script>
             <div id="chorddiv" style="width:100%;height:90%">
-              <script src="https://cdn.amcharts.com/lib/4/core.js"></script>
-              <script src="https://cdn.amcharts.com/lib/4/charts.js"></script>
-              <script src="https://cdn.amcharts.com/lib/4/themes/animated.js"></script>
-              <script src="./backend_js/amChartChord.js"></script>
             </div>
-
           </div>
           <div style="border:1px solid #FFFFFF; height:960px;border-radius:25px;padding:1%;width:44%" class="col-lg-5 col-md-offset-1">    <!-- Using width to get more control over box size-->
             <div id="sankeydiv" styke="width:100%;height:90%">
-              <script src="./backend_js/require.js" data-main="./backend_js/amChartSankey.js"></script>
             </div>
           </div>
         </div>
@@ -57,6 +49,11 @@
     </div>
       <!-- HTML -->
   </section>
+  <!-- calendar script -->
+  <script src="https://cdn.amcharts.com/lib/4/core.js"></script>
+  <script src="https://cdn.amcharts.com/lib/4/charts.js"></script>
+  <script src="https://cdn.amcharts.com/lib/4/themes/animated.js"></script>
+  <script src="./backend_js/require.js" data-main="./backend_js/diagrams.js"></script>
 
 </body>
 

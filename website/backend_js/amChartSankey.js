@@ -20,8 +20,7 @@ define(["require", "exports", "./testdata"], function (require, exports, testdat
         { from: "D", to: "H", value: testdata_1.default[6] },
         { from: "E", to: "H", value: testdata_1.default[7] },
         { from: "G", to: "J", value: testdata_1.default[8] },
-        { from: "I", to: "J", value: testdata_1.default[9] },
-        { from: "H", to: "J", value: 9 }
+        { from: "I", to: "J", value: testdata_1.default[9] }
     ];
     var hoverState = chart.links.template.states.create("hover");
     hoverState.properties.fillOpacity = 0.6;

@@ -43,14 +43,14 @@ $(function () {
         "endDate": "2021/05/25",
         "showDropdowns": true,
         "showWeekNumbers": true,
-        // button theme
-        "applyButtonClasses": "btn-outline-primary btn-sm"
+        // button theme - doesn't work for some reason...
+        // "applyButtonClasses": "btn-outline-primary btn-sm"
         // function which is executed once the selection takes place
         // input: start date, end date
         // output: should output the filtered visualizations
     }, function (start, end) {
-        var startDate = start.format('YYYY-MM-DD');
-        var endDate = end.format('YYYY-MM-DD');
+        let startDate = start.format('YYYY-MM-DD');
+        let endDate = end.format('YYYY-MM-DD');
         console.log('New date range selected: from ' + startDate + ' to ' + endDate);
     });
 });
