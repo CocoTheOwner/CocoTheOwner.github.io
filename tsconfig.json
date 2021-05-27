@@ -18,7 +18,6 @@
         "./website/typescript/mailGraph.ts",
         "./website/typescript/amChartChord.ts",
         "./website/typescript/amChartSankey.ts",
-        "./website/typescript/testdata.ts",
         "./website/typescript/diagrams.ts"
     ]
 }
