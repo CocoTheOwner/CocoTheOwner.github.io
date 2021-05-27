@@ -24,20 +24,23 @@
 </head>
 
 <body>
+
+  <!-- Navigation -->
   <nav style="position:fixed;z-index:1">
     <ul>
       <li><a href="index.html">Home</a></li>
       <li><a class="active" href="visualize.html">Visualize</a></li>
-      <li><a href="help.html">Help</a></li>
+      <!-- <li><a href="help.html">Help</a></li> -->
     </ul>
   </nav>
-  
-  
 
+  <!-- Visualizations -->
   <section>
     <div class="container" style="padding-top:4%;padding-bottom:4%;margin:0;width:100%">
       <div class="container-fluid" style="padding-left:4%">
         <div class="row">
+
+          <!-- Visualization 1 -->
           <div style="border:1px solid #FFFFFF; height:960px;border-radius:25px;padding:1%;width:44%;background-color:rgb(240, 240, 240)" class="col-lg-5">   <!-- Using width to get more control over box size-->
 
             <!-- Calender -->
@@ -51,28 +54,31 @@
             <div id="chorddiv" style="width:100%;height:90%">
             </div>
 
+
             <div class="row" style="margin-left:.1%">
+
               <!-- Info Button-->
               <div class="info col-lg-4" style="padding-top:5%;width:32%">
                 <i class="icon-info-sign"></i>
-          
                 <span class="extra-info">
                   <p style="line-height:150%;padding-top:3%">
                     An edge-bundling visualization. <br>
                     Good for less clutter and discovering patterns
                     between clusters.
                   </p>
-                
                 </span>
               </div><br />
             
               <!-- File Load -->
-              <input id="f_input" type="file" accept=".csv" class="btn col-lg-4" style="margin:auto;padding-top:-70%;"/>
+              <!-- Given a fixed width to enable full text to display, 
+                may cause trouble when adding more elements on the same row -->
+              <input id="f_input" type="file" accept=".csv" class="btn col-lg-4" style="margin:auto;padding-top:-70%;width:50%"/>
             </div>
 
             
           </div>
 
+          <!-- Visualization 2 -->
           <div style="border:1px solid #FFFFFF; height:960px;border-radius:25px;padding:1%;width:44%;background-color:rgb(240, 240, 240);" class="col-lg-5 col-md-offset-1">    <!-- Using width to get more control over box size-->
             
             <div style="height:30%">
@@ -101,9 +107,8 @@
                 </span>
               </div><br />
             </div>
+
           </div>
-
-
         </div>
       </div>
     </div>
