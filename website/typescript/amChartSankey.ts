@@ -1,14 +1,14 @@
-import apple from './testdata'
 var am4core = window["am4core"]
 var am4charts = window["am4charts"]
 var am4themes_animated = window["am4themes_animated"]
-
+const apple = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
 /* Chart code */
 // Themes begin
 am4core.useTheme(am4themes_animated);
 // Themes end
 
-var chart = am4core.create("sankeydiv", am4charts.SankeyDiagram);
+
+export var chart = am4core.create("sankeydiv", am4charts.SankeyDiagram);
 chart.hiddenState.properties.opacity = 0; // this creates initial fade-in
 
 chart.data = [
