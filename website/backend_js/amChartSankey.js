@@ -1,7 +1,7 @@
 define(["require", "exports"], function (require, exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
-    exports.chart = void 0;
+    exports.makeChart = void 0;
     var am4core = window["am4core"];
     var am4charts = window["am4charts"];
     var am4themes_animated = window["am4themes_animated"];
@@ -10,9 +10,7 @@ define(["require", "exports"], function (require, exports) {
     // Themes begin
     am4core.useTheme(am4themes_animated);
     // Themes end
-    exports.chart = am4core.create("sankeydiv", am4charts.SankeyDiagram);
-    exports.chart.hiddenState.properties.opacity = 0; // this creates initial fade-in
-    exports.chart.data = [
+    makeChart().data = [
         { from: "A", to: "D", value: apple[0] },
         { from: "B", to: "D", value: apple[1] },
         { from: "B", to: "E", value: apple[2] },
@@ -24,22 +22,29 @@ define(["require", "exports"], function (require, exports) {
         { from: "G", to: "J", value: apple[8] },
         { from: "I", to: "J", value: apple[9] }
     ];
-    var hoverState = exports.chart.links.template.states.create("hover");
-    hoverState.properties.fillOpacity = 0.6;
-    exports.chart.dataFields.fromName = "from";
-    exports.chart.dataFields.toName = "to";
-    exports.chart.dataFields.value = "value";
-    // for right-most label to fit
-    exports.chart.paddingRight = 30;
-    // make nodes draggable
-    var nodeTemplate = exports.chart.nodes.template;
-    nodeTemplate.inert = true;
-    nodeTemplate.readerTitle = "Drag me!";
-    nodeTemplate.showSystemTooltip = true;
-    nodeTemplate.width = 20;
-    // make nodes draggable
-    var nodeTemplate = exports.chart.nodes.template;
-    nodeTemplate.readerTitle = "Click to show/hide or drag to rearrange";
-    nodeTemplate.showSystemTooltip = true;
-    nodeTemplate.cursorOverStyle = am4core.MouseCursorStyle.pointer;
+    function makeChart() {
+        const chart = am4core.create("sankeydiv", am4charts.SankeyDiagram);
+        chart.hiddenState.properties.opacity = 0; // this creates initial fade-in
+        var hoverState = chart.links.template.states.create("hover");
+        hoverState.properties.fillOpacity = 0.8;
+        chart.dataFields.fromName = "from";
+        chart.dataFields.toName = "to";
+        chart.dataFields.value = "value";
+        // for right-most label to fit
+        chart.paddingRight = 150;
+        // make nodes draggable
+        var nodeTemplate = chart.nodes.template;
+        nodeTemplate.inert = true;
+        nodeTemplate.readerTitle = "Drag me!";
+        nodeTemplate.showSystemTooltip = true;
+        nodeTemplate.width = 10;
+        nodeTemplate.height = 20;
+        // make nodes draggable
+        var nodeTemplate = chart.nodes.template;
+        nodeTemplate.readerTitle = "Click to show/hide or drag to rearrange";
+        nodeTemplate.showSystemTooltip = true;
+        nodeTemplate.cursorOverStyle = am4core.MouseCursorStyle.pointer;
+        return chart;
+    }
+    exports.makeChart = makeChart;
 });
