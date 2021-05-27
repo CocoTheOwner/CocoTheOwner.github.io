@@ -17,6 +17,10 @@
   <link rel="stylesheet" href="./css/index2.css">
   <link rel="icon" href="./images/DBL.ico" />
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
+
+  <!-- Info button references -->
+  <link href="https://netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
 </head>
 
 <body>
@@ -28,30 +32,81 @@
     </ul>
   </nav>
   
+  
+
   <section>
     <div class="container" style="padding-top:4%;padding-bottom:4%;margin:0;width:100%">
-
-
       <div class="container-fluid" style="padding-left:4%">
         <div class="row">
-          <div style="border:1px solid #FFFFFF; height:960px;border-radius:25px;padding:1%;width:44%" class="col-lg-5">   <!-- Using width to get more control over box size-->
+          <div style="border:1px solid #FFFFFF; height:960px;border-radius:25px;padding:1%;width:44%;background-color:rgb(240, 240, 240)" class="col-lg-5">   <!-- Using width to get more control over box size-->
+
+            <!-- Calender -->
             <span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>
             <input class="input-sm" type="text" name="daterange" value="" />
-            <!-- calendar script -->
+
+            <!-- Calendar script -->
             <script src="./backend_js/calendar.js"></script>
+
+            <!-- Chord Diagram-->
             <div id="chorddiv" style="width:100%;height:90%">
             </div>
-            <input id="f_input" type="file" accept=".csv" class="btn" style="margin:auto;padding-top:3%"/>
+
+            <div class="row" style="margin-left:.1%">
+              <!-- Info Button-->
+              <div class="info col-lg-4" style="padding-top:5%">
+                <i class="icon-info-sign"></i>
+          
+                <span class="extra-info">
+                  <p style="line-height: 150%;padding-top:3%">
+                    An edge-bundling visualization.<br>
+                    Good for less clutter and discovering patterns<br>
+                    between clusters or hierarchical elements
+                  </p>
+                
+                </span>
+              </div><br />
+            
+              <!-- File Load -->
+              <input id="f_input" type="file" accept=".csv" class="btn col-lg-4" style="margin:auto;padding-top:-70%"/>
+            </div>
+
+            
           </div>
-          <div style="border:1px solid #FFFFFF; height:960px;border-radius:25px;padding:1%;width:44%" class="col-lg-5 col-md-offset-1">    <!-- Using width to get more control over box size-->
-            <div id="sankeydiv" styke="width:100%;height:90%">
+
+          <div style="border:1px solid #FFFFFF; height:960px;border-radius:25px;padding:1%;width:44%;background-color:rgb(240, 240, 240);" class="col-lg-5 col-md-offset-1">    <!-- Using width to get more control over box size-->
+            
+            <!-- Sankey Diagram -->
+            <div id="sankeydiv" style="width:100%;height:35%">
+            </div>
+
+            <!-- Div for pushing down elements (change height for how much difference)-->
+            <div style="height:58%">
+            </div>
+
+            <div class="row" style="margin-left:-9%">
+              <div class="col-sm-1"></div>
+              <!-- Info Button-->
+              <div class="info col-lg-4" style="padding-top:5%">
+                <i class="icon-info-sign"></i>
+          
+                <span class="extra-info">
+                  <p style="line-height:150%;padding-top:4%;">
+                    An edge-bundling visualization.<br>
+                    Good for less clutter and discovering patterns<br>
+                    between clusters or hierarchical elements
+                  </p>
+                
+                </span>
+              </div><br />
             </div>
           </div>
+
+
         </div>
       </div>
     </div>
-      <!-- HTML -->
   </section>
+
   <!-- calendar script -->
   <script src="https://cdn.amcharts.com/lib/4/core.js"></script>
   <script src="https://cdn.amcharts.com/lib/4/charts.js"></script>
@@ -59,5 +114,4 @@
   <script src="./backend_js/require.js" data-main="./backend_js/diagrams.js"></script>
 
 </body>
-
 </html>
