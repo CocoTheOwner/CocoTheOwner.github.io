@@ -7,7 +7,7 @@ var am4themes_animated = window["am4themes_animated"]
 am4core.useTheme(am4themes_animated);
 // Themes end
 
-var chart = am4core.create("chorddiv", am4charts.ChordDiagram);
+export var chart = am4core.create("chorddiv", am4charts.ChordDiagram);
 
 // colors of main characters
 chart.colors.saturation = 0.45;
