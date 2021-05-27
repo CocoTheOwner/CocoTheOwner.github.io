@@ -1,84 +1,3 @@
-/* body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  background-image: url("../images/visualisation.jpg");
-  background-position: 0% 1.1%;
-}
-
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
-}
-
-ul {
-  list-style-type: none;
-  margin: 0;
-  padding: 0;
-  overflow: hidden;
-  background-color: #333;
-  top: 0;
-  width: 100%;
-  position: fixed;
-}
-
-li {
-  float: left;
-}
-
-li a {
-  display: block;
-  color: white;
-  font-size:x-large;
-  font-family: 'Bauhaus 93', fantasy;
-  text-align: center;
-  padding: 14px 16px;
-  text-decoration: none;
-}
-
-.active {
-  background-color: 	#AB00CC;
-}
-
-li a:hover:not(.active) {
-  background-color: 	#111;
-}
-
-.container{
-width: 100%;
-height: 100%;
-background-color:#151557;
-padding: 0;
-margin: 0;
-}
-
-h1{
-  padding: 20px;
-  margin: 5px;
-  text-align: center;
-  color: white;
-  font-size: 60px;
-  font-family: 'Bauhaus 93', fantasy;
-   
-}
-  
-.box{
-  border: 5px solid #A9A9FF;
-  width: 180px;
-  margin-left: 45%;
-}
-
-.text{
-  font-size: 30px;
-  font-family: 'Bauhaus 93', fantasy;
-  text-align: center;
-  margin: 60px;
-  color: white;
-} */
-
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
@@ -208,3 +127,4 @@ h1{
   width: 315px;
   text-align: left !important;
 }
+/* End info button */
