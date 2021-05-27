@@ -1,16 +1,19 @@
-define(["require", "exports", "./amChartChord", "./amChartSankey"], function (require, exports, amChartChord_1, amChartSankey_1) {
+define(["require", "exports", "./amChartSankey"], function (require, exports, amChartSankey_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.updateCharts = void 0;
     function updateCharts(emails, lookup) {
+        // Mailcap
+        const mailCap = emails.length;
         emails.sort(function (e1, e2) { return e1.date.getTime() - e2.date.getTime(); });
+        console.log(emails);
         // List job titles
         const jobtitles = ["Unknown", "Employee", "CEO", "Director", "Trader", "President", "Vice President", "Manager", "Managing Director", "In House Lawyer"];
         // Retrieve the first and last date in the sorted mails array
         const firstdate = emails[0].date;
-        const lastdate = emails[emails.length - 1].date;
+        const lastdate = emails[mailCap - 1].date;
         // Set a default number for the amount of clusters
-        var clusters = 4;
+        var clusters = 8;
         // Calculate the time between the first and last mail
         const timeframe = lastdate.getTime() - firstdate.getTime();
         // Calculate the dates between which the clusters exist.
@@ -18,50 +21,68 @@ define(["require", "exports", "./amChartChord", "./amChartSankey"], function (re
         for (let i = 0; i <= clusters; i++) {
             dates[i] = firstdate.getTime() + timeframe / clusters * i;
         }
-        for (let date in dates) {
-            console.log(dates[date]);
-            console.log(new Date(dates[date]).toDateString());
-        }
         // Loop over all mails and add them to their respective clusters
         var currentCluster = 0;
         var mailnum = 0;
         const splitMails = {};
         var clusterMail = [];
-        for (let i = 0; i < 20; i++) {
+        for (let i = 0; i < mailCap; i++) {
             let mail = emails[i];
             let date = mail.date;
             while (date.getTime() >= dates[currentCluster]) {
-                console.log("Empty");
                 currentCluster += 1;
+                console.log("Cluster " + currentCluster + " being filled.");
                 splitMails[currentCluster] = clusterMail;
                 clusterMail = [];
                 mailnum = 0;
             }
-            console.log("Mail of " + mail.date.toDateString() + " may be before: " + new Date(dates[currentCluster]).toDateString() + " goes into cluster " + currentCluster);
             clusterMail[clusterMail.length] = mail;
-            console.log(clusterMail.length);
         }
         splitMails[currentCluster] = clusterMail;
-        console.log(splitMails);
-        console.log(Object.keys(splitMails).length);
-        for (let cluster in splitMails) {
-            console.log(splitMails[cluster].length);
+        // Create a dictionary with the jobtitles stacked twice
+        const jobsFromTo = [];
+        for (let i = 0; i < clusters; i++) {
+            jobsFromTo[i] = {};
+            for (let job in jobtitles) {
+                jobsFromTo[i][jobtitles[job]] = {};
+                for (let _job in jobtitles) {
+                    jobsFromTo[i][jobtitles[job]][jobtitles[_job]] = [];
+                }
+            }
         }
-        var x = emails[0].appreciation;
-        amChartSankey_1.chart.data = [
-            { from: "A", to: "D", value: 1 },
-            { from: "B", to: "D", value: x },
-            { from: "B", to: "E", value: x },
-            { from: "C", to: "E", value: x },
-            { from: "D", to: "G", value: x },
-            { from: "D", to: "I", value: x },
-            { from: "D", to: "H", value: x },
-            { from: "E", to: "H", value: x },
-            { from: "G", to: "J", value: x },
-            { from: "I", to: "J", value: x }
-        ];
-        amChartSankey_1.chart.validateData();
-        amChartChord_1.chart.validateData();
+        // For each of the clusters
+        for (let cluster = 0; cluster < clusters; cluster++) {
+            // For each of the mails
+            for (let mail in splitMails[cluster]) {
+                // Get from and to jobtitle
+                var fromjob = lookup[splitMails[cluster][mail].fromId].jobTitle;
+                var tojob = lookup[splitMails[cluster][mail].toId].jobTitle;
+                // Store using the from and to job the mail counter
+                jobsFromTo[cluster][fromjob][tojob].push(splitMails[cluster][mail]);
+            }
+        }
+        // Clear data
+        amChartSankey_1.chart.data = [];
+        amChartSankey_1.chart.colors.next();
+        amChartSankey_1.chart.colors.next();
+        amChartSankey_1.chart.colors.next();
+        amChartSankey_1.chart.data.push({ "from": "Unknown (0)", color: amChartSankey_1.chart.colors.next() });
+        // colors
+        const colors = {};
+        // Assign colors to the jobtitles (so each title has the same color)
+        for (let fjob in jobtitles) {
+            colors[jobtitles[fjob]] = amChartSankey_1.chart.colors.black;
+        }
+        // Set the data from the job clusters in the chart
+        for (let i in jobsFromTo) {
+            for (let fjob in jobsFromTo[i]) {
+                for (let tjob in jobsFromTo[i][fjob]) {
+                    amChartSankey_1.chart.data.push({ from: fjob + " (" + i + ")", to: tjob + " (" + String(Number(i) + 1) + ")", value: jobsFromTo[i][fjob][tjob].length, nodeColors: colors[jobtitles[fjob]] });
+                }
+            }
+        }
+        amChartSankey_1.chart.validateData(); // Updates the sankeyChart
+        //chordChart.validateData(); // Updates the chord diagram
     }
     exports.updateCharts = updateCharts;
 });
