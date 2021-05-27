@@ -7,8 +7,7 @@ const apple = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
 am4core.useTheme(am4themes_animated);
 // Themes end
 
-
-export var chart = am4core.create("sankeydiv", am4charts.SankeyDiagram);
+export const chart = am4core.create("sankeydiv", am4charts.SankeyDiagram);
 chart.hiddenState.properties.opacity = 0; // this creates initial fade-in
 
 chart.data = [
@@ -22,24 +21,26 @@ chart.data = [
   { from: "E", to: "H", value: apple[7] },    
   { from: "G", to: "J", value: apple[8] },
   { from: "I", to: "J", value: apple[9] }
-];
+]
 
 var hoverState = chart.links.template.states.create("hover");
-hoverState.properties.fillOpacity = 0.6;
+hoverState.properties.fillOpacity = 0.8;
 
 chart.dataFields.fromName = "from";
 chart.dataFields.toName = "to";
 chart.dataFields.value = "value";
+chart.dataFields.color = "nodeColors";
 
 // for right-most label to fit
-chart.paddingRight = 30;
+chart.paddingRight = 150;
 
 // make nodes draggable
 var nodeTemplate = chart.nodes.template;
 nodeTemplate.inert = true;
 nodeTemplate.readerTitle = "Drag me!";
 nodeTemplate.showSystemTooltip = true;
-nodeTemplate.width = 20;
+nodeTemplate.width = 10;
+nodeTemplate.height = 20;
 
 // make nodes draggable
 var nodeTemplate = chart.nodes.template;
