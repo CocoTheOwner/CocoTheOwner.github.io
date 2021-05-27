@@ -57,5 +57,3 @@ $(function () {
         console.log('New date range selected: from ' + startDate + ' to ' + endDate);
     });
 });
-console.log(startDate, endDate);
-date();
