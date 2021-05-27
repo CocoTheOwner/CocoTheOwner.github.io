@@ -7,17 +7,18 @@ define(["require", "exports"], function (require, exports) {
         //Mailgraph constructor
         //params:
         //  -mailArr: email array to create graph from (sorted for filters)
-        //  -from:    filters from this date (inclusive) (default = all)
-        //  -to:      filters up until this date (exclusive) (default = all)
+        //  -from:    filters from this date (inclusive) (default = first possible)
+        //  -to:      filters up until this date (exclusive) (default = last possible)
         constructor(mailArr, from = new Date(0), to = new Date(1)) {
             this.graph = {};
-            this.emails = mailArr;
+            this.emails = [];
             //find indexes of filter
             let startIndex = findTimeIndex(mailArr, from);
             let endIndex = findTimeIndex(mailArr, to);
             // Loop through all emails in the interval
             for (let i = startIndex; i < endIndex; i++) {
-                let mail = this.emails[i];
+                let mail = mailArr[i];
+                this.emails.push(mailArr[i]);
                 // If this is fromId's first mail, add fromId to the graph as a node.
                 if (!(mail.fromId in this.graph)) {
                     this.graph[mail.fromId] = {};
@@ -29,6 +30,36 @@ define(["require", "exports"], function (require, exports) {
                 //add the mail as an edge
                 this.graph[mail.fromId][mail.toId].push(mail.appreciation);
             }
+        }
+        //convert MailGraph data to input data for AmChart chord plot input
+        //returns:
+        //  -array of chord specifics
+        generateACInput() {
+            let chartData = [];
+            let visited = [];
+            // Add property fields, which look like this:
+            // {"from":"Monica", "image":"monica.png", "color":colors.Monica},
+            // Add all real data (UNDIRECTED)
+            // Loop through all senders
+            for (const from in this.graph) {
+                visited.push(from);
+                // Loop through all receivers
+                for (const to in this.graph[from]) {
+                    // Only add data if the receiver is not a previous sender.
+                    if (!(to in visited)) {
+                        // Count the amount of emails sender -> receiver
+                        let mailCountSum = this.graph[from][to].length;
+                        // If the receiver sent to the sender, too ...
+                        if (this.graph[to][from]) {
+                            // ... add the amount of emails sender <- receiver
+                            mailCountSum += this.graph[to][from].length;
+                        }
+                        // Add the new chord data to the array of chord data.
+                        chartData.push({ "from": from, "to": to, "value": this.graph[from][to].length });
+                    }
+                }
+            }
+            return chartData;
         }
         //add single mail to graph (and nodes if they are missing)
         //params:
