@@ -41,9 +41,4 @@ nodeTemplate.readerTitle = "Drag me!";
 nodeTemplate.showSystemTooltip = true;
 nodeTemplate.width = 10;
 nodeTemplate.height = 20;
-
-// make nodes draggable
-var nodeTemplate = chart.nodes.template;
-nodeTemplate.readerTitle = "Click to show/hide or drag to rearrange";
-nodeTemplate.showSystemTooltip = true;
 nodeTemplate.cursorOverStyle = am4core.MouseCursorStyle.pointer

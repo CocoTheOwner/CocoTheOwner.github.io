@@ -96,5 +96,5 @@ export function updateCharts(emails: Email[], lookup: {[id: number]: Employee}):
 
 
     sankeyChart.validateData(); // Updates the sankeyChart
-    //chordChart.validateData(); // Updates the chord diagram
+    // chordChart.validateData(); // Updates the chord diagram
 }	
