@@ -1,6 +1,7 @@
 import {chart as chordChart} from "./amChartChord"
 import {chart as sankeyChart} from "./amChartSankey"
 import {Email, Employee} from "./csvParser"
+// import {MailGraph, findTimeIndex} from "./MailGraph"
 export function updateCharts(emails: Email[], lookup: {[id: number]: Employee}): void {
 
     // Mailcap

@@ -39,7 +39,7 @@ export class MailGraph {
     //convert MailGraph data to input data for AmChart chord plot input
     //returns:
     //  -array of chord specifics
-    generateACInput(): any[] {
+    generateChordInput(): any[] {
         let chartData: any[] = [];
         let visited: string[] = [];
 
@@ -65,10 +65,17 @@ export class MailGraph {
                     }
     
                     // Add the new chord data to the array of chord data.
-                    chartData.push( {"from":from, "to":to, "value":this.graph[from][to].length} );
+                    chartData.push( {"from":from, "to":to, "value":mailCountSum} );
                 }
             }
         }
+
+        return chartData;
+    }
+
+    //
+    generateSankeyInput(): any[] {
+        let chartData: any[] = [];
 
         return chartData;
     }
@@ -150,7 +157,7 @@ export class MailGraph {
 //  -date:    date to find (if Date(0), returns first element; if Date(1), return last)
 //returns:
 //  -index of mail found
-function findTimeIndex(mailArr: Email[], date: Date): number {
+export function findTimeIndex(mailArr: Email[], date: Date): number {
     if (date.getTime() === 0) { return 0; }                     // Special case: Return the first element of the array
     else if (date.getTime() === 1) { return mailArr.length; }   // Special case: Return the last element of the array
     else {                                                      // Normal case: Perform binary search to find the correct indices.
@@ -174,4 +181,22 @@ function findTimeIndex(mailArr: Email[], date: Date): number {
         // If we did not find our date in the array, return the first mail after what we looked for.
         return r + 1;
     }
+}
+
+// TODO: Should we return the mailGraph??
+// TODO: Maybe we should write this code in 'visualizationController.ts' instead.
+function updateVisualizations(mailArr: Email[]): MailGraph {
+    // Get the two date strings for the MailGraph
+    let dateStrings = (<HTMLInputElement>document.getElementById("calendar")).value.split(" - ");
+
+    // Gather all emails that lie in the selected timeframe
+    let newMailGraph = new MailGraph(mailArr, new Date(dateStrings[0]), new Date(dateStrings[1]));
+
+    // TODO: assign mailGraph output to chart input
+    // chordChart.data = newMailGraph.generateChordInput();
+
+    // TODO: assign mailGraph output to sankey input
+    // sankeyChart.data = newMailGraph.generateSankeyInput();
+
+    return newMailGraph;
 }
