@@ -62,27 +62,14 @@ $(function () {
             "firstDay": 1
         },
 
-        // start and end date of the sleection
+        // start and end date of the selection
         "startDate": "2021/05/19",
         "endDate": "2021/05/25",
 
         "showDropdowns": true,
         "showWeekNumbers": true
     }, function (start, end) {
-        var startDate = new Date(start.format('YYYY-MM-DD'));
-        var endDate = new Date(end.format('YYYY-MM-DD'));
-
-        // store the start and end dates
-        localStorage.setItem('startDate', startDate);
-        localStorage.setItem('endDate', endDate);
-
-        // refresh the page after interval selection
-        location.reload();
-        // document.getElementsByClassName("input.sm").value = "$(start) - $(end)";
+        console.log(start.format('YYYY-MM-DD'));
+        console.log(end.format('YYYY-MM-DD'));
     });
 });
-
-// print the value of the selected range (doesn't work)
-window.onload = function() {
-    $('#daterange').val("$(start) - $(end)")
-}
