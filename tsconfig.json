@@ -5,20 +5,20 @@
         "experimentalDecorators": true,
         "module": "amd",
         "target": "es2016",
-        "outDir": "./website/backend_js",
-        "rootDir": "./website/typescript",
+        "outDir": "backend_js",
+        "rootDir": "./typescript",
         "moduleResolution": "node"
     },
     "files": [
-        "./website/typescript/clusters.ts",
-        "./website/typescript/csvData.ts",
-        "./website/typescript/csvParser.ts",
-        "./website/typescript/edgeBundling.ts",
-        "./website/typescript/fileInput.ts",
-        "./website/typescript/mailGraph.ts",
-        "./website/typescript/amChartChord.ts",
-        "./website/typescript/amChartSankey.ts",
-        "./website/typescript/diagrams.ts",
-        "./website/typescript/dates.ts"
+        "./typescript/clusters.ts",
+        "./typescript/csvData.ts",
+        "./typescript/csvParser.ts",
+        "./typescript/edgeBundling.ts",
+        "./typescript/fileInput.ts",
+        "./typescript/mailGraph.ts",
+        "./typescript/amChartChord.ts",
+        "./typescript/amChartSankey.ts",
+        "./typescript/diagrams.ts",
+        "./typescript/dates.ts"
     ]
 }
