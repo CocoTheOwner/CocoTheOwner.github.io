@@ -7,20 +7,19 @@ const apple = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
 am4core.useTheme(am4themes_animated);
 // Themes end
 
-export const chart = am4core.create("sankeydiv", am4charts.SankeyDiagram);
+const chart = am4core.create("sankeydiv", am4charts.SankeyDiagram);
 chart.hiddenState.properties.opacity = 0; // this creates initial fade-in
-
 chart.data = [
-  { from: "A", to: "D", value: apple[0] },
-  { from: "B", to: "D", value: apple[1] },
-  { from: "B", to: "E", value: apple[2] },
-  { from: "C", to: "E", value: apple[3] },
-  { from: "D", to: "G", value: apple[4] },
-  { from: "D", to: "I", value: apple[5] },
-  { from: "D", to: "H", value: apple[6] },
-  { from: "E", to: "H", value: apple[7] },    
-  { from: "G", to: "J", value: apple[8] },
-  { from: "I", to: "J", value: apple[9] }
+  { from: "A", to: "D", value: apple[0]},
+  { from: "B", to: "D", value: apple[1]},
+  { from: "B", to: "E", value: apple[2]},
+  { from: "C", to: "E", value: apple[3]},
+  { from: "D", to: "G", value: apple[4]},
+  { from: "D", to: "I", value: apple[5]},
+  { from: "D", to: "H", value: apple[6]},
+  { from: "E", to: "H", value: apple[7]},    
+  { from: "G", to: "J", value: apple[8]},
+  { from: "I", to: "J", value: apple[9]}
 ]
 
 var hoverState = chart.links.template.states.create("hover");
@@ -29,7 +28,7 @@ hoverState.properties.fillOpacity = 0.8;
 chart.dataFields.fromName = "from";
 chart.dataFields.toName = "to";
 chart.dataFields.value = "value";
-chart.dataFields.color = "nodeColors";
+chart.dataFields.color = "color";
 
 // for right-most label to fit
 chart.paddingRight = 150;
@@ -42,3 +41,4 @@ nodeTemplate.showSystemTooltip = true;
 nodeTemplate.width = 10;
 nodeTemplate.height = 20;
 nodeTemplate.cursorOverStyle = am4core.MouseCursorStyle.pointer
+export default chart

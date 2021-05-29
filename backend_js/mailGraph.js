@@ -1,7 +1,7 @@
 define(["require", "exports"], function (require, exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
-    exports.MailGraph = void 0;
+    exports.findTimeIndex = exports.MailGraph = void 0;
     //a class holding a directed graph for email traffic
     class MailGraph {
         //Mailgraph constructor
@@ -34,7 +34,7 @@ define(["require", "exports"], function (require, exports) {
         //convert MailGraph data to input data for AmChart chord plot input
         //returns:
         //  -array of chord specifics
-        generateACInput() {
+        generateChordInput() {
             let chartData = [];
             let visited = [];
             // Add property fields, which look like this:
@@ -55,10 +55,15 @@ define(["require", "exports"], function (require, exports) {
                             mailCountSum += this.graph[to][from].length;
                         }
                         // Add the new chord data to the array of chord data.
-                        chartData.push({ "from": from, "to": to, "value": this.graph[from][to].length });
+                        chartData.push({ "from": from, "to": to, "value": mailCountSum });
                     }
                 }
             }
+            return chartData;
+        }
+        //
+        generateSankeyInput() {
+            let chartData = [];
             return chartData;
         }
         //add single mail to graph (and nodes if they are missing)
@@ -161,5 +166,19 @@ define(["require", "exports"], function (require, exports) {
             // If we did not find our date in the array, return the first mail after what we looked for.
             return r + 1;
         }
+    }
+    exports.findTimeIndex = findTimeIndex;
+    // TODO: Should we return the mailGraph??
+    // TODO: Maybe we should write this code in 'visualizationController.ts' instead.
+    function updateVisualizations(mailArr) {
+        // Get the two date strings for the MailGraph
+        let dateStrings = document.getElementById("calendar").value.split(" - ");
+        // Gather all emails that lie in the selected timeframe
+        let newMailGraph = new MailGraph(mailArr, new Date(dateStrings[0]), new Date(dateStrings[1]));
+        // TODO: assign mailGraph output to chart input
+        // chordChart.data = newMailGraph.generateChordInput();
+        // TODO: assign mailGraph output to sankey input
+        // sankeyChart.data = newMailGraph.generateSankeyInput();
+        return newMailGraph;
     }
 });

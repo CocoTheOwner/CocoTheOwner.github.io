@@ -2,6 +2,7 @@ define(["require", "exports", "./amChartSankey"], function (require, exports, am
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.updateCharts = void 0;
+    // import {MailGraph, findTimeIndex} from "./MailGraph"
     function updateCharts(emails, lookup) {
         // Mailcap
         const mailCap = emails.length;
@@ -62,27 +63,34 @@ define(["require", "exports", "./amChartSankey"], function (require, exports, am
             }
         }
         // Clear data
-        amChartSankey_1.chart.data = [];
-        amChartSankey_1.chart.colors.next();
-        amChartSankey_1.chart.colors.next();
-        amChartSankey_1.chart.colors.next();
-        amChartSankey_1.chart.data.push({ "from": "Unknown (0)", color: amChartSankey_1.chart.colors.next() });
-        // colors
+        amChartSankey_1.default.data = [];
+        // Colors
         const colors = {};
         // Assign colors to the jobtitles (so each title has the same color)
         for (let fjob in jobtitles) {
-            colors[jobtitles[fjob]] = amChartSankey_1.chart.colors.black;
+            let col = amChartSankey_1.default.colors.next();
+            for (let i = 0; i <= clusters; i++) {
+                if (i === 0) {
+                    amChartSankey_1.default.data.push({ from: jobtitles[fjob], color: col });
+                    continue;
+                }
+                amChartSankey_1.default.data.push({ from: jobtitles[fjob] + " (" + i + ")", color: col });
+            }
         }
         // Set the data from the job clusters in the chart
         for (let i in jobsFromTo) {
             for (let fjob in jobsFromTo[i]) {
                 for (let tjob in jobsFromTo[i][fjob]) {
-                    amChartSankey_1.chart.data.push({ from: fjob + " (" + i + ")", to: tjob + " (" + String(Number(i) + 1) + ")", value: jobsFromTo[i][fjob][tjob].length, nodeColors: colors[jobtitles[fjob]] });
+                    if (i === "0") {
+                        amChartSankey_1.default.data.push({ from: fjob, to: tjob + " (" + String(Number(i) + 1) + ")", value: jobsFromTo[i][fjob][tjob].length });
+                        continue;
+                    }
+                    amChartSankey_1.default.data.push({ from: fjob + " (" + i + ")", to: tjob + " (" + String(Number(i) + 1) + ")", value: jobsFromTo[i][fjob][tjob].length });
                 }
             }
         }
-        amChartSankey_1.chart.validateData(); // Updates the sankeyChart
-        //chordChart.validateData(); // Updates the chord diagram
+        amChartSankey_1.default.validateData(); // Updates the sankeyChart
+        // chordChart.validateData(); // Updates the chord diagram
     }
     exports.updateCharts = updateCharts;
 });

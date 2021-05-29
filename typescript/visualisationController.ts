@@ -1,5 +1,5 @@
-import {chart as chordChart} from "./amChartChord"
-import {chart as sankeyChart} from "./amChartSankey"
+import {chart, chart as chordChart} from "./amChartChord"
+import sankeyChart from "./amChartSankey"
 import {Email, Employee} from "./csvParser"
 // import {MailGraph, findTimeIndex} from "./MailGraph"
 export function updateCharts(emails: Email[], lookup: {[id: number]: Employee}): void {
@@ -74,22 +74,31 @@ export function updateCharts(emails: Email[], lookup: {[id: number]: Employee}):
 
     // Clear data
     sankeyChart.data = [];
-    sankeyChart.colors.next()
-    sankeyChart.colors.next()
-    sankeyChart.colors.next()
-    sankeyChart.data.push({"from":"Unknown (0)", color:sankeyChart.colors.next()})
-    // colors
+    
+    // Colors
     const colors = {};
     // Assign colors to the jobtitles (so each title has the same color)
     for (let fjob in jobtitles){
-        colors[jobtitles[fjob]] = sankeyChart.colors.black
+        let col = sankeyChart.colors.next()
+        for (let i = 0; i <= clusters; i++){
+            if (i === 0){ 
+                sankeyChart.data.push({from: jobtitles[fjob], color:col})
+                continue
+            }
+            sankeyChart.data.push({from: jobtitles[fjob] + " (" + i + ")", color:col})
+        }
     }
 
     // Set the data from the job clusters in the chart
     for (let i in jobsFromTo) {
         for (let fjob in jobsFromTo[i]){
             for (let tjob in jobsFromTo[i][fjob]){
-                sankeyChart.data.push({from: fjob + " (" + i + ")", to: tjob + " (" +String(Number(i)+1) + ")", value: jobsFromTo[i][fjob][tjob].length, nodeColors:colors[jobtitles[fjob]]})
+                if (i === "0"){
+                    sankeyChart.data.push({from: fjob, to: tjob + " (" +String(Number(i)+1) + ")", value: jobsFromTo[i][fjob][tjob].length})
+                    continue
+                }
+                sankeyChart.data.push({from: fjob + " (" + i + ")", to: tjob + " (" +String(Number(i)+1) + ")", value: jobsFromTo[i][fjob][tjob].length})
+
             }
         }
     }
@@ -97,4 +106,4 @@ export function updateCharts(emails: Email[], lookup: {[id: number]: Employee}):
 
     sankeyChart.validateData(); // Updates the sankeyChart
     // chordChart.validateData(); // Updates the chord diagram
-}	
+}
