@@ -15,5 +15,5 @@ input.addEventListener('change', function (e) {
     reader.readAsText((input as HTMLInputElement).files[0]);
     (document.getElementById("f_input") as HTMLInputElement).value = null; //reset input
     console.log("File uploaded successfully");
-    updateCharts(emails, lookup);
+    updateCharts(emails, lookup, 8);
 });

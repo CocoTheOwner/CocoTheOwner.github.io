@@ -13,6 +13,6 @@ define(["require", "exports", "./csvParser", "./csvData", "./visualisationContro
         reader.readAsText(input.files[0]);
         document.getElementById("f_input").value = null; //reset input
         console.log("File uploaded successfully");
-        visualisationController_1.updateCharts(emails, lookup);
+        visualisationController_1.updateCharts(emails, lookup, 8);
     });
 });
