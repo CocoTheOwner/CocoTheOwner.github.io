@@ -18,7 +18,7 @@
         "./typescript/mailGraph.ts",
         "./typescript/amChartChord.ts",
         "./typescript/amChartSankey.ts",
-        "./typescript/diagrams.ts",
+        "./typescript/visualiseCollection.ts",
         "./typescript/dates.ts"
     ]
 }
