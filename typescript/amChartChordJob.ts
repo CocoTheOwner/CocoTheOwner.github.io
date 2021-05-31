@@ -43,7 +43,7 @@ const defaultData = [
 am4core.useTheme(am4themes_animated);
 // Themes end
 
-const chart = am4core.create("chorddiv", am4charts.ChordDiagram);
+const chart = am4core.create("chordjobdiv", am4charts.ChordDiagram);
 
 chart.data = defaultData;
 
@@ -146,5 +146,3 @@ titleImage.x = 30
 titleImage.y = 30;
 titleImage.width = 200;
 titleImage.height = 200;
-
-export default chart

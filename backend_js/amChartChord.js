@@ -4,32 +4,7 @@ define(["require", "exports"], function (require, exports) {
     var am4core = window["am4core"];
     var am4charts = window["am4charts"];
     var am4themes_animated = window["am4themes_animated"];
-    /* Chart code */
-    // Themes begin
-    am4core.useTheme(am4themes_animated);
-    // Themes end
-    const chart = am4core.create("chorddiv", am4charts.ChordDiagram);
-    // colors of main characters
-    chart.colors.saturation = 0.45;
-    chart.colors.step = 3;
-    let colors = {
-        Rachel: chart.colors.next(),
-        Monica: chart.colors.next(),
-        Phoebe: chart.colors.next(),
-        Ross: chart.colors.next(),
-        Joey: chart.colors.next(),
-        Chandler: chart.colors.next()
-    };
-    // data was provided by: https://www.reddit.com/user/notrudedude
-    chart.data = [
-        // node property fields take data from data items where they are first mentioned, that's
-        // why we add empty data items at the beginning and set colors here
-        { "from": "Monica", "image": "monica.png", "color": colors.Monica },
-        { "from": "Rachel", "image": "rachel.png", "color": colors.Rachel },
-        { "from": "Chandler", "image": "chandler.png", "color": colors.Chandler },
-        { "from": "Ross", "image": "ross.png", "color": colors.Ross },
-        { "from": "Joey", "color": colors.Joey, "image": "joey.png", },
-        { "from": "Phoebe", "image": "phoebe.png", "color": colors.Phoebe },
+    const defaultData = [
         // real data
         { "from": "Monica", "to": "Rachel", "value": 4 },
         { "from": "Monica", "to": "Chandler", "value": 113 },
@@ -65,6 +40,16 @@ define(["require", "exports"], function (require, exports) {
         { "from": "Rachel", "to": "Josh", "value": 2 },
         { "from": "Rachel", "to": "Gunther", "value": 1 }
     ];
+    /* Chart code */
+    // Themes begin
+    am4core.useTheme(am4themes_animated);
+    // Themes end
+    const chart = am4core.create("chorddiv", am4charts.ChordDiagram);
+    chart.data = defaultData;
+    // colors of main characters
+    chart.colors.saturation = 0.45;
+    chart.colors.step = 3;
+    // data was provided by: https://www.reddit.com/user/notrudedude
     chart.dataFields.fromName = "from";
     chart.dataFields.toName = "to";
     chart.dataFields.value = "value";
@@ -119,40 +104,6 @@ define(["require", "exports"], function (require, exports) {
     let labelHS = label.states.create("hover");
     labelHS.properties.fillOpacity = 1;
     nodeTemplate.cursorOverStyle = am4core.MouseCursorStyle.pointer;
-    // this adapter makes non-main character nodes to be filled with color of the main character which he/she kissed most
-    nodeTemplate.adapter.add("fill", function (fill, target) {
-        let node = target;
-        let counters = {};
-        let mainChar = false;
-        node.incomingDataItems.each(function (dataItem) {
-            if (colors[dataItem.toName]) {
-                mainChar = true;
-            }
-            if (isNaN(counters[dataItem.fromName])) {
-                counters[dataItem.fromName] = dataItem.value;
-            }
-            else {
-                counters[dataItem.fromName] += dataItem.value;
-            }
-        });
-        if (mainChar) {
-            return fill;
-        }
-        let count = 0;
-        let color;
-        let biggest = 0;
-        let biggestName;
-        for (var name in counters) {
-            if (counters[name] > biggest) {
-                biggestName = name;
-                biggest = counters[name];
-            }
-        }
-        if (colors[biggestName]) {
-            fill = colors[biggestName];
-        }
-        return fill;
-    });
     // link template
     let linkTemplate = chart.links.template;
     linkTemplate.strokeOpacity = 0;
