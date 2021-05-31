@@ -146,7 +146,11 @@ input:hover .content {
   opacity: 0;
 }
 
-/* The Modal (background) */
+/*
+* Pop-up window style settings
+*/
+
+/* window background */
 .modal {
   display: none; /* Hidden by default */
   position: fixed; /* Stay in place */
@@ -165,14 +169,6 @@ input:hover .content {
   background-color: #fefefe;
   margin: 15% auto; /* 15% from the top and centered */
   padding: 20px;
-  border: 1px solid #888;
+  border: 3px solid #888;
   width: 80%; /* Could be more or less, depending on screen size */
-}
-
-/* The Close Button */
-.close {
-  color: #aaa;
-  float: right;
-  font-size: 28px;
-  font-weight: bold;
 }
