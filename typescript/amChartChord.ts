@@ -70,6 +70,9 @@ nodeTemplate.showSystemTooltip = true;
 nodeTemplate.propertyFields.fill = "color";
 nodeTemplate.tooltipText = "{name} sent {total} mails.";
 
+// avoid hiding the edge when you click on it
+nodeTemplate.events.off("hit");
+
 nodeTemplate.events.on("hit", function(event) {
     chart.nodes.each(function(dataItem) {
         if(dataItem.toNode){
@@ -79,7 +82,9 @@ nodeTemplate.events.on("hit", function(event) {
     })
     let node = event.target;
     console.log(node.name)
+
     //jobChord.data = MailGraph.getJobData(node.name)
+
     node.outgoingDataItems.each(function(dataItem) {
         if(dataItem.toNode){
             dataItem.link.isSelected = true;
@@ -102,7 +107,7 @@ let labelSelected = label.states.create("selected");
 labelSelected.properties.fillOpacity = 1;
 
 nodeTemplate.cursorOverStyle = am4core.MouseCursorStyle.pointer;
-nodeTemplate.draggable = false;
+nodeTemplate.draggable = true;
 
 // link template
 let linkTemplate = chart.links.template;
@@ -113,5 +118,14 @@ linkTemplate.tooltipText = "{fromName} & {toName}:{value.value}";
 var selectedState = linkTemplate.states.create("selected");
 selectedState.properties.fillOpacity = 1;
 selectedState.properties.strokeOpacity = 1;
+
+// adding some customization to the edge of the circle
+// (can be deleted if you don't like it)
+var slice = chart.nodes.template.slice;
+slice.stroke = am4core.color("#000");
+slice.strokeOpacity = 0.5;
+slice.strokeWidth = 1;
+slice.cornerRadius = 8;
+slice.innerCornerRadius = 0;
 
 export default chart
