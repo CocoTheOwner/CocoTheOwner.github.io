@@ -44,8 +44,10 @@
           <div style="border:1px solid #FFFFFF; height:960px;border-radius:25px;padding:1%;width:44%;background-color:rgb(240, 240, 240)" class="col-lg-5">   <!-- Using width to get more control over box size-->
 
             <!-- Calendar -->
-            <span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>
-            <input id="calendar" class="input-sm" type="text" name="daterange" value="" onchange="getCalendarDates()" />
+            <div title="Select a specific date range to visualize data for.">
+              <span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>
+              <input id="calendar" class="input-sm" type="text" name="daterange" value="" onchange="getCalendarDates()" />
+            </div>
             <!-- Calendar script -->
             <script src="./backend_js/calendar.js"></script>
             <script src="./backend_js/dates.js"></script>
@@ -58,7 +60,7 @@
             <div class="row" style="margin-left:.1%">
 
               <!-- Info Button-->
-              <div class="info col-lg-4" style="padding-top:5%;width:32%">
+              <div class="info col-lg-4" style="padding-top:5%;width:35%">
                 <i class="icon-info-sign"></i>
                 <span class="extra-info">
                   <p style="line-height:150%;padding-top:3%">
@@ -72,7 +74,9 @@
               <!-- File Load -->
               <!-- Given a fixed width to enable full text to display, 
                 may cause trouble when adding more elements on the same row -->
-              <input id="f_input" type="file" accept=".csv" class="btn col-lg-4" style="margin:auto;padding-top:-70%;width:50%"/>
+              <div title="Select a .csv-file for data visualization here.">
+                <input id="f_input" type="file" accept=".csv" class="btn col-lg-4" style="margin:auto;padding-top:-70%;width:40%;"/>
+              </div>
             </div>
 
             
@@ -81,27 +85,27 @@
           <!-- Visualization 2 -->
           <div style="border:1px solid #FFFFFF; height:960px;border-radius:25px;padding:1%;width:44%;background-color:rgb(240, 240, 240);" class="col-lg-5 col-md-offset-1">    <!-- Using width to get more control over box size-->
             
-            <div style="height:0%">
+            <!-- Calendar -->
+            <div title="Select a specific date range to visualize data for." style="visibility: hidden;">
+              <span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>
+              <input id="calendar" class="input-sm" type="text" name="daterange" value="" onchange="getCalendarDates()" />
             </div>
             <!-- Sankey Diagram -->
-            <div id="sankeydiv" style="width:100%;height:100%">
-            </div>
-
-            <!-- Div for pushing down elements (change height for how much difference)-->
-            <div style="height:23%">
+            <div id="sankeydiv" style="width:100%;height:90%">
             </div>
 
             <div class="row" style="margin-left:-9%">
               <div class="col-sm-1"></div>
+
               <!-- Info Button-->
-              <div class="info col-lg-4" style="padding-top:5%;width:32%">
+              <div class="info col-lg-4" style="padding-top:5%;width:35%">
                 <i class="icon-info-sign"></i>
           
                 <span class="extra-info">
                   <p style="line-height:150%;padding-top:3%;">
-                    An alluvial diagram.
-                    Good for visualize structural change
-                    and illustrating patterns of flow on a fixed network over time.
+                    An alluvial diagram. <br/>
+                    Good for visualizing structural change <br/>
+                    and illustrating patterns of flow over time.
                   </p>
                 
                 </span>

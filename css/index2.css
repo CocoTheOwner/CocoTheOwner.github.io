@@ -128,3 +128,20 @@ h1{
   text-align: left !important;
 }
 /* End info button */
+
+.content {
+  position: absolute;
+  bottom: 55px;
+  width:400px;
+  background: #fff;
+  padding: 20px;
+  border-radius: 4px;
+  visibility: hidden;
+  opacity: 0;
+  transition: 0.5s;
+}
+
+input:hover .content {
+  visibility: visible;
+  opacity: 0;
+}
