@@ -60,10 +60,10 @@ define(["require", "exports"], function (require, exports) {
     chart.sortBy = "value";
     chart.fontSize = 10;
     var nodeTemplate = chart.nodes.template;
-    nodeTemplate.readerTitle = "Click to show/hide or drag to rearrange";
+    nodeTemplate.readerTitle = "Click to select this job";
     nodeTemplate.showSystemTooltip = true;
     nodeTemplate.propertyFields.fill = "color";
-    nodeTemplate.tooltipText = "{name}'s kisses: {total}";
+    nodeTemplate.tooltipText = "{name} sent {total} mails.";
     // when rolled over the node, make all the links rolled-over
     nodeTemplate.events.on("over", function (event) {
         let node = event.target;
@@ -112,19 +112,5 @@ define(["require", "exports"], function (require, exports) {
     var hoverState = linkTemplate.states.create("hover");
     hoverState.properties.fillOpacity = 0.7;
     hoverState.properties.strokeOpacity = 0.7;
-    // data credit label
-    let creditLabel = chart.chartContainer.createChild(am4core.TextLink);
-    creditLabel.text = "Data source: notrudedude";
-    creditLabel.url = "https://www.reddit.com/user/notrudedude";
-    creditLabel.y = am4core.percent(99);
-    creditLabel.x = am4core.percent(99);
-    creditLabel.horizontalCenter = "right";
-    creditLabel.verticalCenter = "bottom";
-    let titleImage = chart.chartContainer.createChild(am4core.Image);
-    titleImage.href = "//www.amcharts.com/wp-content/uploads/2018/11/whokissed.png";
-    titleImage.x = 30;
-    titleImage.y = 30;
-    titleImage.width = 200;
-    titleImage.height = 200;
     exports.default = chart;
 });
