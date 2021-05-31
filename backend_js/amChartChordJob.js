@@ -46,10 +46,8 @@ define(["require", "exports"], function (require, exports) {
     // Themes end
     const chart = am4core.create("chordjobdiv", am4charts.ChordDiagram);
     chart.data = defaultData;
-    // colors of main characters
     chart.colors.saturation = 0.45;
     chart.colors.step = 3;
-    // data was provided by: https://www.reddit.com/user/notrudedude
     chart.dataFields.fromName = "from";
     chart.dataFields.toName = "to";
     chart.dataFields.value = "value";
@@ -112,5 +110,8 @@ define(["require", "exports"], function (require, exports) {
     var hoverState = linkTemplate.states.create("hover");
     hoverState.properties.fillOpacity = 0.7;
     hoverState.properties.strokeOpacity = 0.7;
+    chart.events.on('datavalidated', function () {
+        chart.setVisibility(false);
+    });
     exports.default = chart;
 });

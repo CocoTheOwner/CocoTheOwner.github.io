@@ -49,7 +49,6 @@ define(["require", "exports"], function (require, exports) {
     // colors of main characters
     chart.colors.saturation = 0.45;
     chart.colors.step = 3;
-    // data was provided by: https://www.reddit.com/user/notrudedude
     chart.dataFields.fromName = "from";
     chart.dataFields.toName = "to";
     chart.dataFields.value = "value";
@@ -64,7 +63,8 @@ define(["require", "exports"], function (require, exports) {
     nodeTemplate.showSystemTooltip = true;
     nodeTemplate.propertyFields.fill = "color";
     nodeTemplate.tooltipText = "{name} sent {total} mails.";
-    // when rolled out from the node, make all the links rolled-out
+    // avoid hiding the edge when you click on it
+    nodeTemplate.events.off("hit");
     nodeTemplate.events.on("hit", function (event) {
         chart.nodes.each(function (dataItem) {
             if (dataItem.toNode) {
@@ -94,7 +94,7 @@ define(["require", "exports"], function (require, exports) {
     let labelSelected = label.states.create("selected");
     labelSelected.properties.fillOpacity = 1;
     nodeTemplate.cursorOverStyle = am4core.MouseCursorStyle.pointer;
-    nodeTemplate.draggable = false;
+    nodeTemplate.draggable = true;
     // link template
     let linkTemplate = chart.links.template;
     linkTemplate.strokeOpacity = 0;
@@ -103,5 +103,13 @@ define(["require", "exports"], function (require, exports) {
     var selectedState = linkTemplate.states.create("selected");
     selectedState.properties.fillOpacity = 1;
     selectedState.properties.strokeOpacity = 1;
+    // adding some customization to the edge of the circle
+    // (can be deleted if you don't like it)
+    var slice = chart.nodes.template.slice;
+    slice.stroke = am4core.color("#000");
+    slice.strokeOpacity = 0.5;
+    slice.strokeWidth = 1;
+    slice.cornerRadius = 8;
+    slice.innerCornerRadius = 0;
     exports.default = chart;
 });
