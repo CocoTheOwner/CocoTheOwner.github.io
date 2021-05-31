@@ -16,7 +16,8 @@
 
   <link rel="stylesheet" href="./css/index2.css">
   <link rel="icon" href="./images/DBL.ico" />
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"
+    integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
 
   <!-- Info button references -->
   <link href="https://netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
@@ -32,19 +33,28 @@
       <li><a class="active" href="visualize.html">Visualize</a></li>
       <!-- <li><a href="help.html">Help</a></li> -->
 
-      <li><!-- Trigger/Open The Modal -->
-        <button id="myBtn">Open Modal</button>
-        
+      <li>
+
+        <!-- Trigger/Open The Modal -->
+        <!-- <button id="myBtn">Open Modal</button> -->
+
         <!-- The Modal -->
         <div id="myModal" class="modal">
-        
+
           <!-- Modal content -->
           <div class="modal-content">
-            <span class="close">&times;</span>
-            <p>Some text in the Modal..</p>
+            <!-- <span class="close">&times;</span> -->
+            <!-- File Load -->
+            <!-- Given a fixed width to enable full text to display, 
+                may cause trouble when adding more elements on the same row -->
+            <div title="Select a .csv-file for data visualization here.">
+              <input id="f_input" type="file" accept=".csv" class="btn col-lg-4"
+                style="margin:auto;padding-top:-70%;width:40%;" />
+            </div>
           </div>
-        
-        </div></li>
+
+        </div>
+      </li>
     </ul>
   </nav>
 
@@ -55,12 +65,16 @@
         <div class="row">
 
           <!-- Visualization 1 -->
-          <div style="border:1px solid #FFFFFF; height:960px;border-radius:25px;padding:1%;width:44%;background-color:rgb(240, 240, 240)" class="col-lg-5">   <!-- Using width to get more control over box size-->
+          <div
+            style="border:1px solid #FFFFFF; height:960px;border-radius:25px;padding:1%;width:44%;background-color:rgb(240, 240, 240)"
+            class="col-lg-5">
+            <!-- Using width to get more control over box size-->
 
             <!-- Calendar -->
             <div title="Select a specific date range to visualize data for.">
               <span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>
-              <input id="calendar" class="input-sm" type="text" name="daterange" value="" onchange="getCalendarDates()" />
+              <input id="calendar" class="input-sm" type="text" name="daterange" value=""
+                onchange="getCalendarDates()" />
             </div>
             <!-- Calendar script -->
             <script src="./backend_js/calendar.js"></script>
@@ -84,25 +98,22 @@
                   </p>
                 </span>
               </div><br />
-            
-              <!-- File Load -->
-              <!-- Given a fixed width to enable full text to display, 
-                may cause trouble when adding more elements on the same row -->
-              <div title="Select a .csv-file for data visualization here.">
-                <input id="f_input" type="file" accept=".csv" class="btn col-lg-4" style="margin:auto;padding-top:-70%;width:40%;"/>
-              </div>
             </div>
 
-            
+
           </div>
 
           <!-- Visualization 2 -->
-          <div style="border:1px solid #FFFFFF; height:960px;border-radius:25px;padding:1%;width:44%;background-color:rgb(240, 240, 240);" class="col-lg-5 col-md-offset-1">    <!-- Using width to get more control over box size-->
-            
+          <div
+            style="border:1px solid #FFFFFF; height:960px;border-radius:25px;padding:1%;width:44%;background-color:rgb(240, 240, 240);"
+            class="col-lg-5 col-md-offset-1">
+            <!-- Using width to get more control over box size-->
+
             <!-- Calendar -->
             <div title="Select a specific date range to visualize data for." style="visibility: hidden;">
               <span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>
-              <input id="calendar" class="input-sm" type="text" name="daterange" value="" onchange="getCalendarDates()" />
+              <input id="calendar" class="input-sm" type="text" name="daterange" value=""
+                onchange="getCalendarDates()" />
             </div>
             <!-- Sankey Diagram -->
             <div id="sankeydiv" style="width:100%;height:90%">
@@ -114,14 +125,14 @@
               <!-- Info Button-->
               <div class="info col-lg-4" style="padding-top:5%;width:35%">
                 <i class="icon-info-sign"></i>
-          
+
                 <span class="extra-info">
                   <p style="line-height:150%;padding-top:3%;">
-                    An alluvial diagram. <br/>
-                    Good for visualizing structural change <br/>
+                    An alluvial diagram. <br />
+                    Good for visualizing structural change <br />
                     and illustrating patterns of flow over time.
                   </p>
-                
+
                 </span>
               </div><br />
             </div>
@@ -139,4 +150,5 @@
   <script src="./backend_js/require.js" data-main="./backend_js/diagrams.js"></script>
 
 </body>
+
 </html>
