@@ -53,15 +53,9 @@ chart.data = defaultData;
 chart.colors.saturation = 0.45;
 chart.colors.step = 3;
 
-// data was provided by: https://www.reddit.com/user/notrudedude
-
-
-
-
 chart.dataFields.fromName = "from";
 chart.dataFields.toName = "to";
 chart.dataFields.value = "value";
-
 
 chart.nodePadding = 0.5;
 chart.minNodeSize = 0.01;
@@ -75,7 +69,7 @@ nodeTemplate.readerTitle = "Click to select this job";
 nodeTemplate.showSystemTooltip = true;
 nodeTemplate.propertyFields.fill = "color";
 nodeTemplate.tooltipText = "{name} sent {total} mails.";
-// when rolled out from the node, make all the links rolled-out
+
 nodeTemplate.events.on("hit", function(event) {
     chart.nodes.each(function(dataItem) {
         if(dataItem.toNode){

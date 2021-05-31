@@ -47,14 +47,8 @@ const chart = am4core.create("chordjobdiv", am4charts.ChordDiagram);
 
 chart.data = defaultData;
 
-// colors of main characters
 chart.colors.saturation = 0.45;
 chart.colors.step = 3;
-
-// data was provided by: https://www.reddit.com/user/notrudedude
-
-
-
 
 chart.dataFields.fromName = "from";
 chart.dataFields.toName = "to";
