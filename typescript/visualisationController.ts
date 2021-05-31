@@ -173,4 +173,5 @@ function addSankeyConnection(fjob: string, tjob: string, timeslot: number, value
 
 function updateChord(emails: Email[], lookup: {[id: number]: Employee}): void {
     chordChart.startAngle = 180;
+    chordChart.endAngle = chordChart.startAngle + 180;
 }

@@ -145,5 +145,6 @@ define(["require", "exports", "./amChartChord", "./amChartSankey"], function (re
     }
     function updateChord(emails, lookup) {
         amChartChord_1.default.startAngle = 180;
+        amChartChord_1.default.endAngle = amChartChord_1.default.startAngle + 180;
     }
 });
