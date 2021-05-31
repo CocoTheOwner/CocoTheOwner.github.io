@@ -64,53 +64,44 @@ define(["require", "exports"], function (require, exports) {
     nodeTemplate.showSystemTooltip = true;
     nodeTemplate.propertyFields.fill = "color";
     nodeTemplate.tooltipText = "{name} sent {total} mails.";
-    // when rolled over the node, make all the links rolled-over
-    nodeTemplate.events.on("over", function (event) {
-        let node = event.target;
-        node.outgoingDataItems.each(function (dataItem) {
-            if (dataItem.toNode) {
-                dataItem.link.isHover = true;
-                dataItem.toNode.isHover = true;
-            }
-        });
-        node.incomingDataItems.each(function (dataItem) {
-            if (dataItem.fromNode) {
-                dataItem.link.isHover = true;
-                dataItem.fromNode.label.isHover = true;
-            }
-        });
-        node.label.isHover = true;
-    });
     // when rolled out from the node, make all the links rolled-out
-    nodeTemplate.events.on("out", function (event) {
+    nodeTemplate.events.on("hit", function (event) {
+        chart.nodes.each(function (dataItem) {
+            if (dataItem.toNode) {
+                dataItem.link.isSelected = false;
+                dataItem.toNode.isSelected = false;
+            }
+        });
         let node = event.target;
+        console.log(node.name);
+        //jobChord.data = MailGraph.getJobData(node.name)
         node.outgoingDataItems.each(function (dataItem) {
             if (dataItem.toNode) {
-                dataItem.link.isHover = false;
-                dataItem.toNode.isHover = false;
+                dataItem.link.isSelected = true;
+                dataItem.toNode.isSelected = true;
             }
         });
         node.incomingDataItems.each(function (dataItem) {
             if (dataItem.fromNode) {
-                dataItem.link.isHover = false;
-                dataItem.fromNode.label.isHover = false;
+                dataItem.link.isSelected = true;
+                dataItem.fromNode.label.isSelected = true;
             }
         });
-        node.label.isHover = false;
     });
     let label = nodeTemplate.label;
     label.relativeRotation = 90;
     label.fillOpacity = 0.4;
-    let labelHS = label.states.create("hover");
-    labelHS.properties.fillOpacity = 1;
+    let labelSelected = label.states.create("selected");
+    labelSelected.properties.fillOpacity = 1;
     nodeTemplate.cursorOverStyle = am4core.MouseCursorStyle.pointer;
+    nodeTemplate.draggable = false;
     // link template
     let linkTemplate = chart.links.template;
     linkTemplate.strokeOpacity = 0;
     linkTemplate.fillOpacity = 0.15;
     linkTemplate.tooltipText = "{fromName} & {toName}:{value.value}";
-    var hoverState = linkTemplate.states.create("hover");
-    hoverState.properties.fillOpacity = 0.7;
-    hoverState.properties.strokeOpacity = 0.7;
+    var selectedState = linkTemplate.states.create("selected");
+    selectedState.properties.fillOpacity = 1;
+    selectedState.properties.strokeOpacity = 1;
     exports.default = chart;
 });
