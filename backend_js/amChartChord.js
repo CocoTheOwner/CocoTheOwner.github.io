@@ -1,7 +1,6 @@
 define(["require", "exports"], function (require, exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
-    exports.chart = void 0;
     var am4core = window["am4core"];
     var am4charts = window["am4charts"];
     var am4themes_animated = window["am4themes_animated"];
@@ -9,20 +8,20 @@ define(["require", "exports"], function (require, exports) {
     // Themes begin
     am4core.useTheme(am4themes_animated);
     // Themes end
-    exports.chart = am4core.create("chorddiv", am4charts.ChordDiagram);
+    const chart = am4core.create("chorddiv", am4charts.ChordDiagram);
     // colors of main characters
-    exports.chart.colors.saturation = 0.45;
-    exports.chart.colors.step = 3;
+    chart.colors.saturation = 0.45;
+    chart.colors.step = 3;
     let colors = {
-        Rachel: exports.chart.colors.next(),
-        Monica: exports.chart.colors.next(),
-        Phoebe: exports.chart.colors.next(),
-        Ross: exports.chart.colors.next(),
-        Joey: exports.chart.colors.next(),
-        Chandler: exports.chart.colors.next()
+        Rachel: chart.colors.next(),
+        Monica: chart.colors.next(),
+        Phoebe: chart.colors.next(),
+        Ross: chart.colors.next(),
+        Joey: chart.colors.next(),
+        Chandler: chart.colors.next()
     };
     // data was provided by: https://www.reddit.com/user/notrudedude
-    exports.chart.data = [
+    chart.data = [
         // node property fields take data from data items where they are first mentioned, that's
         // why we add empty data items at the beginning and set colors here
         { "from": "Monica", "image": "monica.png", "color": colors.Monica },
@@ -64,94 +63,18 @@ define(["require", "exports"], function (require, exports) {
         { "from": "Rachel", "to": "Dr Green", "value": 3 },
         { "from": "Rachel", "to": "Mark3", "value": 1 },
         { "from": "Rachel", "to": "Josh", "value": 2 },
-        { "from": "Rachel", "to": "Gunther", "value": 1 },
-        { "from": "Rachel", "to": "Joshua", "value": 3 },
-        { "from": "Rachel", "to": "Danny", "value": 1 },
-        { "from": "Rachel", "to": "Mr. Zelner", "value": 1 },
-        { "from": "Rachel", "to": "Paul Stevens", "value": 3 },
-        { "from": "Rachel", "to": "Tag", "value": 4 },
-        { "from": "Rachel", "to": "Melissa", "value": 1 },
-        { "from": "Rachel", "to": "Gavin", "value": 2 },
-        { "from": "Chandler", "to": "Joey", "value": 1 },
-        { "from": "Chandler", "to": "Phoebe", "value": 7 },
-        { "from": "Chandler", "to": "Aurora", "value": 2 },
-        { "from": "Chandler", "to": "Jill Goodacre", "value": 1 },
-        { "from": "Chandler", "to": "Janice", "value": 11 },
-        { "from": "Chandler", "to": "Mrs Bing", "value": 3 },
-        { "from": "Chandler", "to": "Nina", "value": 1 },
-        { "from": "Chandler", "to": "Susie", "value": 5 },
-        { "from": "Chandler", "to": "Mary Theresa", "value": 1 },
-        { "from": "Chandler", "to": "Ginger", "value": 2 },
-        { "from": "Chandler", "to": "Joanna", "value": 5 },
-        { "from": "Chandler", "to": "Kathy", "value": 7 },
-        { "from": "Chandler", "to": "Mr Bing", "value": 1 },
-        { "from": "Ross", "to": "Joey", "value": 3 },
-        { "from": "Ross", "to": "Phoebe", "value": 18 },
-        { "from": "Ross", "to": "Carol", "value": 10 },
-        { "from": "Ross", "to": "Mrs Geller", "value": 8 },
-        { "from": "Ross", "to": "Aunt Lilian", "value": 1 },
-        { "from": "Ross", "to": "Mrs Bing", "value": 3 },
-        { "from": "Ross", "to": "Celia", "value": 2 },
-        { "from": "Ross", "to": "Julie", "value": 6 },
-        { "from": "Ross", "to": "Ben", "value": 6 },
-        { "from": "Ross", "to": "Mrs Green", "value": 2 },
-        { "from": "Ross", "to": "Chloe", "value": 1 },
-        { "from": "Ross", "to": "Bonnie", "value": 4 },
-        { "from": "Ross", "to": "Messy Girl (Cheryl)", "value": 5 },
-        { "from": "Ross", "to": "Emily", "value": 12 },
-        { "from": "Ross", "to": "Jill", "value": 1 },
-        { "from": "Ross", "to": "Elizabeth", "value": 8 },
-        { "from": "Ross", "to": "Aunt Millie", "value": 2 },
-        { "from": "Ross", "to": "Mona", "value": 11 },
-        { "from": "Ross", "to": "Emma", "value": 7 },
-        { "from": "Ross", "to": "Charlie", "value": 10 },
-        { "from": "Joey", "to": "Phoebe", "value": 6 },
-        { "from": "Joey", "to": "Janice", "value": 1 },
-        { "from": "Joey", "to": "Lorraine", "value": 2 },
-        { "from": "Joey", "to": "Melanie", "value": 2 },
-        { "from": "Joey", "to": "Erica", "value": 2 },
-        { "from": "Joey", "to": "Mrs Green", "value": 1 },
-        { "from": "Joey", "to": "Kate", "value": 4 },
-        { "from": "Joey", "to": "Lauren", "value": 2 },
-        { "from": "Joey", "to": "Estelle", "value": 1 },
-        { "from": "Joey", "to": "Kathy", "value": 2 },
-        { "from": "Joey", "to": "Emily", "value": 4 },
-        { "from": "Joey", "to": "Katie", "value": 2 },
-        { "from": "Joey", "to": "Janine", "value": 9 },
-        { "from": "Joey", "to": "Erin", "value": 1 },
-        { "from": "Joey", "to": "Cecilia", "value": 3 },
-        { "from": "Joey", "to": "Charlie", "value": 3 },
-        { "from": "Phoebe", "to": "David", "value": 14 },
-        { "from": "Phoebe", "to": "Roger", "value": 1 },
-        { "from": "Phoebe", "to": "Duncan", "value": 1 },
-        { "from": "Phoebe", "to": "Rob Dohnen", "value": 2 },
-        { "from": "Phoebe", "to": "Ryan", "value": 5 },
-        { "from": "Phoebe", "to": "Malcom", "value": 1 },
-        { "from": "Phoebe", "to": "Robert", "value": 1 },
-        { "from": "Phoebe", "to": "Sergei", "value": 1 },
-        { "from": "Phoebe", "to": "Vince", "value": 2 },
-        { "from": "Phoebe", "to": "Jason", "value": 1 },
-        { "from": "Phoebe", "to": "Rick", "value": 2 },
-        { "from": "Phoebe", "to": "Gunther", "value": 1 },
-        { "from": "Phoebe", "to": "Gary", "value": 7 },
-        { "from": "Phoebe", "to": "Jake", "value": 2 },
-        { "from": "Phoebe", "to": "Eric", "value": 3 },
-        { "from": "Phoebe", "to": "Mike", "value": 18 },
-        { "from": "Carol", "to": "Ben", "value": 1 },
-        { "from": "Carol", "to": "Susan", "value": 1 },
-        { "from": "Mr Geller", "to": "Mrs Geller", "value": 3 },
-        { "from": "Frank", "to": "Alice", "value": 5 }
+        { "from": "Rachel", "to": "Gunther", "value": 1 }
     ];
-    exports.chart.dataFields.fromName = "from";
-    exports.chart.dataFields.toName = "to";
-    exports.chart.dataFields.value = "value";
-    exports.chart.nodePadding = 0.5;
-    exports.chart.minNodeSize = 0.01;
-    exports.chart.startAngle = 80;
-    exports.chart.endAngle = exports.chart.startAngle + 360;
-    exports.chart.sortBy = "value";
-    exports.chart.fontSize = 10;
-    var nodeTemplate = exports.chart.nodes.template;
+    chart.dataFields.fromName = "from";
+    chart.dataFields.toName = "to";
+    chart.dataFields.value = "value";
+    chart.nodePadding = 0.5;
+    chart.minNodeSize = 0.01;
+    chart.startAngle = 0;
+    chart.endAngle = chart.startAngle + 180;
+    chart.sortBy = "value";
+    chart.fontSize = 10;
+    var nodeTemplate = chart.nodes.template;
     nodeTemplate.readerTitle = "Click to show/hide or drag to rearrange";
     nodeTemplate.showSystemTooltip = true;
     nodeTemplate.propertyFields.fill = "color";
@@ -231,7 +154,7 @@ define(["require", "exports"], function (require, exports) {
         return fill;
     });
     // link template
-    let linkTemplate = exports.chart.links.template;
+    let linkTemplate = chart.links.template;
     linkTemplate.strokeOpacity = 0;
     linkTemplate.fillOpacity = 0.15;
     linkTemplate.tooltipText = "{fromName} & {toName}:{value.value}";
@@ -239,17 +162,18 @@ define(["require", "exports"], function (require, exports) {
     hoverState.properties.fillOpacity = 0.7;
     hoverState.properties.strokeOpacity = 0.7;
     // data credit label
-    let creditLabel = exports.chart.chartContainer.createChild(am4core.TextLink);
+    let creditLabel = chart.chartContainer.createChild(am4core.TextLink);
     creditLabel.text = "Data source: notrudedude";
     creditLabel.url = "https://www.reddit.com/user/notrudedude";
     creditLabel.y = am4core.percent(99);
     creditLabel.x = am4core.percent(99);
     creditLabel.horizontalCenter = "right";
     creditLabel.verticalCenter = "bottom";
-    let titleImage = exports.chart.chartContainer.createChild(am4core.Image);
+    let titleImage = chart.chartContainer.createChild(am4core.Image);
     titleImage.href = "//www.amcharts.com/wp-content/uploads/2018/11/whokissed.png";
     titleImage.x = 30;
     titleImage.y = 30;
     titleImage.width = 200;
     titleImage.height = 200;
+    exports.default = chart;
 });
