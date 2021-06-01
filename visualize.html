@@ -57,6 +57,7 @@
 
   <!-- Visualizations -->
   <section>
+<<<<<<< Updated upstream
     <div class="container" style="padding-top:4%;padding-bottom:4%;margin:0;width:100%">
       <div class="container-fluid" style="padding-left:4%">
         <div class="row">
@@ -66,6 +67,13 @@
             style="border:1px solid #FFFFFF; height:960px;border-radius:25px;padding:1%;width:44%;background-color:rgb(240, 240, 240)"
             class="col-lg-5">
             <!-- Using width to get more control over box size-->
+=======
+    <div class="container" style="padding-top:3%;padding-bottom:8%;width:100%">
+      <div class="container-fluid" style="height:100%">
+
+        <div class="row" style="height:50%">
+          <div style="border:1px solid #FFFFFF; height:5%;border-radius:25px;margin-top:7.5%;padding:2%;width:20%;background-color:rgb(240, 240, 240)" class="col-lg-2">   <!-- Using width to get more control over box size-->
+>>>>>>> Stashed changes
 
             <!-- Calendar -->
             <div title="Select a specific date range to visualize data for.">
@@ -77,10 +85,9 @@
             <script src="./backend_js/calendar.js"></script>
             <script src="./backend_js/dates.js"></script>
 
-            <!-- Chord Diagram-->
-            <div id="chorddiv" style="width:100%;height:90%">
-            </div>
+            <div class="row" style="margin-left:.1%;padding-top:4%">
 
+<<<<<<< Updated upstream
             <!-- Chord Diagram 2-->
             <!-- <div id="chordjobdiv" style="width:100%;height:90%">
             </div> -->
@@ -90,6 +97,10 @@
 
               <!-- Info Button-->
               <div class="info col-lg-4" style="padding-top:5%;width:35%">
+=======
+              <!-- Info Button
+              <div class="info col-lg-4" style="padding-top:5%;width:32%">
+>>>>>>> Stashed changes
                 <i class="icon-info-sign"></i>
                 <span class="extra-info">
                   <p style="line-height:150%;padding-top:3%">
@@ -98,12 +109,25 @@
                     between clusters.
                   </p>
                 </span>
+<<<<<<< Updated upstream
               </div><br />
             </div>
 
 
+=======
+              </div><br /> -->
+            
+              <!-- File Load -->
+              <!-- Given a fixed width to enable full text to display, 
+                may cause trouble when adding more elements on the same row -->
+              <input id="f_input" type="file" accept=".csv" class="btn col-lg-4" style="margin:auto;padding-top:-70%;width:100%"/>
+            </div>
+            
+>>>>>>> Stashed changes
           </div>
+          <div style="border:1px solid #FFFFFF; height:480px;border-radius:25px;padding:1%;background-color:rgb(240, 240, 240);margin:20px;margin-bottom:5px;width:39%" class="col-lg-4">   <!-- Using width to get more control over box size-->
 
+<<<<<<< Updated upstream
           <!-- Visualization 2 -->
           <div
             style="border:1px solid #FFFFFF; height:960px;border-radius:25px;padding:1%;width:44%;background-color:rgb(240, 240, 240);"
@@ -118,20 +142,66 @@
             </div>
             <!-- Sankey Diagram -->
             <div id="chordjobdiv" style="width:100%;height:90%">
+=======
+            <!-- Chord Diagram-->
+            <div id="chorddiv" style="width:100%;height:92%">
             </div>
 
+            <!-- Info Button-->
+            <div class="info col-lg-4" style="padding-top:3%;width:55%;height:12%">
+              <i class="icon-info-sign"></i>
+              <span class="extra-info">
+                <p style="line-height:150%;padding-top:3%">
+                  An edge-bundling visualization. <br>
+                  Good for less clutter and discovering patterns
+                  between clusters.
+                </p>
+              </span>
+            </div><br />
+          </div>
+          <div style="border:1px solid #FFFFFF; height:480px;border-radius:25px;padding:1%;background-color:rgb(240, 240, 240);margin:20px;margin-bottom:5px;width:39%;margin-right:0;margin-left:0" class="col-lg-4">   <!-- Using width to get more control over box size-->
+
+            <!-- Chord Diagram-->
+            <div id="chorddiv" style="width:100%;height:90%">
+>>>>>>> Stashed changes
+            </div>
+          </div>
+        </div>
+
+<<<<<<< Updated upstream
             <div class="row" style="margin-left:-9%">
               <div class="col-sm-1"></div>
 
               <!-- Info Button-->
               <div class="info col-lg-4" style="padding-top:5%;width:35%">
+=======
+        <!-- Maybe add padding (left/right) ~4% -->
+        <div class="row" style="height:100%">
+          <!-- Alluvial Diagram -->
+          <div style="border:1px solid #FFFFFF; border-radius:25px;padding:1%;width:100%;background-color:rgb(240, 240, 240);margin:5px;height:480px">    <!-- Using width to get more control over box size-->
+            
+        
+            <!-- Sankey Diagram -->
+            <div id="sankeydiv" style="width:100%;height:97%">
+            </div>
+    
+            <!-- <div style="height:23%">
+            </div> -->
+              <!-- Info Button-->
+              <div class="info col-lg-4" style="width:35%;height:6%;">
+>>>>>>> Stashed changes
                 <i class="icon-info-sign"></i>
 
                 <span class="extra-info">
+<<<<<<< Updated upstream
                   <p style="line-height:150%;padding-top:3%;">
                     An alluvial diagram. <br />
                     Good for visualizing structural change <br />
                     and illustrating patterns of flow over time.
+=======
+                  <p style="line-height:150%;padding-top:.5%">
+                    An alluvial diagram. Good for visualizing structural change and illustrating patterns of flow on a fixed network over time.
+>>>>>>> Stashed changes
                   </p>
 
                   <!-- File Load -->
@@ -144,10 +214,13 @@
 
                 </span>
               </div><br />
-            </div>
-
           </div>
         </div>
+<<<<<<< Updated upstream
+=======
+
+        
+>>>>>>> Stashed changes
       </div>
     </div>
   </section>
