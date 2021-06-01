@@ -2,24 +2,50 @@ import { Email } from "./csvParser";
 
 //a class holding a directed graph for email traffic
 export class MailGraph {
-    private emails: Email[];
+    public startIndex: number;
+    public endIndex: number;
+    
+    private mailArr: Email[];
+    private startDate: Date;
+    private endDate: Date;
     private graph: { [fId: number]: { [tId: number]: number[] } } = {};
+
 
     //Mailgraph constructor
     //params:
     //  -mailArr: email array to create graph from (sorted for filters)
-    //  -from:    filters from this date (inclusive) (default = first possible)
-    //  -to:      filters up until this date (exclusive) (default = last possible)
-    constructor(mailArr: Email[], from: Date = new Date(0), to: Date = new Date(1)) {
-        this.emails = [];
+    constructor(mailArr: Email[]) {
+        // Save the address of the email array we use
+        this.mailArr = mailArr;
+
+        // Special dates for our system: We set the MailGraph to span all emails here.
+        this.setDates(new Date(0), new Date(1));
+    }
+
+    // set the new dates for the MailGraph, save their indices in the email array
+    //  and save all traffic specifics in the 'graph' variable.
+    // params:
+    //  -from:    filters from this date (inclusive)
+    //  -to:      filters up until this date (exclusive)
+    setDates(from: Date, to: Date) {
+        this.startDate = from;
+        this.endDate = to;
+
+        this.update();
+    }
+
+    // Find and set the start and end indices corresponding to the current start and end dates.
+    //  Also fill in the 'graph' variable with all applicable email traffic.
+    update() {
         //find indexes of filter
-        let startIndex = findTimeIndex(mailArr, from);
-        let endIndex = findTimeIndex(mailArr, to);
+        this.startIndex = findTimeIndex(this.mailArr, this.startDate);
+        this.endIndex = findTimeIndex(this.mailArr, this.endDate);
+
+        this.graph = {};
 
         // Loop through all emails in the interval
-        for (let i = startIndex; i < endIndex; i++) {
-            let mail = mailArr[i];
-            this.emails.push(mailArr[i]);
+        for (let i = this.startIndex; i < this.endIndex; i++) {
+            let mail = this.mailArr[i];
 
             // If this is fromId's first mail, add fromId to the graph as a node.
             if (!(mail.fromId in this.graph)) {
@@ -32,7 +58,7 @@ export class MailGraph {
             }
 
             //add the mail as an edge
-            this.graph[mail.fromId][mail.toId].push(mail.appreciation);
+            this.addMail(mail);
         }
     }
 
@@ -42,9 +68,6 @@ export class MailGraph {
     generateChordInput(): any[] {
         let chartData: any[] = [];
         let visited: string[] = [];
-
-        // Add property fields, which look like this:
-        // {"from":"Monica", "image":"monica.png", "color":colors.Monica},
 
         // Add all real data (UNDIRECTED)
         // Loop through all senders
@@ -181,22 +204,4 @@ export function findTimeIndex(mailArr: Email[], date: Date): number {
         // If we did not find our date in the array, return the first mail after what we looked for.
         return r + 1;
     }
-}
-
-// TODO: Should we return the mailGraph??
-// TODO: Maybe we should write this code in 'visualizationController.ts' instead.
-function updateVisualizations(mailArr: Email[]): MailGraph {
-    // Get the two date strings for the MailGraph
-    let dateStrings = (<HTMLInputElement>document.getElementById("calendar")).value.split(" - ");
-
-    // Gather all emails that lie in the selected timeframe
-    let newMailGraph = new MailGraph(mailArr, new Date(dateStrings[0]), new Date(dateStrings[1]));
-
-    // TODO: assign mailGraph output to chart input
-    // chordChart.data = newMailGraph.generateChordInput();
-
-    // TODO: assign mailGraph output to sankey input
-    // sankeyChart.data = newMailGraph.generateSankeyInput();
-
-    return newMailGraph;
 }
