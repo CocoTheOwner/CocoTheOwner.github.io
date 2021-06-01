@@ -1,14 +1,17 @@
-import {chart, chart as chordChart} from "./amChartChord"
+import chordChart from "./amChartChord"
 import sankeyChart from "./amChartSankey"
 import {Email, Employee} from "./csvParser"
+import { MailGraph } from "./mailGraph"
+
+
 // import {MailGraph, findTimeIndex} from "./MailGraph"
 export function updateCharts(emails: Email[], lookup: {[id: number]: Employee}, sankeyClusters = 8): void {
 
     updateSankey(emails, lookup, sankeyClusters)
-    // updateChord(emails, lookup)
+    updateChord(emails, lookup)
 
     sankeyChart.validateData(); // Updates the sankeyChart
-    // chordChart.validateData(); // Updates the chord diagram
+    chordChart.validateData(); // Updates the chord diagram
 }
 
 function updateSankey(emails: Email[], lookup: {[id: number]: Employee}, clusters = 8): void {
@@ -169,5 +172,6 @@ function addSankeyConnection(fjob: string, tjob: string, timeslot: number, value
 }
 
 function updateChord(emails: Email[], lookup: {[id: number]: Employee}): void {
-
+    chordChart.startAngle = 180;
+    chordChart.endAngle = chordChart.startAngle + 180;
 }

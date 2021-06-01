@@ -39,14 +39,17 @@
         <div id="myModal" class="modal">
 
           <!-- Modal content -->
-          <div class="modal-content">
-            <p>Welcome to our visualizations page! Upload a data set to continue: </p>
+          <div class="modal-content" style="margin-top:22%">
+            <p> </p>
             <!-- File Load -->
             <!-- Given a fixed width to enable full text to display, 
                 may cause trouble when adding more elements on the same row -->
-            <div title="Select a .csv-file for data visualization here.">
-              <input id="f_input" type="file" accept=".csv" class="btn col-lg-4"
-                style="margin:auto;padding-top:-70%;width:40%;" />
+            <div>
+              <p style="text-align:center">
+                Welcome to our visualizations page! Please upload a data set to continue.
+              </p>
+              <input id="f_input" type="file" accept=".csv" class="btn"
+                style="width:40%;margin:auto;padding-left:12%"/>
             </div>
           </div>
 
@@ -57,15 +60,11 @@
 
   <!-- Visualizations -->
   <section>
-    <div class="container" style="padding-top:4%;padding-bottom:4%;margin:0;width:100%">
-      <div class="container-fluid" style="padding-left:4%">
-        <div class="row">
+    <div class="container" style="padding-top:3%;padding-bottom:8%;width:100%">
+      <div class="container-fluid" style="height:100%">
 
-          <!-- Visualization 1 -->
-          <div
-            style="border:1px solid #FFFFFF; height:960px;border-radius:25px;padding:1%;width:44%;background-color:rgb(240, 240, 240)"
-            class="col-lg-5">
-            <!-- Using width to get more control over box size-->
+        <div class="row" style="height:50%">
+          <div style="border:1px solid #FFFFFF; height:5%;border-radius:25px;margin-top:7.5%;padding:2%;width:20%;background-color:rgb(240, 240, 240)" class="col-lg-2">   <!-- Using width to get more control over box size-->
 
             <!-- Calendar -->
             <div title="Select a specific date range to visualize data for.">
@@ -77,15 +76,10 @@
             <script src="./backend_js/calendar.js"></script>
             <script src="./backend_js/dates.js"></script>
 
-            <!-- Chord Diagram-->
-            <div id="chorddiv" style="width:100%;height:90%">
-            </div>
+            <div class="row" style="margin-left:.1%;padding-top:4%">
 
-
-            <div class="row" style="margin-left:.1%">
-
-              <!-- Info Button-->
-              <div class="info col-lg-4" style="padding-top:5%;width:35%">
+              <!-- Info Button
+              <div class="info col-lg-4" style="padding-top:5%;width:32%">
                 <i class="icon-info-sign"></i>
                 <span class="extra-info">
                   <p style="line-height:150%;padding-top:3%">
@@ -94,46 +88,72 @@
                     between clusters.
                   </p>
                 </span>
-              </div><br />
+              </div><br /> -->
+            
+              <!-- File Load -->
+              <!-- Given a fixed width to enable full text to display, 
+                may cause trouble when adding more elements on the same row -->
+              <input id="f_input" type="file" accept=".csv" class="btn col-lg-4" style="margin:auto;padding-top:-70%;width:100%"/>
             </div>
-
-
+            
           </div>
+          <div style="border:1px solid #FFFFFF; height:480px;border-radius:25px;padding:1%;background-color:rgb(240, 240, 240);margin:1%;margin-bottom:.5%;width:39.5%;margin-right:0" class="col-lg-4">   <!-- Using width to get more control over box size-->
 
-          <!-- Visualization 2 -->
-          <div
-            style="border:1px solid #FFFFFF; height:960px;border-radius:25px;padding:1%;width:44%;background-color:rgb(240, 240, 240);"
-            class="col-lg-5 col-md-offset-1">
-            <!-- Using width to get more control over box size-->
-
-            <!-- Calendar -->
-            <div title="Select a specific date range to visualize data for." style="visibility: hidden;">
-              <span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>
-              <input id="calendar" class="input-sm" type="text" name="daterange" value=""
-                onchange="getCalendarDates()" />
+            <!-- Chord Diagram-->
+            <div id="chorddiv" style="width:100%;height:92%">
             </div>
+
+            <!-- Info Button-->
+            <div class="info col-lg-4" style="padding-top:3%;width:55%;height:12%">
+              <i class="icon-info-sign"></i>
+              <span class="extra-info">
+                <p style="line-height:150%;padding-top:3%">
+                  An edge-bundling visualization. <br>
+                  Good for less clutter and discovering patterns
+                  between clusters.
+                </p>
+              </span>
+            </div><br />
+          </div>
+          <div style="border:1px solid #FFFFFF; height:480px;border-radius:25px;padding:1%;background-color:rgb(240, 240, 240);margin:1%;margin-bottom:.5%;width:39.5%;margin-right:0;margin-left:0" class="col-lg-4">   <!-- Using width to get more control over box size-->
+
+            <!-- Chord Diagram-->
+            <div id="chorddiv" style="width:100%;height:90%">
+            </div>
+          </div>
+        </div>
+
+        <!-- Maybe add padding (left/right) ~4% -->
+        <div class="row" style="height:100%">
+          <!-- Alluvial Diagram -->
+          <div style="border:1px solid #FFFFFF; border-radius:25px;padding:1%;width:100%;background-color:rgb(240, 240, 240);margin:5px;height:480px">    <!-- Using width to get more control over box size-->
+            
+        
             <!-- Sankey Diagram -->
-            <div id="sankeydiv" style="width:100%;height:90%">
+            <div id="sankeydiv" style="width:100%;height:97%">
             </div>
-
-            <div class="row" style="margin-left:-9%">
-              <div class="col-sm-1"></div>
-
+    
+            <!-- <div style="height:23%">
+            </div> -->
               <!-- Info Button-->
-              <div class="info col-lg-4" style="padding-top:5%;width:35%">
+              <div class="info col-lg-4" style="width:35%;height:6%;">
                 <i class="icon-info-sign"></i>
 
                 <span class="extra-info">
-                  <p style="line-height:150%;padding-top:3%;">
-                    An alluvial diagram. <br />
-                    Good for visualizing structural change <br />
-                    and illustrating patterns of flow over time.
+                  <p style="line-height:150%;padding-top:.5%">
+                    An alluvial diagram. Good for visualizing structural change and illustrating patterns of flow on a fixed network over time.
                   </p>
+
+                  <!-- File Load -->
+                  <!-- Given a fixed width to enable full text to display, 
+                    may cause trouble when adding more elements on the same row -->
+                  <div title="Select a .csv-file for data visualization here.">
+                    <input id="f_input" type="file" accept=".csv" class="btn col-lg-4"
+                      style="margin:auto;padding-top:-70%;width:40%;" />
+                  </div>
 
                 </span>
               </div><br />
-            </div>
-
           </div>
         </div>
       </div>
@@ -144,8 +164,8 @@
   <script src="https://cdn.amcharts.com/lib/4/core.js"></script>
   <script src="https://cdn.amcharts.com/lib/4/charts.js"></script>
   <script src="https://cdn.amcharts.com/lib/4/themes/animated.js"></script>
-  <script src="./backend_js/require.js" data-main="./backend_js/diagrams.js"></script>
-
+  <script src="./backend_js/require.js" data-main="./backend_js/visualiseCollection.js"></script>
+  <script src="./backend_js/popupUpload.js"></script>
 </body>
 
 </html>

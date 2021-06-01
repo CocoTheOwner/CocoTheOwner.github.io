@@ -13,20 +13,9 @@ define(["require", "exports", "./csvParser", "./csvData", "./visualisationContro
         reader.readAsText(input.files[0]);
         document.getElementById("f_input").value = null; //reset input
         console.log("File uploaded successfully");
-
-        // after the file was uploaded, close the pop-up
+        var modal = document.getElementById("myModal");
         modal.style.display = "none";
-        
+        console.log(modal);
         visualisationController_1.updateCharts(emails, lookup, 8);
     });
 });
-
-/**
- * Pop-up window for upload button 
- */
-
-var modal = document.getElementById("myModal");
-// when the visualize page is ran, ask the user to upload the data set
-window.onload = function() {
-  modal.style.display = "block";
-}

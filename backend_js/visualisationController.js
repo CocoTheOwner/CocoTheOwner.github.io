@@ -1,13 +1,13 @@
-define(["require", "exports", "./amChartSankey"], function (require, exports, amChartSankey_1) {
+define(["require", "exports", "./amChartChord", "./amChartSankey"], function (require, exports, amChartChord_1, amChartSankey_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.updateCharts = void 0;
     // import {MailGraph, findTimeIndex} from "./MailGraph"
     function updateCharts(emails, lookup, sankeyClusters = 8) {
         updateSankey(emails, lookup, sankeyClusters);
-        // updateChord(emails, lookup)
+        updateChord(emails, lookup);
         amChartSankey_1.default.validateData(); // Updates the sankeyChart
-        // chordChart.validateData(); // Updates the chord diagram
+        amChartChord_1.default.validateData(); // Updates the chord diagram
     }
     exports.updateCharts = updateCharts;
     function updateSankey(emails, lookup, clusters = 8) {
@@ -144,5 +144,7 @@ define(["require", "exports", "./amChartSankey"], function (require, exports, am
         return { from: from, to: to, value: value, color: color };
     }
     function updateChord(emails, lookup) {
+        amChartChord_1.default.startAngle = 180;
+        amChartChord_1.default.endAngle = amChartChord_1.default.startAngle + 180;
     }
 });

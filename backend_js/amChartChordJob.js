@@ -44,9 +44,8 @@ define(["require", "exports"], function (require, exports) {
     // Themes begin
     am4core.useTheme(am4themes_animated);
     // Themes end
-    const chart = am4core.create("chorddiv", am4charts.ChordDiagram);
+    const chart = am4core.create("chordjobdiv", am4charts.ChordDiagram);
     chart.data = defaultData;
-    // colors of main characters
     chart.colors.saturation = 0.45;
     chart.colors.step = 3;
     chart.dataFields.fromName = "from";
@@ -63,53 +62,62 @@ define(["require", "exports"], function (require, exports) {
     nodeTemplate.showSystemTooltip = true;
     nodeTemplate.propertyFields.fill = "color";
     nodeTemplate.tooltipText = "{name} sent {total} mails.";
-    // avoid hiding the edge when you click on it
-    nodeTemplate.events.off("hit");
-    nodeTemplate.events.on("hit", function (event) {
-        chart.nodes.each(function (dataItem) {
-            if (dataItem.toNode) {
-                dataItem.link.isSelected = false;
-                dataItem.toNode.isSelected = false;
-            }
-        });
+    // when rolled over the node, make all the links rolled-over
+    nodeTemplate.events.on("over", function (event) {
         let node = event.target;
-        console.log(node.name);
-        //jobChord.data = MailGraph.getJobData(node.name)
         node.outgoingDataItems.each(function (dataItem) {
             if (dataItem.toNode) {
-                dataItem.link.isSelected = true;
-                dataItem.toNode.isSelected = true;
+                dataItem.link.isHover = true;
+                dataItem.toNode.isHover = true;
             }
         });
         node.incomingDataItems.each(function (dataItem) {
             if (dataItem.fromNode) {
-                dataItem.link.isSelected = true;
-                dataItem.fromNode.label.isSelected = true;
+                dataItem.link.isHover = true;
+                dataItem.fromNode.label.isHover = true;
             }
         });
+        node.label.isHover = true;
+    });
+    // when rolled out from the node, make all the links rolled-out
+    nodeTemplate.events.on("out", function (event) {
+        let node = event.target;
+        node.outgoingDataItems.each(function (dataItem) {
+            if (dataItem.toNode) {
+                dataItem.link.isHover = false;
+                dataItem.toNode.isHover = false;
+            }
+        });
+        node.incomingDataItems.each(function (dataItem) {
+            if (dataItem.fromNode) {
+                dataItem.link.isHover = false;
+                dataItem.fromNode.label.isHover = false;
+            }
+        });
+        node.label.isHover = false;
     });
     let label = nodeTemplate.label;
     label.relativeRotation = 90;
     label.fillOpacity = 0.4;
-    let labelSelected = label.states.create("selected");
-    labelSelected.properties.fillOpacity = 1;
+    let labelHS = label.states.create("hover");
+    labelHS.properties.fillOpacity = 1;
     nodeTemplate.cursorOverStyle = am4core.MouseCursorStyle.pointer;
-    nodeTemplate.draggable = true;
     // link template
     let linkTemplate = chart.links.template;
     linkTemplate.strokeOpacity = 0;
     linkTemplate.fillOpacity = 0.15;
     linkTemplate.tooltipText = "{fromName} & {toName}:{value.value}";
-    var selectedState = linkTemplate.states.create("selected");
-    selectedState.properties.fillOpacity = 1;
-    selectedState.properties.strokeOpacity = 1;
-    // adding some customization to the edge of the circle
-    // (can be deleted if you don't like it)
-    var slice = chart.nodes.template.slice;
-    slice.stroke = am4core.color("#000");
-    slice.strokeOpacity = 0.5;
-    slice.strokeWidth = 1;
-    slice.cornerRadius = 8;
-    slice.innerCornerRadius = 0;
+    var hoverState = linkTemplate.states.create("hover");
+    hoverState.properties.fillOpacity = 0.7;
+    hoverState.properties.strokeOpacity = 0.7;
+    chart.events.on('datavalidated', function () {
+<<<<<<< HEAD
+        chart.nodes.getKey('Rachel').hide();
+        chart.nodes.getKey('B').hide();
+        chart.nodes.getKey('D').hide();
+=======
+        chart.setVisibility(false);
+>>>>>>> main
+    });
     exports.default = chart;
 });
