@@ -11,7 +11,7 @@ export function updateCharts(emails: Email[], lookup: {[id: number]: Employee}, 
     updateChord(emails, lookup)
 
     sankeyChart.validateData(); // Updates the sankeyChart
-    chordChart.validateData(); // Updates the chord diagram
+    chordChart.validateData(); // Updates the chord diagram 
 }
 
 function updateSankey(emails: Email[], lookup: {[id: number]: Employee}, clusters = 8): void {
