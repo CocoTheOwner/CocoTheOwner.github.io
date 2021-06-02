@@ -166,6 +166,5 @@ define(["require", "exports", "./amChartChord", "./amChartSankey", "./mailGraph"
         let dateStrings = document.getElementById("calendar").value.split(" - ");
         mg.setDates(new Date(dateStrings[0]), new Date(dateStrings[1]));
         amChartChord_1.default.data = mg.generateJobChordInput(lookup);
-        console.log(amChartChord_1.default.data);
     }
 });

@@ -112,7 +112,6 @@ export class MailGraph {
                     // Add a new chord if necessary. Otherwise, add the emails
                     //  the correct MailChord
                     for (const chord of chartData) {
-                        console.log(chord);
                         if (chord.from === lookup[from].jobTitle && chord.to === lookup[to].jobTitle) {
                             chord.value += mailCountSum;
                         } else if (chord.from === lookup[to].jobTitle && chord.to === lookup[from].jobTitle) {
