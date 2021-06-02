@@ -86,7 +86,6 @@ define(["require", "exports"], function (require, exports) {
                         // Add a new chord if necessary. Otherwise, add the emails
                         //  the correct MailChord
                         for (const chord of chartData) {
-                            console.log(chord);
                             if (chord.from === lookup[from].jobTitle && chord.to === lookup[to].jobTitle) {
                                 chord.value += mailCountSum;
                             }

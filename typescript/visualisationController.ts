@@ -202,5 +202,4 @@ function updateChord(emails: Email[], lookup: {[id: number]: Employee}): void {
 
     mg.setDates(new Date(dateStrings[0]), new Date(dateStrings[1]));
     chordChart.data = mg.generateJobChordInput(lookup);
-    console.log(chordChart.data);
 }
