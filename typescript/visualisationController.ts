@@ -15,6 +15,7 @@ export function updateCharts(emails: Email[], lookup: {[id: number]: Employee}, 
 }
 
 function updateSankey(emails: Email[], lookup: {[id: number]: Employee}, clusters = 8): void {
+
     // Sort emails by date
     emails.sort(function (e1, e2) { return e1.date.getTime() - e2.date.getTime(); });
 
@@ -144,27 +145,48 @@ function updateSankey(emails: Email[], lookup: {[id: number]: Employee}, cluster
                 // Add a datapoint to the chart
                 sankeyChart.data.push(addSankeyConnection(fjob.name, tjob.name, timeslot, value, jobInfo))
             }
+
+            // If there are no connections, the color is not set. Hence this line.
+            sankeyChart.data.push(addSankeyColor(fjob.name, timeslot, jobInfo))
         }
     }
 }
+function addSankeyColor(fjob: string, timeslot: number, jobInfo: {}): {from: string, color}{
 
-function addSankeyConnection(fjob: string, tjob: string, timeslot: number, value: number, jobInfo: {}): {from: string, to: string, value: number, color: string} {
     // Make the "from" string, which is either, (CEO as example):
     // 0 CEO (0)     -> First entry
     // 0 (X)         -> Xth timeslot entry
     let from = undefined
     if (timeslot === 0) { 
-        from = jobInfo[fjob].id + " " + fjob + " (" + timeslot + ")"
+        from = fjob
     }
     else {
-        from = jobInfo[fjob].id + " (" + timeslot + ")"
+        from = fjob.slice(0, 3).toUpperCase().replace(" ", "") + "." + timeslot
+    }
+
+    let color = jobInfo[fjob].color
+
+    return {from: from, color: color}
+}
+
+function addSankeyConnection(fjob: string, tjob: string, timeslot: number, value: number, jobInfo: {}): {from: string, to: string, value: number, color} {
+    // Make the "from" string, which is either, (CEO as example):
+    // 0 CEO (0)     -> First entry
+    // 0 (X)         -> Xth timeslot entry
+    let from = undefined
+    if (timeslot === 0) { 
+        from = fjob
+    }
+    else {
+        from = fjob.slice(0, 3).toUpperCase().replace(" ", "") + "." + timeslot
     }
     
     // Make the "to" string, which is similar to the second entry for "from", but one higher
-    let to = jobInfo[tjob].id + " (" + (timeslot + 1) + ")"
+    let to = tjob.slice(0, 3).toUpperCase().replace(" ", "") + "." + (timeslot + 1)
 
-    // Retrieve the job color
+    // Color
     let color = jobInfo[tjob].color
+
 
     // Return entry to the diagram
     return{from:from, to:to, value:value, color:color}
