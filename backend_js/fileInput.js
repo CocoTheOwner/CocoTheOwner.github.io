@@ -15,7 +15,6 @@ define(["require", "exports", "./csvParser", "./csvData", "./visualisationContro
         console.log("File uploaded successfully");
         var modal = document.getElementById("myModal");
         modal.style.display = "none";
-        console.log(modal);
         visualisationController_1.updateCharts(emails, lookup, 8);
     });
 });

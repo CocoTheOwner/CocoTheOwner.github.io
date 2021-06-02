@@ -17,6 +17,5 @@ input.addEventListener('change', function (e) {
     console.log("File uploaded successfully");
     var modal = document.getElementById("myModal");
     modal.style.display = "none";
-    console.log(modal)
     updateCharts(emails, lookup, 8);
 });
