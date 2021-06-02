@@ -1,7 +1,16 @@
 define(["require", "exports"], function (require, exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
-    exports.findTimeIndex = exports.MailGraph = void 0;
+    exports.findTimeIndex = exports.MailGraph = exports.MailChord = void 0;
+    // A chord that represents the amount of emails between two job types
+    class MailChord {
+        constructor(from, to, value) {
+            this.from = from;
+            this.to = to;
+            this.value = value;
+        }
+    }
+    exports.MailChord = MailChord;
     //a class holding a directed graph for email traffic
     class MailGraph {
         //Mailgraph constructor
@@ -49,7 +58,7 @@ define(["require", "exports"], function (require, exports) {
         //convert MailGraph data to input data for AmChart chord plot input
         //returns:
         //  -array of chord specifics
-        generateChordInput() {
+        generateJobChordInput(lookup) {
             let chartData = [];
             let visited = [];
             // Add all real data (UNDIRECTED)
@@ -58,17 +67,37 @@ define(["require", "exports"], function (require, exports) {
                 visited.push(from);
                 // Loop through all receivers
                 for (const to in this.graph[from]) {
+                    // Do not account for emails sent between people with the same title
+                    if (lookup[from].jobTitle === lookup[to].jobTitle) {
+                        continue;
+                    }
                     // Only add data if the receiver is not a previous sender.
                     if (!(to in visited)) {
                         // Count the amount of emails sender -> receiver
                         let mailCountSum = this.graph[from][to].length;
                         // If the receiver sent to the sender, too ...
-                        if (this.graph[to][from]) {
+                        if (to in this.graph && from in this.graph[to]) {
                             // ... add the amount of emails sender <- receiver
                             mailCountSum += this.graph[to][from].length;
                         }
-                        // Add the new chord data to the array of chord data.
-                        chartData.push({ "from": from, "to": to, "value": mailCountSum });
+                        if (chartData.length === 0) {
+                            chartData.push(new MailChord(lookup[from].jobTitle, lookup[to].jobTitle, mailCountSum));
+                        }
+                        // Add a new chord if necessary. Otherwise, add the emails
+                        //  the correct MailChord
+                        for (const chord of chartData) {
+                            console.log(chord);
+                            if (chord.from === lookup[from].jobTitle && chord.to === lookup[to].jobTitle) {
+                                chord.value += mailCountSum;
+                            }
+                            else if (chord.from === lookup[to].jobTitle && chord.to === lookup[from].jobTitle) {
+                                chord.value += mailCountSum;
+                            }
+                            else {
+                                chartData.push(new MailChord(lookup[from].jobTitle, lookup[to].jobTitle, mailCountSum));
+                            }
+                            break;
+                        }
                     }
                 }
             }
