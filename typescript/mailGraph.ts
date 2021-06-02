@@ -1,4 +1,17 @@
-import { Email } from "./csvParser";
+import { Email, Employee } from "./csvParser";
+
+// A chord that represents the amount of emails between two job types
+export class MailChord {
+    public from: string;
+    public to: string;
+    public value: number;
+
+    constructor(from: string, to: string, value: number) {
+        this.from = from;
+        this.to = to;
+        this.value = value;
+    }
+}
 
 //a class holding a directed graph for email traffic
 export class MailGraph {
@@ -65,8 +78,8 @@ export class MailGraph {
     //convert MailGraph data to input data for AmChart chord plot input
     //returns:
     //  -array of chord specifics
-    generateChordInput(): any[] {
-        let chartData: any[] = [];
+    generateJobChordInput(lookup: { [id: number]: Employee }): any[] {
+        let chartData: MailChord[] = [];
         let visited: string[] = [];
 
         // Add all real data (UNDIRECTED)
@@ -76,19 +89,39 @@ export class MailGraph {
 
             // Loop through all receivers
             for (const to in this.graph[from]) {
+                // Do not account for emails sent between people with the same title
+                if (lookup[from].jobTitle === lookup[to].jobTitle) {
+                    continue;
+                }
+
                 // Only add data if the receiver is not a previous sender.
                 if (!(to in visited)) {
                     // Count the amount of emails sender -> receiver
                     let mailCountSum = this.graph[from][to].length;
 
                     // If the receiver sent to the sender, too ...
-                    if (this.graph[to][from]) {
+                    if (to in this.graph && from in this.graph[to]) {
                         // ... add the amount of emails sender <- receiver
                         mailCountSum += this.graph[to][from].length
                     }
+
+                    if (chartData.length === 0) {
+                        chartData.push(new MailChord(lookup[from].jobTitle, lookup[to].jobTitle, mailCountSum));
+                    }
     
-                    // Add the new chord data to the array of chord data.
-                    chartData.push( {"from":from, "to":to, "value":mailCountSum} );
+                    // Add a new chord if necessary. Otherwise, add the emails
+                    //  the correct MailChord
+                    for (const chord of chartData) {
+                        console.log(chord);
+                        if (chord.from === lookup[from].jobTitle && chord.to === lookup[to].jobTitle) {
+                            chord.value += mailCountSum;
+                        } else if (chord.from === lookup[to].jobTitle && chord.to === lookup[from].jobTitle) {
+                            chord.value += mailCountSum;
+                        } else {
+                            chartData.push(new MailChord(lookup[from].jobTitle, lookup[to].jobTitle, mailCountSum));
+                        }
+                        break;
+                    }
                 }
             }
         }

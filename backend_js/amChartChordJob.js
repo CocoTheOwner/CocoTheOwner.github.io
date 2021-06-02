@@ -110,10 +110,10 @@ define(["require", "exports"], function (require, exports) {
     var hoverState = linkTemplate.states.create("hover");
     hoverState.properties.fillOpacity = 0.7;
     hoverState.properties.strokeOpacity = 0.7;
-    chart.events.on('datavalidated', function () {
-        chart.nodes.getKey('Rachel').hide();
-        chart.nodes.getKey('B').hide();
-        chart.nodes.getKey('D').hide();
-    });
+    // chart.events.on('datavalidated', function () {
+    //     chart.nodes.getKey('Rachel').hide();
+    //     chart.nodes.getKey('B').hide();
+    //     chart.nodes.getKey('D').hide();
+    // });
     exports.default = chart;
 });

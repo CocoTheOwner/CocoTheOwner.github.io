@@ -1,4 +1,4 @@
-define(["require", "exports", "./amChartChord", "./amChartSankey"], function (require, exports, amChartChord_1, amChartSankey_1) {
+define(["require", "exports", "./amChartChord", "./amChartSankey", "./mailGraph"], function (require, exports, amChartChord_1, amChartSankey_1, mailGraph_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.updateCharts = void 0;
@@ -162,5 +162,10 @@ define(["require", "exports", "./amChartChord", "./amChartSankey"], function (re
     function updateChord(emails, lookup) {
         amChartChord_1.default.startAngle = 180;
         amChartChord_1.default.endAngle = amChartChord_1.default.startAngle + 180;
+        let mg = new mailGraph_1.MailGraph(emails);
+        let dateStrings = document.getElementById("calendar").value.split(" - ");
+        mg.setDates(new Date(dateStrings[0]), new Date(dateStrings[1]));
+        amChartChord_1.default.data = mg.generateJobChordInput(lookup);
+        console.log(amChartChord_1.default.data);
     }
 });

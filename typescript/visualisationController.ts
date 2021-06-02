@@ -196,4 +196,11 @@ function addSankeyConnection(fjob: string, tjob: string, timeslot: number, value
 function updateChord(emails: Email[], lookup: {[id: number]: Employee}): void {
     chordChart.startAngle = 180;
     chordChart.endAngle = chordChart.startAngle + 180;
+
+    let mg = new MailGraph(emails);
+    let dateStrings = (<HTMLInputElement>document.getElementById("calendar")).value.split(" - ");
+
+    mg.setDates(new Date(dateStrings[0]), new Date(dateStrings[1]));
+    chordChart.data = mg.generateJobChordInput(lookup);
+    console.log(chordChart.data);
 }

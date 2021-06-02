@@ -2,7 +2,7 @@ var am4core = window["am4core"]
 var am4charts = window["am4charts"]
 var am4themes_animated = window["am4themes_animated"]
 import jobChord from "./amChartChordJob"
-import { MailGraph } from "./mailGraph"
+import { MailGraph, MailChord } from "./mailGraph"
 
 const defaultData = [
     // real data

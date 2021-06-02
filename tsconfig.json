@@ -20,6 +20,5 @@
         "./typescript/amChartChordJob.ts",
         "./typescript/amChartSankey.ts",
         "./typescript/visualiseCollection.ts",
-        "./typescript/dates.ts"
     ]
 }
