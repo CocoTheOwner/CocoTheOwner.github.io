@@ -158,7 +158,7 @@ function addSankeyColor(fjob: string, timeslot: number, jobInfo: {}): {from: str
     // 0 (X)         -> Xth timeslot entry
     let from = undefined
     if (timeslot === 0) { 
-        from = fjob
+        from = fjob + ".0"
     }
     else {
         from = fjob.slice(0, 3).toUpperCase().replace(" ", "") + "." + timeslot
@@ -175,7 +175,7 @@ function addSankeyConnection(fjob: string, tjob: string, timeslot: number, value
     // 0 (X)         -> Xth timeslot entry
     let from = undefined
     if (timeslot === 0) { 
-        from = fjob
+        from = fjob + ".0"
     }
     else {
         from = fjob.slice(0, 3).toUpperCase().replace(" ", "") + "." + timeslot

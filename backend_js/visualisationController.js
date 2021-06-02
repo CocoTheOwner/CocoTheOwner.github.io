@@ -7,7 +7,7 @@ define(["require", "exports", "./amChartChord", "./amChartSankey", "./mailGraph"
         updateSankey(emails, lookup, sankeyClusters);
         updateChord(emails, lookup);
         amChartSankey_1.default.validateData(); // Updates the sankeyChart
-        amChartChord_1.default.validateData(); // Updates the chord diagram
+        amChartChord_1.default.validateData(); // Updates the chord diagram 
     }
     exports.updateCharts = updateCharts;
     function updateSankey(emails, lookup, clusters = 8) {
@@ -133,7 +133,7 @@ define(["require", "exports", "./amChartChord", "./amChartSankey", "./mailGraph"
         // 0 (X)         -> Xth timeslot entry
         let from = undefined;
         if (timeslot === 0) {
-            from = fjob;
+            from = fjob + ".0";
         }
         else {
             from = fjob.slice(0, 3).toUpperCase().replace(" ", "") + "." + timeslot;
@@ -147,7 +147,7 @@ define(["require", "exports", "./amChartChord", "./amChartSankey", "./mailGraph"
         // 0 (X)         -> Xth timeslot entry
         let from = undefined;
         if (timeslot === 0) {
-            from = fjob;
+            from = fjob + ".0";
         }
         else {
             from = fjob.slice(0, 3).toUpperCase().replace(" ", "") + "." + timeslot;
