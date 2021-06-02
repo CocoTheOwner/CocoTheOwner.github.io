@@ -10,15 +10,16 @@
         "moduleResolution": "node"
     },
     "files": [
+        "./typescript/amChartChord.ts",
+        "./typescript/amChartChordJob.ts",
+        "./typescript/amChartSankey.ts",
         "./typescript/clusters.ts",
         "./typescript/csvData.ts",
         "./typescript/csvParser.ts",
         "./typescript/edgeBundling.ts",
         "./typescript/fileInput.ts",
         "./typescript/mailGraph.ts",
-        "./typescript/amChartChord.ts",
-        "./typescript/amChartChordJob.ts",
-        "./typescript/amChartSankey.ts",
+        "./typescript/visualisationController.ts",
         "./typescript/visualiseCollection.ts",
     ]
 }
