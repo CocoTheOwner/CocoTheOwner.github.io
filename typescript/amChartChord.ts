@@ -109,11 +109,17 @@ labelSelected.properties.fillOpacity = 1;
 nodeTemplate.cursorOverStyle = am4core.MouseCursorStyle.pointer;
 nodeTemplate.draggable = true;
 
-// link template
+// customize edges
 let linkTemplate = chart.links.template;
 linkTemplate.strokeOpacity = 0;
 linkTemplate.fillOpacity = 0.15;
 linkTemplate.tooltipText = "{fromName} & {toName}:{value.value}";
+
+// clicking edges
+linkTemplate.events.on("hit", function (event) {
+    let edge = event.target;
+    console.log("edge " + edge.name + " was clicked");
+  });
 
 var selectedState = linkTemplate.states.create("selected");
 selectedState.properties.fillOpacity = 1;
