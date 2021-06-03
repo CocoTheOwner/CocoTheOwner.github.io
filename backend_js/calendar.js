@@ -63,8 +63,8 @@ $(function () {
         },
 
         // start and end date of the selection
-        "startDate": "2021/05/19",
-        "endDate": "2021/05/25",
+        "startDate": "2000/03/01",
+        "endDate": "2001/03/01",
 
         "showDropdowns": true,
         "showWeekNumbers": true
