@@ -8,11 +8,6 @@
   <meta charset="utf-8" />
   <title>DBL - Visualisation</title>
 
-  <!-- calendar imports -->
-  <script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
-  <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
-  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
-  <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
 
   <link rel="stylesheet" href="./css/index2.css">
   <link rel="icon" href="./images/DBL.ico" />
@@ -72,9 +67,7 @@
               <input id="calendar" class="input-sm" type="text" name="daterange" value=""
                 onchange="getCalendarDates()" />
             </div>
-            <!-- Calendar script -->
-            <script src="./backend_js/calendar.js"></script>
-            <script src="./backend_js/dates.js"></script>
+
 
             <div class="row" style="margin-left:.1%;padding-top:4%">
 
@@ -153,12 +146,20 @@
     </div>
   </section>
 
-  <!-- calendar script -->
+
+  <!-- scripts -->
+  <script src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+  <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
   <script src="https://cdn.amcharts.com/lib/4/core.js"></script>
   <script src="https://cdn.amcharts.com/lib/4/charts.js"></script>
   <script src="https://cdn.amcharts.com/lib/4/themes/animated.js"></script>
+
   <script src="./backend_js/require.js" data-main="./backend_js/visualiseCollection.js"></script>
   <script src="./backend_js/popupUpload.js"></script>
+  <script src="./backend_js/dates.js"></script>
 </body>
+
 
 </html>

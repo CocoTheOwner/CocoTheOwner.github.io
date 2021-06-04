@@ -1,8 +1,8 @@
 
-let daterangepicker = window["daterangepicker"]
+let jq = window["$"]
 
-$(function () {
-    daterangepicker('input[name="daterange"]' ,{
+jq(function () {
+    jq('input[name="daterange"]').daterangepicker({
         "locale": {
             "format": "YYYY/MM/DD",
             "separator": " - ",
