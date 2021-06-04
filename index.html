@@ -14,7 +14,7 @@
 
 <body>
   <!-- Navigation -->
-  <nav>
+  <nav style="position:fixed;z-index:1">
     <ul>
       <li><a class="active" href="index.html">Home</a></li>
       <li><a href="visualize.html">Visualize</a></li>
@@ -22,34 +22,44 @@
     </ul>
   </nav>
 
+  <h1 style="color:white;position:absolute;width:100%;top:40%;margin:0;background-color: rgba(1,1,1,.5)">DBL Webtechh</h1>
+
   <!-- Section: Our Vision -->
   <section style="padding-top:48%">
-    <div style="padding-top:8%; padding-bottom:8%;background-color: rgb(21, 21, 87);margin:auto;">
-      <h1>OUR VISION</h1>
+    <!-- background: rgb(21, 21, 87) -->
+    <div style="padding-top:8%; padding-bottom:8%;background-color: #FFFFFF;margin:auto;">
+      <h1 style="color:black">OUR VISION</h1>
       <div class="box" style="margin-top:-1%"></div> <!-- Move dash, underneath header, a bit upwards -->
-      <div class='text2' style="color:white;">
-        As students at Eindhoven University of Technology we understand the importance of data visualizations like no
-        other.
-        However as we have experienced over the years, a lot of data visualization tools are either inefficient for
-        larger datasets or
-        have to be installed seperately on your computer. This is where we thought; it is time for a change. By
-        providing our visualization
-        tool on the web instead of in a seperate computer program, advanced data visualization becomes available to
-        everyone. We aim to provide
-        people with an easy-to-use, and most importantly free visualization tool which they can use to go beyond simple
+      <div class='text2'>
+        Since the rise of social networks, the need for effective data visualizations has paved its way. <br>
+        Although many of these visualizations are useful in their own way and available for stand-alone download on the web, 
+        each of them has a certain weakness to them that should be kept in mind. <br>
+        This is where we thought that it is time for a change. <br> <br>
+        As a result we created an easy-to-use application combining two effective visualization techniques to compensate for each of the weaknesses.
+        By using edge-bundling to find patterns in data (in the form of a chord diagram), and a supporting alluvial diagram and bar for visualizing change in networks,
+        we obtain the best of two worlds. <br>
+        By providing the tool on the web instead of in a seperate computer program, advanced data visualization then becomes available to
+        everyone. We aim to provide people with an easy-to-use, free visualization tool which they can use to go beyond simple
         graphs to explore their data.
-
       </div>
     </div>
   </section>
 
   <!-- Section: Our Visualizations -->
   <section style="padding-top:48%;">
-    <div style="padding-top:8%; padding-bottom:8%;background-color: rgb(21, 21, 87);margin:auto;">
-      <h1>OUR VISUALIZATIONS </h1>
+    <div style="padding-top:8%; padding-bottom:8%;background-color: #FFFFFF;;margin:auto;">
+      <h1 style="color:black">OUR VISUALIZATIONS </h1>
       <div class="box" style="margin-top:-1%"></div> <!-- Move dash, underneath header, a bit upwards -->
-      <div class='text2' style="color:white;">
-        Since we are still working hard on our website, currently the only visualization available is a primitive
+      <div class='text2'>
+        Alluvial diagram and bar: <br>
+        <img src="images/alluvial.png" width=60% height=60% alt="">
+        <br>
+        <br>
+        <br>
+        Chord diagram (one half): <br>
+        <img src="images/chord.png" width=40% height=40% alt="">
+
+        <!-- Since we are still working hard on our website, currently the only visualization available is a primitive
         version
         of one of the visualizations that will eventually be implemented: an hierarchical edge bundle. This type of
         visualization
@@ -59,7 +69,7 @@
         between two nodes from different clusters. The thickness of the line indicates how often a connection between
         the two nodes has occurred
         over time. In later releases we plan to make the visualization more readable and interactive as described in our
-        interim report.
+        interim report. -->
 
       </div>
     </div>
