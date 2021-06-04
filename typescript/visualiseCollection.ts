@@ -1,7 +1,7 @@
 import "./amChartChord"
 import "./amChartChordJob"
 import "./amChartSankey"
-import "./amChartsBar"
+import "./sankeyBar"
 import "./fileInput"
 import "./visualisationController"
 import "./calender"

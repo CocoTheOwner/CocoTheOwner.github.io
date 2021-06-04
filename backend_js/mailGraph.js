@@ -84,18 +84,22 @@ define(["require", "exports"], function (require, exports) {
                             chartData.push(new MailChord(lookup[from].jobTitle, lookup[to].jobTitle, mailCountSum));
                         }
                         // Add a new chord if necessary. Otherwise, add the emails
-                        //  the correct MailChord
+                        //  the correct MailChord-
+                        let chordFound = false;
                         for (const chord of chartData) {
                             if (chord.from === lookup[from].jobTitle && chord.to === lookup[to].jobTitle) {
                                 chord.value += mailCountSum;
+                                chordFound = true;
+                                break;
                             }
                             else if (chord.from === lookup[to].jobTitle && chord.to === lookup[from].jobTitle) {
                                 chord.value += mailCountSum;
+                                chordFound = true;
+                                break;
                             }
-                            else {
-                                chartData.push(new MailChord(lookup[from].jobTitle, lookup[to].jobTitle, mailCountSum));
-                            }
-                            break;
+                        }
+                        if (!chordFound) {
+                            chartData.push(new MailChord(lookup[from].jobTitle, lookup[to].jobTitle, mailCountSum));
                         }
                     }
                 }

@@ -1,13 +1,14 @@
 define(["require", "exports", "./amChartChord", "./amChartSankey", "./mailGraph"], function (require, exports, amChartChord_1, amChartSankey_1, mailGraph_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
-    exports.updateCharts = void 0;
+    exports.updateChord = exports.updateCharts = void 0;
     // import {MailGraph, findTimeIndex} from "./MailGraph"
-    function updateCharts(emails, lookup, sankeyClusters = 8) {
+    function updateCharts(sankeyClusters = 8) {
+        let emails = window["emails"];
+        let lookup = window["lookup"];
         updateSankey(emails, lookup, sankeyClusters);
         updateChord(emails, lookup);
         amChartSankey_1.default.validateData(); // Updates the sankeyChart
-        amChartChord_1.default.validateData(); // Updates the chord diagram
     }
     exports.updateCharts = updateCharts;
     function updateSankey(emails, lookup, clusters = 8) {
@@ -108,5 +109,7 @@ define(["require", "exports", "./amChartChord", "./amChartSankey", "./mailGraph"
         let dateStrings = document.getElementById("calendar").value.split(" - ");
         mg.setDates(new Date(dateStrings[0]), new Date(dateStrings[1]));
         amChartChord_1.default.data = mg.generateJobChordInput(lookup);
+        amChartChord_1.default.validateData(); // Updates the chord diagram
     }
+    exports.updateChord = updateChord;
 });

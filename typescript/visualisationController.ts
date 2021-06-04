@@ -5,13 +5,14 @@ import { MailGraph } from "./mailGraph"
 
 
 // import {MailGraph, findTimeIndex} from "./MailGraph"
-export function updateCharts(emails: Email[], lookup: {[id: number]: Employee}, sankeyClusters = 8): void {
+export function updateCharts(sankeyClusters = 8): void {
+    let emails = window["emails"]
+    let lookup = window["lookup"]
 
     updateSankey(emails, lookup, sankeyClusters)
     updateChord(emails, lookup)
 
     sankeyChart.validateData(); // Updates the sankeyChart
-    chordChart.validateData(); // Updates the chord diagram
 }
 
 function updateSankey(emails: Email[], lookup: {[id: number]: Employee}, clusters = 8): void {
@@ -130,7 +131,7 @@ function addSankeyConnection(fjob: string, tjob: string, timeslot: number, value
 
 }
 
-function updateChord(emails: Email[], lookup: {[id: number]: Employee}): void {
+export function updateChord(emails: Email[], lookup: {[id: number]: Employee}): void {
     chordChart.startAngle = 180;
     chordChart.endAngle = chordChart.startAngle + 180;
 
@@ -139,4 +140,5 @@ function updateChord(emails: Email[], lookup: {[id: number]: Employee}): void {
 
     mg.setDates(new Date(dateStrings[0]), new Date(dateStrings[1]));
     chordChart.data = mg.generateJobChordInput(lookup);
+    chordChart.validateData(); // Updates the chord diagram
 }
