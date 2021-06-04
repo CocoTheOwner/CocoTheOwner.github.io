@@ -25,7 +25,7 @@ define(["require", "exports"], function (require, exports) {
             // Create a table element
             var td = document.createElement("td");
             // Add an arrow up and the date label to the table element
-            td.appendChild(document.createTextNode("↑ " + data[i]));
+            td.appendChild(document.createTextNode("↓ " + data[i]));
             // Append the element to the row
             row.appendChild(td);
         }
@@ -36,7 +36,7 @@ define(["require", "exports"], function (require, exports) {
     const canvas = document.getElementById("sankeyCanvas");
     // Set the internal pixel width for the bar
     canvas.width = 1000;
-    canvas.height = 7.5;
+    canvas.height = 15;
     // Magic number that patches an unexplainable rescaling bug
     var magic_number = 0.833;
     // Retrieve CTX from canvas
@@ -48,10 +48,10 @@ define(["require", "exports"], function (require, exports) {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         // Fill the canvas with a light pink block (the background)
         ctx.fillStyle = "rgb(169, 169, 255)";
-        roundRect(ctx, 0, 0, canvas.width, canvas.height, 3.75, true, false);
+        roundRect(ctx, 0, 0, canvas.width, canvas.height, 7.5, true, false);
         // Fill the selection with a dark purple block (the foreground)
         ctx.fillStyle = "#AB00CC";
-        roundRect(ctx, canvas.width * fraction[0] * magic_number, 0, canvas.width * fraction[1] * magic_number, canvas.height, 3.75, true, false);
+        roundRect(ctx, canvas.width * fraction[0] * magic_number, 0, canvas.width * fraction[1] * magic_number, canvas.height, 7.5, true, false);
     }
     function updateData(dates, fractions) {
         data = dates;

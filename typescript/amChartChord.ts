@@ -119,7 +119,7 @@ linkTemplate.tooltipText = "{fromName} & {toName}:{value.value}";
 linkTemplate.events.on("hit", function (event) {
     let edge = event.target;
     console.log("edge " + edge.name + " was clicked");
-  });
+});
 
 var selectedState = linkTemplate.states.create("selected");
 selectedState.properties.fillOpacity = 1;

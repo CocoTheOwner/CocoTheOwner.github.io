@@ -30,7 +30,7 @@ function drawSankeyLabels(){
         var td = document.createElement("td")
 
         // Add an arrow up and the date label to the table element
-        td.appendChild(document.createTextNode("↑ " + data[i]));
+        td.appendChild(document.createTextNode("↓ " + data[i]));
 
         // Append the element to the row
         row.appendChild(td)
