@@ -12,7 +12,7 @@ function analyseCSVData() {
     let datestrings = []
     let fractions = [];
     readCsv(reader.result as string, emails, lookup, datestrings, fractions);
-    makeSankeyBar(datestrings);
+    makeSankeyBar(datestrings, fractions);
     console.log("File uploaded successfully");
     var modal = document.getElementById("myModal");
     modal.style.display = "none";

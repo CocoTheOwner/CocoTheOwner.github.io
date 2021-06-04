@@ -10,7 +10,7 @@ define(["require", "exports", "./csvParser", "./visualisationController", "./san
         let datestrings = [];
         let fractions = [];
         csvParser_1.readCsv(reader.result, emails, lookup, datestrings, fractions);
-        sankeyBar_1.default(datestrings);
+        sankeyBar_1.default(datestrings, fractions);
         console.log("File uploaded successfully");
         var modal = document.getElementById("myModal");
         modal.style.display = "none";
