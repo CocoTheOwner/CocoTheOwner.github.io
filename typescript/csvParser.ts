@@ -70,17 +70,11 @@ export function readCsv(csvString: string, mailArr: Email[], lookup: { [id: numb
     });
     
     mailArr = mailArr.sort(function (e1, e2) { return e1.date.getTime() - e2.date.getTime(); });
-    console.log(mailArr);
     
-    let dates: string[] = [];
-    mailArr.forEach(mail => {
-        if (!(mail.date.toISOString().substr(0, 10) in dates)) {
-            dates.push(mail.date.toISOString().substr(0, 10));
-        }
-    });
+    let totalMillis = mailArr[mailArr.length - 1].date.getTime() - mailArr[0].date.getTime();
 
     for (var i = 0; i <= 8; i++) {
-        let index = Math.floor((dates.length - 1) * i / 8);
-        datestrings.push(dates[index]);
+        let dateInMillis = mailArr[0].date.getTime() + totalMillis * i / 8;
+        datestrings.push(new Date(dateInMillis).toISOString().substr(0, 10));
     }
 }
