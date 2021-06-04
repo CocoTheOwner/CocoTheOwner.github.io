@@ -11,14 +11,14 @@ function analyseCSVData() {
     let lookup = []
     let datestrings = []
     let fractions = [];
-    readCsv(reader.result as string, emails, lookup, datestrings, fractions);
-    makeSankeyBar(datestrings, fractions);
+    readCsv(reader.result as string, emails, lookup, datestrings);
     console.log("File uploaded successfully");
     var modal = document.getElementById("myModal");
     modal.style.display = "none";
     window["emails"] = emails
     window["lookup"] = lookup
-    updateCharts(8);
+    updateCharts(8, fractions);
+    makeSankeyBar(fractions, datestrings);
 }
 
 //when input changes, update file

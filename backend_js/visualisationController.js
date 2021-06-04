@@ -3,11 +3,11 @@ define(["require", "exports", "./amChartChord", "./amChartSankey", "./mailGraph"
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.updateChord = exports.updateCharts = void 0;
     // import {MailGraph, findTimeIndex} from "./MailGraph"
-    function updateCharts(sankeyClusters = 8) {
+    function updateCharts(sankeyClusters = 8, sankeyBarFractions) {
         let emails = window["emails"];
         let lookup = window["lookup"];
         updateSankey(emails, lookup, sankeyClusters);
-        updateChord(emails, lookup);
+        updateChord(emails, lookup, sankeyBarFractions);
         amChartSankey_1.default.validateData(); // Updates the sankeyChart
     }
     exports.updateCharts = updateCharts;
@@ -103,12 +103,15 @@ define(["require", "exports", "./amChartChord", "./amChartSankey", "./mailGraph"
         // Return entry to the diagram
         return { from: from, to: to, value: value, color: window["colorData"][tjob] };
     }
-    function updateChord(emails, lookup) {
+    function updateChord(emails, lookup, sankeyBarFractions) {
         amChartChord_1.default.startAngle = 180;
         amChartChord_1.default.endAngle = amChartChord_1.default.startAngle + 180;
         let mg = new mailGraph_1.MailGraph(emails);
         let dateStrings = document.getElementById("calendar").value.split(" - ");
         mg.setDates(new Date(dateStrings[0]), new Date(dateStrings[1]));
+        let totalMillis = emails[emails.length - 1].date.getTime() - emails[0].date.getTime();
+        sankeyBarFractions.push((mg.startDate.getTime() - emails[0].date.getTime()) / totalMillis);
+        sankeyBarFractions.push((mg.endDate.getTime() - emails[0].date.getTime()) / totalMillis);
         amChartChord_1.default.data = mg.generateJobChordInput(lookup);
         amChartChord_1.default.validateData(); // Updates the chord diagram
     }
