@@ -1,4 +1,7 @@
 
+import {updateChord} from "./visualisationController";
+import chordChart from "./amChartChord";
+
 let jq = window["$"]
 
 jq(function () {
@@ -47,5 +50,8 @@ jq(function () {
     }, function (start, end) {
         console.log(start.format('YYYY-MM-DD'));
         console.log(end.format('YYYY-MM-DD'));
+
+        updateChord(window["emails"], window["lookup"])
+
     });
 });

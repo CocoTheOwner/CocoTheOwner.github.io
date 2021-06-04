@@ -15,7 +15,9 @@ define(["require", "exports", "./csvParser", "./csvData", "./visualisationContro
         console.log("File uploaded successfully");
         var modal = document.getElementById("myModal");
         modal.style.display = "none";
-        visualisationController_1.updateCharts(emails, lookup, 8);
+        window["emails"] = emails;
+        window["lookup"] = lookup;
+        visualisationController_1.updateCharts(8);
     });
     //when input changes, update file
     input2.addEventListener('change', function (e) {
@@ -25,6 +27,8 @@ define(["require", "exports", "./csvParser", "./csvData", "./visualisationContro
         };
         reader.readAsText(input2.files[0]);
         console.log("File uploaded successfully");
-        visualisationController_1.updateCharts(emails, lookup, 8);
+        window["emails"] = emails;
+        window["lookup"] = lookup;
+        visualisationController_1.updateCharts(8);
     });
 });

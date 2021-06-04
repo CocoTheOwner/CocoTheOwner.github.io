@@ -17,7 +17,9 @@ input1.addEventListener('change', function (e) {
     console.log("File uploaded successfully");
     var modal = document.getElementById("myModal");
     modal.style.display = "none";
-    updateCharts(emails, lookup, 8);
+    window["emails"] = emails
+    window["lookup"] = lookup
+    updateCharts(8);
 });
 
 
@@ -29,5 +31,7 @@ input2.addEventListener('change', function (e) {
     };
     reader.readAsText(input2.files[0]);
     console.log("File uploaded successfully");
-    updateCharts(emails, lookup, 8);
+    window["emails"] = emails
+    window["lookup"] = lookup
+    updateCharts(8);
 });
