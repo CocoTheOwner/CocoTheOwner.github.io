@@ -25,7 +25,7 @@ export class Employee {
 //  -lookup:   lookupTable to add the data to
 //returns:
 //  -email object
-export function nextMail(mailData: string, mailArr: Email[], lookup: { [id: number]: Employee }): Email {
+function nextMail(mailData: string, mailArr: Email[], lookup: { [id: number]: Employee }) {
     let tokens = mailData.split(',');
     
     // Make variables for the email's data
@@ -49,7 +49,6 @@ export function nextMail(mailData: string, mailArr: Email[], lookup: { [id: numb
 
     // Add the email to the emails array and return the object
     mailArr.push(mail);
-    return mail;
 }
 
 //Process csv-file data and add their contents to the emails array and lookup table
@@ -58,12 +57,30 @@ export function nextMail(mailData: string, mailArr: Email[], lookup: { [id: numb
 //  -mailArr:   emailArray to add the mails to
 //  -lookup:    lookupTable to add the data to
 //returns: nothing
-export function readCsv(csvString: string, mailArr: Email[], lookup: { [id: number]: Employee }) {
+export function readCsv(csvString: string, mailArr: Email[], lookup: { [id: number]: Employee }, datestrings: string[], fractions: number[]) {
     let lines = csvString.split("\n");
     lines.splice(0, 1);             //cut off first line, they are just column names
     while (lines[lines.length - 1].length === 0) {  //remove all emptylines from end
         lines.splice(lines.length - 1, 1);
     }
-    lines.forEach(line => nextMail(line, mailArr, lookup)); //parse line by line
-    mailArr.sort(function (e1, e2) { return e1.date.getTime() - e2.date.getTime(); });
+    
+    //parse line by line
+    lines.forEach(line => {
+        let date = nextMail(line, mailArr, lookup);
+    });
+    
+    mailArr = mailArr.sort(function (e1, e2) { return e1.date.getTime() - e2.date.getTime(); });
+    console.log(mailArr);
+    
+    let dates: string[] = [];
+    mailArr.forEach(mail => {
+        if (!(mail.date.toISOString().substr(0, 10) in dates)) {
+            dates.push(mail.date.toISOString().substr(0, 10));
+        }
+    });
+
+    for (var i = 0; i <= 8; i++) {
+        let index = Math.floor((dates.length - 1) * i / 8);
+        datestrings.push(dates[index]);
+    }
 }

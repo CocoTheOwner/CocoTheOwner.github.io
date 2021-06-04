@@ -111,7 +111,7 @@ define(["require", "exports"], function (require, exports) {
             return chartData;
         }
         //
-        generateSankeyInput() {
+        generateChordInput(title) {
             let chartData = [];
             return chartData;
         }

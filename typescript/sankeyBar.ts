@@ -36,3 +36,8 @@ ctx.fillStyle = "rgb(169, 169, 255)"
 ctx.fillRect(0, 0, canvas.width, canvas.height)
 ctx.fillStyle = "#AB00CC"
 ctx.fillRect(canvas.width * fraction[0] * magic_number, 0, canvas.width * fraction[1] * magic_number, canvas.height)
+
+export default function updateData(dates: string[]) {
+    data = dates;
+    // fraction = fraction;
+}

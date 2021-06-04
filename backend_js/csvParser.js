@@ -1,7 +1,7 @@
 define(["require", "exports"], function (require, exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
-    exports.readCsv = exports.nextMail = exports.Employee = exports.Email = void 0;
+    exports.readCsv = exports.Employee = exports.Email = void 0;
     //a class to store email details
     class Email {
         // Constructor creates class letiables and immediately assigns their values.
@@ -49,23 +49,35 @@ define(["require", "exports"], function (require, exports) {
         }
         // Add the email to the emails array and return the object
         mailArr.push(mail);
-        return mail;
     }
-    exports.nextMail = nextMail;
     //Process csv-file data and add their contents to the emails array and lookup table
     //params:
     //  -csvString: the data read from a .csv file
     //  -mailArr:   emailArray to add the mails to
     //  -lookup:    lookupTable to add the data to
     //returns: nothing
-    function readCsv(csvString, mailArr, lookup) {
+    function readCsv(csvString, mailArr, lookup, datestrings, fractions) {
         let lines = csvString.split("\n");
         lines.splice(0, 1); //cut off first line, they are just column names
         while (lines[lines.length - 1].length === 0) { //remove all emptylines from end
             lines.splice(lines.length - 1, 1);
         }
-        lines.forEach(line => nextMail(line, mailArr, lookup)); //parse line by line
-        mailArr.sort(function (e1, e2) { return e1.date.getTime() - e2.date.getTime(); });
+        //parse line by line
+        lines.forEach(line => {
+            let date = nextMail(line, mailArr, lookup);
+        });
+        mailArr = mailArr.sort(function (e1, e2) { return e1.date.getTime() - e2.date.getTime(); });
+        console.log(mailArr);
+        let dates = [];
+        mailArr.forEach(mail => {
+            if (!(mail.date.toISOString().substr(0, 10) in dates)) {
+                dates.push(mail.date.toISOString().substr(0, 10));
+            }
+        });
+        for (var i = 0; i <= 8; i++) {
+            let index = Math.floor((dates.length - 1) * i / 8);
+            datestrings.push(dates[index]);
+        }
     }
     exports.readCsv = readCsv;
 });

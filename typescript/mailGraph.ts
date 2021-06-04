@@ -139,7 +139,7 @@ export class MailGraph {
     }
 
     //
-    generateSankeyInput(): any[] {
+    generateChordInput(title: string): any[] {
         let chartData: any[] = [];
 
         return chartData;
