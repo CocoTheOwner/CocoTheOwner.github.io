@@ -3,6 +3,7 @@ import sankeyChart from "./amChartSankey"
 import {Email, Employee} from "./csvParser"
 import { MailGraph } from "./mailGraph"
 
+export var dates = [] // Will contain as first element the first date and as the last, the last.
 
 // import {MailGraph, findTimeIndex} from "./MailGraph"
 export function updateCharts(sankeyClusters = 8, sankeyBarFractions: number[]): void {
@@ -24,7 +25,6 @@ function updateSankey(emails: Email[], lookup: {[id: number]: Employee}, cluster
     const timeframe = emails[emails.length - 1].date.getTime() - emails[0].date.getTime()
 
     // Calculate the dates between which the clusters exist.
-    const dates = [] // Will contain as first element the first date and as the last, the last.
     for (let i = 0; i < clusters; i++) {
         dates[i] = emails[0].date.getTime() + timeframe / clusters * (i+1)
     }

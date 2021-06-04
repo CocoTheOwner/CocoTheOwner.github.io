@@ -1,7 +1,8 @@
 define(["require", "exports", "./amChartChord", "./amChartSankey", "./mailGraph"], function (require, exports, amChartChord_1, amChartSankey_1, mailGraph_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
-    exports.updateChord = exports.updateCharts = void 0;
+    exports.updateChord = exports.updateCharts = exports.dates = void 0;
+    exports.dates = []; // Will contain as first element the first date and as the last, the last.
     // import {MailGraph, findTimeIndex} from "./MailGraph"
     function updateCharts(sankeyClusters = 8, sankeyBarFractions) {
         let emails = window["emails"];
@@ -17,9 +18,8 @@ define(["require", "exports", "./amChartChord", "./amChartSankey", "./mailGraph"
         // Calculate the time between the first and last mail
         const timeframe = emails[emails.length - 1].date.getTime() - emails[0].date.getTime();
         // Calculate the dates between which the clusters exist.
-        const dates = []; // Will contain as first element the first date and as the last, the last.
         for (let i = 0; i < clusters; i++) {
-            dates[i] = emails[0].date.getTime() + timeframe / clusters * (i + 1);
+            exports.dates[i] = emails[0].date.getTime() + timeframe / clusters * (i + 1);
         }
         // Loop over all mails and set counters, totals and colors
         window["colorData"] = {};
@@ -42,7 +42,7 @@ define(["require", "exports", "./amChartChord", "./amChartSankey", "./mailGraph"
             // Get the date (as a numeric value)
             let date = mail.date.getTime();
             // Check if we are in the next timeslot
-            if (date > dates[timeslot]) {
+            if (date > exports.dates[timeslot]) {
                 timeslot++;
                 mailCounters[timeslot] = { "total": 0 };
             }

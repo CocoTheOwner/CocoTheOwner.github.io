@@ -42,7 +42,7 @@ define(["require", "exports"], function (require, exports) {
     ];
     /* Chart code */
     // Themes begin
-    am4core.useTheme(am4themes_animated);
+    // am4core.useTheme(am4themes_animated);
     // Themes end
     const chart = am4core.create("chordjobdiv", am4charts.ChordDiagram);
     chart.data = defaultData;
