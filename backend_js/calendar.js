@@ -71,5 +71,6 @@ $(function () {
     }, function (start, end) {
         console.log(start.format('YYYY-MM-DD'));
         console.log(end.format('YYYY-MM-DD'));
+        console.log(window)
     });
 });

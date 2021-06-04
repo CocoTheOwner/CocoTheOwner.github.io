@@ -13,6 +13,7 @@
         "./typescript/amChartChord.ts",
         "./typescript/amChartChordJob.ts",
         "./typescript/amChartSankey.ts",
+        "./typescript/calender.ts",
         "./typescript/clusters.ts",
         "./typescript/csvData.ts",
         "./typescript/csvParser.ts",
