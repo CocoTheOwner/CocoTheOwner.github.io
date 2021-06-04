@@ -2,6 +2,7 @@
 var data: string[] = [
     "monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday", "monday", "tuesday"
 ]
+var fraction: number[] = [0.2, 0.8]
 
 /// Create the labels underneath the SankeyDiagram
 const table = <HTMLTableElement> document.getElementById("sankeylabels")
@@ -28,5 +29,10 @@ table.appendChild(row)
 
 /// Draw a progress-like bar underneath the labels to display the current date selection
 const canvas = <HTMLCanvasElement> document.getElementById("sankeyCanvas");
+canvas.width = 1000
+var magic_number = 0.833
 const ctx = canvas.getContext("2d");
+ctx.fillStyle = "rgb(169, 169, 255)"
 ctx.fillRect(0, 0, canvas.width, canvas.height)
+ctx.fillStyle = "#AB00CC"
+ctx.fillRect(canvas.width * fraction[0] * magic_number, 0, canvas.width * fraction[1] * magic_number, canvas.height)
