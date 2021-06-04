@@ -1,31 +1,32 @@
-const data: string[] = [
-    "1", "2", "3", "4", "5", "6", "7", "8", "9"
+// plz overwrite with import :)
+var data: string[] = [
+    "monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday", "monday", "tuesday"
 ]
-const labels = data.length - 1 // Note that this includes the last label. There should be labels - 1 boxes.
-const canvas = <HTMLCanvasElement> document.getElementById("sankeyCanvas");
-const table = <HTMLTableElement> document.getElementById("sankeylabels")
-const ctx = canvas.getContext("2d");
-const tickHeight = 5; // Pixels height of the tick
-const textOffsetTick = 5; // Pixels offset of the label compared to the tick bottom
-ctx.font = "30px Arial";
-ctx.fillStyle = "green"
-ctx.fillRect(0, 0, canvas.width, canvas.height)
-var pos = 0
 
-var row = document.createElement("tr");
-for (let i = 0; i <= labels; i++){
+/// Create the labels underneath the SankeyDiagram
+const table = <HTMLTableElement> document.getElementById("sankeylabels")
+
+// Create a row to append the label to
+const row = document.createElement("tr");
+
+// Iterate over all labels
+for (let i = 0; i <= data.length - 1; i++){
+
+    // Create a table element
     var td = document.createElement("td")
+
+    // Add an arrow up and the date label to the table element
     td.appendChild(document.createTextNode("↑ " + data[i]));
-    data[i]["td"] = td
+
+    // Append the element to the row
     row.appendChild(td)
 }
+
+// Add the row to the table
 table.appendChild(row)
 
-// Draw a label with a tick at the x coord.
-function drawLabel(text: string, x: number, ctx: CanvasRenderingContext2D): void {
-    var oldStyle = ctx.fillStyle;
-    ctx.fillStyle = "black";
-    ctx.fillRect(x, 0, x + 3, tickHeight);
-    ctx.fillText(text, x, canvas.height - tickHeight - textOffsetTick);
-    ctx.fillStyle = oldStyle;
-}
+
+/// Draw a progress-like bar underneath the labels to display the current date selection
+const canvas = <HTMLCanvasElement> document.getElementById("sankeyCanvas");
+const ctx = canvas.getContext("2d");
+ctx.fillRect(0, 0, canvas.width, canvas.height)
