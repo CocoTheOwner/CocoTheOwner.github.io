@@ -22,7 +22,8 @@ define(["require", "exports", "./amChartChord", "./amChartSankey", "./mailGraph"
             dates[i] = emails[0].date.getTime() + timeframe / clusters * (i + 1);
         }
         // Loop over all mails and set counters, totals and colors
-        let jobInfo = {};
+        window["colorData"] = {};
+        amChartSankey_1.default.colors.reset();
         let mailCounters = { 0: { "total": 1 } };
         let timeslot = 0;
         for (let mailNum in emails) {
@@ -32,11 +33,11 @@ define(["require", "exports", "./amChartChord", "./amChartSankey", "./mailGraph"
             let fjob = lookup[mail.fromId].jobTitle;
             let tjob = lookup[mail.toId].jobTitle;
             // Check if the f/tjobs are in the jobID list, and add them if not
-            if (jobInfo[fjob] === undefined) {
-                jobInfo[fjob] = amChartSankey_1.default.colors.next();
+            if (window["colorData"][fjob] === undefined) {
+                window["colorData"][fjob] = amChartSankey_1.default.colors.next();
             }
-            if (jobInfo[tjob] === undefined) {
-                jobInfo[tjob] = amChartSankey_1.default.colors.next();
+            if (window["colorData"][tjob] === undefined) {
+                window["colorData"][tjob] = amChartSankey_1.default.colors.next();
             }
             // Get the date (as a numeric value)
             let date = mail.date.getTime();
@@ -63,30 +64,30 @@ define(["require", "exports", "./amChartChord", "./amChartSankey", "./mailGraph"
             // Get total for timeslot
             let timeslotTotal = mailCounters[timeslot]["total"];
             // Loop over all jobs and get their total (in the timeslot) and calculate&save fraction
-            for (let fjob in jobInfo) {
+            for (let fjob in window["colorData"]) {
                 if (timeslot == "0") {
-                    amChartSankey_1.default.data.push(addSankeyColor(fjob, jobInfo[fjob]));
+                    amChartSankey_1.default.data.push(addSankeyColor(fjob));
                 }
                 // Make sure the dict exists
                 if (mailCounters[timeslot][fjob] === undefined)
                     mailCounters[timeslot][fjob] = {};
                 // Loop over the to jobs
-                for (let tjob in jobInfo) {
+                for (let tjob in window["colorData"]) {
                     // Retrieve the job total if it exists, else 0
                     let jobTotal = mailCounters[timeslot][fjob][tjob] ? mailCounters[timeslot][fjob][tjob] : 0;
                     // Calculate the fraction for the timeslot
                     let fraction = jobTotal / timeslotTotal * 100;
                     // add the number to sankey
-                    amChartSankey_1.default.data.push(addSankeyConnection(fjob, tjob, Number(timeslot), fraction, jobInfo[tjob]));
+                    amChartSankey_1.default.data.push(addSankeyConnection(fjob, tjob, Number(timeslot), fraction));
                 }
             }
         }
     }
     //make a sankey data entry to give the first layer a color
-    function addSankeyColor(fjob, color) {
-        return { from: fjob + ".0", color: color };
+    function addSankeyColor(fjob) {
+        return { from: fjob + ".0", color: window["colorData"][fjob] };
     }
-    function addSankeyConnection(fjob, tjob, timeslot, value, color) {
+    function addSankeyConnection(fjob, tjob, timeslot, value) {
         // Make the "from" string, which is either, (CEO as example):
         // 0 CEO (0)     -> First entry
         // 0 (X)         -> Xth timeslot entry
@@ -100,7 +101,7 @@ define(["require", "exports", "./amChartChord", "./amChartSankey", "./mailGraph"
         // Make the "to" string, which is similar to the second entry for "from", but one higher
         let to = tjob.slice(0, 3).toUpperCase().replace(" ", "") + "." + (timeslot + 1);
         // Return entry to the diagram
-        return { from: from, to: to, value: value, color: color };
+        return { from: from, to: to, value: value, color: window["colorData"][tjob] };
     }
     function updateChord(emails, lookup) {
         amChartChord_1.default.startAngle = 180;
