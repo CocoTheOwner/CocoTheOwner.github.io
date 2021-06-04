@@ -8,6 +8,7 @@ define(["require", "exports"], function (require, exports) {
             this.from = from;
             this.to = to;
             this.value = value;
+            this.color = (to == undefined) ? window["colorData"][from] : undefined;
         }
     }
     exports.MailChord = MailChord;
@@ -61,6 +62,9 @@ define(["require", "exports"], function (require, exports) {
         generateJobChordInput(lookup) {
             let chartData = [];
             let visited = [];
+            for (let job in window["colorData"]) {
+                chartData.push(new MailChord(job, undefined, undefined));
+            }
             // Add all real data (UNDIRECTED)
             // Loop through all senders
             for (const from in this.graph) {

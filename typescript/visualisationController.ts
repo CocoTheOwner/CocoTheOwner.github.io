@@ -30,7 +30,8 @@ function updateSankey(emails: Email[], lookup: {[id: number]: Employee}, cluster
     }
 
     // Loop over all mails and set counters, totals and colors
-    let jobInfo = {}
+    window["colorData"] = {}
+    sankeyChart.colors.reset()
     let mailCounters = {0: {"total":1}}
     let timeslot = 0
     for (let mailNum in emails){
@@ -43,11 +44,11 @@ function updateSankey(emails: Email[], lookup: {[id: number]: Employee}, cluster
         let tjob = lookup[mail.toId].jobTitle
 
         // Check if the f/tjobs are in the jobID list, and add them if not
-        if (jobInfo[fjob] === undefined) {
-            jobInfo[fjob] = sankeyChart.colors.next()
+        if (window["colorData"][fjob] === undefined) {
+            window["colorData"][fjob] = sankeyChart.colors.next()
         }
-        if (jobInfo[tjob] === undefined) {
-            jobInfo[tjob] = sankeyChart.colors.next()
+        if (window["colorData"][tjob] === undefined) {
+            window["colorData"][tjob] = sankeyChart.colors.next()
         }
 
         // Get the date (as a numeric value)
@@ -80,10 +81,10 @@ function updateSankey(emails: Email[], lookup: {[id: number]: Employee}, cluster
         let timeslotTotal = mailCounters[timeslot]["total"]
 
         // Loop over all jobs and get their total (in the timeslot) and calculate&save fraction
-        for (let fjob in jobInfo){
+        for (let fjob in window["colorData"]){
 
             if (timeslot == "0"){
-                 sankeyChart.data.push(addSankeyColor(fjob, jobInfo[fjob]))
+                 sankeyChart.data.push(addSankeyColor(fjob))
             }
 
 
@@ -91,7 +92,7 @@ function updateSankey(emails: Email[], lookup: {[id: number]: Employee}, cluster
             if (mailCounters[timeslot][fjob] === undefined) mailCounters[timeslot][fjob] = {}
 
             // Loop over the to jobs
-            for (let tjob in jobInfo){
+            for (let tjob in window["colorData"]){
 
                 // Retrieve the job total if it exists, else 0
                 let jobTotal = mailCounters[timeslot][fjob][tjob] ? mailCounters[timeslot][fjob][tjob] : 0
@@ -100,17 +101,17 @@ function updateSankey(emails: Email[], lookup: {[id: number]: Employee}, cluster
                 let fraction = jobTotal / timeslotTotal * 100
 
                 // add the number to sankey
-                sankeyChart.data.push(addSankeyConnection(fjob, tjob, Number(timeslot), fraction, jobInfo[tjob]))
+                sankeyChart.data.push(addSankeyConnection(fjob, tjob, Number(timeslot), fraction))
             }
         }
     }
 }
 //make a sankey data entry to give the first layer a color
-function addSankeyColor(fjob: string, color: string): {from: string, color}{
-    return {from: fjob + ".0", color: color}
+function addSankeyColor(fjob: string): {from: string, color}{
+    return {from: fjob + ".0", color: window["colorData"][fjob]}
 }
 
-function addSankeyConnection(fjob: string, tjob: string, timeslot: number, value: number, color: string): {from: string, to: string, value: number, color} {
+function addSankeyConnection(fjob: string, tjob: string, timeslot: number, value: number): {from: string, to: string, value: number, color} {
     // Make the "from" string, which is either, (CEO as example):
     // 0 CEO (0)     -> First entry
     // 0 (X)         -> Xth timeslot entry
@@ -127,7 +128,7 @@ function addSankeyConnection(fjob: string, tjob: string, timeslot: number, value
 
 
     // Return entry to the diagram
-    return{from:from, to:to, value:value, color:color}
+    return{from:from, to:to, value:value, color:window["colorData"][tjob]}
 
 }
 

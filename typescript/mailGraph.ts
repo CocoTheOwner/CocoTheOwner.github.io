@@ -3,13 +3,15 @@ import { Email, Employee } from "./csvParser";
 // A chord that represents the amount of emails between two job types
 export class MailChord {
     public from: string;
-    public to: string;
-    public value: number;
+    public to: string | undefined;
+    public value: number | undefined;
+    public color: string | undefined
 
-    constructor(from: string, to: string, value: number) {
+    constructor(from: string, to: string | undefined, value: number | undefined) {
         this.from = from;
         this.to = to;
-        this.value = value;
+        this.value = value
+        this.color = (to == undefined) ? window["colorData"][from] : undefined
     }
 }
 
@@ -79,8 +81,12 @@ export class MailGraph {
     //returns:
     //  -array of chord specifics
     generateJobChordInput(lookup: { [id: number]: Employee }): any[] {
-        let chartData: MailChord[] = [];
+        let chartData = [];
         let visited: string[] = [];
+
+        for (let job in window["colorData"]){
+            chartData.push(new MailChord(job, undefined, undefined))
+        }
 
         // Add all real data (UNDIRECTED)
         // Loop through all senders
@@ -129,7 +135,6 @@ export class MailGraph {
                 }
             }
         }
-
         return chartData;
     }
 
