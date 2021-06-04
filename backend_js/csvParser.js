@@ -56,7 +56,7 @@ define(["require", "exports"], function (require, exports) {
     //  -mailArr:   emailArray to add the mails to
     //  -lookup:    lookupTable to add the data to
     //returns: nothing
-    function readCsv(csvString, mailArr, lookup, datestrings, fractions) {
+    function readCsv(csvString, mailArr, lookup, datestrings) {
         let lines = csvString.split("\n");
         lines.splice(0, 1); //cut off first line, they are just column names
         while (lines[lines.length - 1].length === 0) { //remove all emptylines from end

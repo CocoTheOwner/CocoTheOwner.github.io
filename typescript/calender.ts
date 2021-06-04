@@ -1,6 +1,5 @@
-
 import {updateChord} from "./visualisationController";
-import chordChart from "./amChartChord";
+import makeSankeyBar from "./sankeyBar";
 
 let jq = window["$"]
 
@@ -47,11 +46,13 @@ jq(function () {
 
         "showDropdowns": true,
         "showWeekNumbers": true
-    }, function (start, end) {
+    }, async function (start, end) {
+        await new Promise( resolve => setTimeout(resolve, 500) );
         console.log(start.format('YYYY-MM-DD'));
         console.log(end.format('YYYY-MM-DD'));
 
-        updateChord(window["emails"], window["lookup"])
-
+        let fractions: number[] = [];
+        updateChord(window["emails"], window["lookup"], fractions);
+        makeSankeyBar(fractions);
     });
 });

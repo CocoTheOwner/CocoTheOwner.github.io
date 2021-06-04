@@ -70,11 +70,13 @@ function drawSankeyBar(){
     roundRect(ctx, canvas.width * fraction[0] * magic_number, 0, canvas.width * fraction[1] * magic_number, canvas.height, 7.5, true, false)
 }
 
-export default function updateData(dates: string[], fractions: number[]) {
+export default function updateData(fractions: number[] = fraction, dates: string[] = data) {
     data = dates;
     fraction = fractions;
     drawSankeyLabels()
     drawSankeyBar()
+    console.log("RAN WHOOOO");
+    console.log(fractions);
 }
 
 /**

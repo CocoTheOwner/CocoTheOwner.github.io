@@ -5,12 +5,12 @@ import { MailGraph } from "./mailGraph"
 
 
 // import {MailGraph, findTimeIndex} from "./MailGraph"
-export function updateCharts(sankeyClusters = 8): void {
+export function updateCharts(sankeyClusters = 8, sankeyBarFractions: number[]): void {
     let emails = window["emails"]
     let lookup = window["lookup"]
 
     updateSankey(emails, lookup, sankeyClusters)
-    updateChord(emails, lookup)
+    updateChord(emails, lookup, sankeyBarFractions)
 
     sankeyChart.validateData(); // Updates the sankeyChart
 }
@@ -132,7 +132,7 @@ function addSankeyConnection(fjob: string, tjob: string, timeslot: number, value
 
 }
 
-export function updateChord(emails: Email[], lookup: {[id: number]: Employee}): void {
+export function updateChord(emails: Email[], lookup: {[id: number]: Employee}, sankeyBarFractions: number[]): void {
     chordChart.startAngle = 180;
     chordChart.endAngle = chordChart.startAngle + 180;
 
@@ -140,6 +140,11 @@ export function updateChord(emails: Email[], lookup: {[id: number]: Employee}): 
     let dateStrings = (<HTMLInputElement>document.getElementById("calendar")).value.split(" - ");
 
     mg.setDates(new Date(dateStrings[0]), new Date(dateStrings[1]));
+
+    let totalMillis = emails[emails.length - 1].date.getTime() - emails[0].date.getTime();
+    sankeyBarFractions.push((mg.startDate.getTime() - emails[0].date.getTime()) / totalMillis);
+    sankeyBarFractions.push((mg.endDate.getTime() - emails[0].date.getTime()) / totalMillis);
+
     chordChart.data = mg.generateJobChordInput(lookup);
     chordChart.validateData(); // Updates the chord diagram
 }

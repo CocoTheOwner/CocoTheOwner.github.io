@@ -19,10 +19,10 @@ export class MailChord {
 export class MailGraph {
     public startIndex: number;
     public endIndex: number;
+    public startDate: Date;
+    public endDate: Date;
     
     private mailArr: Email[];
-    private startDate: Date;
-    private endDate: Date;
     private graph: { [fId: number]: { [tId: number]: number[] } } = {};
 
 

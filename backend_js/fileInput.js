@@ -9,14 +9,14 @@ define(["require", "exports", "./csvParser", "./visualisationController", "./san
         let lookup = [];
         let datestrings = [];
         let fractions = [];
-        csvParser_1.readCsv(reader.result, emails, lookup, datestrings, fractions);
-        sankeyBar_1.default(datestrings, fractions);
+        csvParser_1.readCsv(reader.result, emails, lookup, datestrings);
         console.log("File uploaded successfully");
         var modal = document.getElementById("myModal");
         modal.style.display = "none";
         window["emails"] = emails;
         window["lookup"] = lookup;
-        visualisationController_1.updateCharts(8);
+        visualisationController_1.updateCharts(8, fractions);
+        sankeyBar_1.default(fractions, datestrings);
     }
     //when input changes, update file
     input1.addEventListener('change', function (e) {

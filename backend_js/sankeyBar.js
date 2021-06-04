@@ -53,11 +53,13 @@ define(["require", "exports"], function (require, exports) {
         ctx.fillStyle = "#AB00CC";
         roundRect(ctx, canvas.width * fraction[0] * magic_number, 0, canvas.width * fraction[1] * magic_number, canvas.height, 7.5, true, false);
     }
-    function updateData(dates, fractions) {
+    function updateData(fractions = fraction, dates = data) {
         data = dates;
         fraction = fractions;
         drawSankeyLabels();
         drawSankeyBar();
+        console.log("RAN WHOOOO");
+        console.log(fractions);
     }
     exports.default = updateData;
     /**
