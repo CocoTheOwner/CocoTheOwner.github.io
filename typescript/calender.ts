@@ -56,3 +56,8 @@ jq(function () {
         makeSankeyBar(fractions);
     });
 });
+
+// alert user to change to a biger screen
+if (jq(window).width() < 960) {
+    alert('Your device\'s screen might be to small to view this project at its best performance. Please switch to a larger screen and continue.');
+}
