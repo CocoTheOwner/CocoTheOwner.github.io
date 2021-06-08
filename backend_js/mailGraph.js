@@ -8,7 +8,7 @@ define(["require", "exports"], function (require, exports) {
             this.from = from;
             this.to = to;
             this.value = value;
-            this.color = (to == undefined) ? window["colorData"][from] : undefined;
+            this.nodeColor = (to == undefined) ? window["colorData"][from] : undefined;
         }
     }
     exports.MailChord = MailChord;

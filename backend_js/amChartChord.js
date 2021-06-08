@@ -46,6 +46,9 @@ define(["require", "exports"], function (require, exports) {
     // Themes end
     const chart = am4core.create("chorddiv", am4charts.ChordDiagram);
     chart.data = defaultData;
+    let link = chart.links.template;
+    link.colorMode = "gradient";
+    link.fillOpacity = 0.5;
     // colors of main characters
     chart.colors.saturation = 0.45;
     chart.colors.step = 3;
@@ -66,27 +69,12 @@ define(["require", "exports"], function (require, exports) {
     // avoid hiding the edge when you click on it
     nodeTemplate.events.off("hit");
     nodeTemplate.events.on("hit", function (event) {
-        chart.nodes.each(function (dataItem) {
-            if (dataItem.toNode) {
-                dataItem.link.isSelected = false;
-                dataItem.toNode.isSelected = false;
-            }
-        });
         let node = event.target;
-        console.log(node.name);
-        //jobChord.data = MailGraph.getJobData(node.name)
-        node.outgoingDataItems.each(function (dataItem) {
-            if (dataItem.toNode) {
-                dataItem.link.isSelected = true;
-                dataItem.toNode.isSelected = true;
-            }
-        });
-        node.incomingDataItems.each(function (dataItem) {
-            if (dataItem.fromNode) {
-                dataItem.link.isSelected = true;
-                dataItem.fromNode.label.isSelected = true;
-            }
-        });
+        nodeToggle(node);
+        window["test"] = node;
+        let value = nodeGet(node);
+        node.outgoingDataItems.each(function (dataItem) { edgeSet(dataItem._link, value); });
+        node.incomingDataItems.each(function (dataItem) { edgeSet(dataItem._link, value); });
     });
     let label = nodeTemplate.label;
     label.relativeRotation = 90;
@@ -101,9 +89,9 @@ define(["require", "exports"], function (require, exports) {
     linkTemplate.fillOpacity = 0.15;
     linkTemplate.tooltipText = "{fromName} & {toName}:{value.value}";
     // clicking edges
+    window["chord_highlight"] = [];
     linkTemplate.events.on("hit", function (event) {
-        let edge = event.target;
-        console.log("edge " + edge.name + " was clicked");
+        edgeToggle(event.target);
     });
     var selectedState = linkTemplate.states.create("selected");
     selectedState.properties.fillOpacity = 1;
@@ -112,9 +100,23 @@ define(["require", "exports"], function (require, exports) {
     // (can be deleted if you don't like it)
     var slice = chart.nodes.template.slice;
     slice.stroke = am4core.color("#000");
-    slice.strokeOpacity = 0.5;
+    slice.strokeOpacity = 0;
     slice.strokeWidth = 1;
     slice.cornerRadius = 8;
     slice.innerCornerRadius = 0;
+    function edgeToggle(edge) {
+        edge.strokeOpacity = (edge.strokeOpacity + 1) % 2;
+    }
+    function edgeSet(edge, value) {
+        edge.strokeOpacity = value;
+    }
+    function edgeGet(edge) { return edge.strokeOpacity == 1; }
+    function nodeToggle(node) {
+        node.slice.strokeOpacity = (node.slice.strokeOpacity + 1) % 2;
+    }
+    function nodeSet(node, value) {
+        node.slice.strokeOpacity = value;
+    }
+    function nodeGet(node) { return node.slice.strokeOpacity == 1; }
     exports.default = chart;
 });

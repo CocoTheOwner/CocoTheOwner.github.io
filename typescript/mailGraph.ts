@@ -5,13 +5,13 @@ export class MailChord {
     public from: string;
     public to: string | undefined;
     public value: number | undefined;
-    public color: string | undefined
+    public nodeColor: string | undefined
 
     constructor(from: string, to: string | undefined, value: number | undefined) {
         this.from = from;
         this.to = to;
         this.value = value
-        this.color = (to == undefined) ? window["colorData"][from] : undefined
+        this.nodeColor = (to == undefined) ? window["colorData"][from] : undefined
     }
 }
 

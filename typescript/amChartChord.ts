@@ -49,6 +49,10 @@ const chart = am4core.create("chorddiv", am4charts.ChordDiagram);
 
 chart.data = defaultData;
 
+let link = chart.links.template;
+link.colorMode = "gradient";
+link.fillOpacity = 0.5;
+
 // colors of main characters
 chart.colors.saturation = 0.45;
 chart.colors.step = 3;
@@ -74,29 +78,14 @@ nodeTemplate.tooltipText = "{name} sent {total} mails.";
 nodeTemplate.events.off("hit");
 
 nodeTemplate.events.on("hit", function(event) {
-    chart.nodes.each(function(dataItem) {
-        if(dataItem.toNode){
-            dataItem.link.isSelected = false;
-            dataItem.toNode.isSelected = false;
-        }
-    })
     let node = event.target;
-    console.log(node.name)
+    nodeToggle(node);
 
-    //jobChord.data = MailGraph.getJobData(node.name)
+    window["test"] = node
+    let value = nodeGet(node)
+    node.outgoingDataItems.each(function(dataItem) { edgeSet(dataItem._link, value) })
+    node.incomingDataItems.each(function(dataItem) { edgeSet(dataItem._link, value) })
 
-    node.outgoingDataItems.each(function(dataItem) {
-        if(dataItem.toNode){
-            dataItem.link.isSelected = true;
-            dataItem.toNode.isSelected = true;
-        }
-    })
-    node.incomingDataItems.each(function(dataItem) {
-        if(dataItem.fromNode){
-            dataItem.link.isSelected = true;
-            dataItem.fromNode.label.isSelected = true;
-        }
-    })
 })
 
 let label = nodeTemplate.label;
@@ -116,9 +105,9 @@ linkTemplate.fillOpacity = 0.15;
 linkTemplate.tooltipText = "{fromName} & {toName}:{value.value}";
 
 // clicking edges
+window["chord_highlight"] = []
 linkTemplate.events.on("hit", function (event) {
-    let edge = event.target;
-    console.log("edge " + edge.name + " was clicked");
+    edgeToggle(event.target)
 });
 
 var selectedState = linkTemplate.states.create("selected");
@@ -129,9 +118,25 @@ selectedState.properties.strokeOpacity = 1;
 // (can be deleted if you don't like it)
 var slice = chart.nodes.template.slice;
 slice.stroke = am4core.color("#000");
-slice.strokeOpacity = 0.5;
+slice.strokeOpacity = 0;
 slice.strokeWidth = 1;
 slice.cornerRadius = 8;
 slice.innerCornerRadius = 0;
+
+function edgeToggle(edge){
+    edge.strokeOpacity = (edge.strokeOpacity+1) %2
+}
+function edgeSet(edge, value: boolean){
+    edge.strokeOpacity = value
+}
+function edgeGet(edge): boolean {return edge.strokeOpacity == 1}
+
+function nodeToggle(node){
+    node.slice.strokeOpacity = (node.slice.strokeOpacity+1) %2
+}
+function nodeSet(node, value: boolean){
+    node.slice.strokeOpacity = value
+}
+function nodeGet(node): boolean {return node.slice.strokeOpacity == 1}
 
 export default chart
