@@ -34,7 +34,6 @@ define(["require", "exports", "./amChartChord", "./amChartSankey", "./mailGraph"
             let tjob = lookup[mail.toId].jobTitle;
             // Check if the f/tjobs are in the jobID list, and add them if not
             if (window["colorData"][fjob] === undefined) {
-                window["colorData"][fjob] = amChartSankey_1.default.colors.next();
             }
             if (window["colorData"][tjob] === undefined) {
                 window["colorData"][tjob] = amChartSankey_1.default.colors.next();
@@ -96,10 +95,21 @@ define(["require", "exports", "./amChartChord", "./amChartSankey", "./mailGraph"
             from = fjob + ".0";
         }
         else {
-            from = fjob.slice(0, 3).toUpperCase().replace(" ", "") + "." + timeslot;
+            if (fjob === "Managing Director") {
+                from = "MGD" + timeslot;
+            }
+            else {
+                from = fjob.slice(0, 3).toUpperCase().replace(" ", "") + "." + timeslot;
+            }
         }
         // Make the "to" string, which is similar to the second entry for "from", but one higher
-        let to = tjob.slice(0, 3).toUpperCase().replace(" ", "") + "." + (timeslot + 1);
+        let to = undefined;
+        if (tjob === "Managing Director") {
+            to = "MGD" + (timeslot + 1);
+        }
+        else {
+            to = tjob.slice(0, 3).toUpperCase().replace(" ", "") + "." + (timeslot + 1);
+        }
         // Return entry to the diagram
         return { from: from, to: to, value: value, color: window["colorData"][tjob] };
     }
