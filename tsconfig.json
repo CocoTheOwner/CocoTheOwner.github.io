@@ -20,6 +20,7 @@
         "./typescript/edgeBundling.ts",
         "./typescript/fileInput.ts",
         "./typescript/mailGraph.ts",
+        "./typescript/sankeyBar.ts",
         "./typescript/visualisationController.ts",
         "./typescript/visualiseCollection.ts",
     ]
