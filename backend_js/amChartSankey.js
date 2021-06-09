@@ -36,8 +36,8 @@ define(["require", "exports"], function (require, exports) {
      * customize nodes
      */
     nodeTemplate.inert = true;
-    nodeTemplate.readerTitle = "Drag me!";
-    nodeTemplate.showSystemTooltip = true;
+    nodeTemplate.draggable = false;
+    nodeTemplate.showSystemTooltip = false;
     nodeTemplate.width = 10;
     nodeTemplate.height = 20;
     nodeTemplate.cursorOverStyle = am4core.MouseCursorStyle.pointer;
@@ -56,18 +56,9 @@ define(["require", "exports"], function (require, exports) {
     // clicking nodes
     let node;
     nodeTemplate.events.on("hit", function (event) {
-        if (node == event.target) {
-            node.fill = node.defaultState.properties.fill;
-            node = undefined;
-        }
-        else {
-            if (node) {
-                node.fill = node.defaultState.properties.fill;
-            }
-            node = event.target;
-            console.log("node " + node.name + " was clicked");
-            node.setState("selected");
-        }
+        console.log("node " + event.target.name + " was clicked");
+        event.target.nameLabel.label.text = "";
+        event.target.scale = event.target.scale * 1.1;
     });
     // when a node is selected, colour it in red
     var hl = nodeTemplate.states.create("selected");

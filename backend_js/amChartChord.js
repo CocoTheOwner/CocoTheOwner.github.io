@@ -66,6 +66,7 @@ define(["require", "exports"], function (require, exports) {
     nodeTemplate.showSystemTooltip = true;
     nodeTemplate.propertyFields.fill = "color";
     nodeTemplate.tooltipText = "{name} sent {total} mails.";
+    nodeTemplate.draggable = false;
     // avoid hiding the edge when you click on it
     nodeTemplate.events.off("hit");
     nodeTemplate.events.on("hit", function (event) {
@@ -87,7 +88,7 @@ define(["require", "exports"], function (require, exports) {
     let linkTemplate = chart.links.template;
     linkTemplate.strokeOpacity = 0;
     linkTemplate.fillOpacity = 0.15;
-    linkTemplate.tooltipText = "{fromName} & {toName}:{value.value}";
+    linkTemplate.tooltipText = "{fromName} sent {toName} {value.value} mails";
     // clicking edges
     window["chord_highlight"] = [];
     linkTemplate.events.on("hit", function (event) {
