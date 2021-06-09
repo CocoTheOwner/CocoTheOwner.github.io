@@ -42,9 +42,9 @@ define(["require", "exports"], function (require, exports) {
     nodeTemplate.width = 10;
     nodeTemplate.height = 20;
     nodeTemplate.cursorOverStyle = am4core.MouseCursorStyle.pointer;
-    nodeTemplate.stroke = am4core.color("#A9A9FF"); //should be the same colour of the background
-    nodeTemplate.strokeOpacity = 0.2;
-    nodeTemplate.strokeWidth = 1.4;
+    nodeTemplate.stroke = am4core.color("#000000"); //should be the same colour of the background
+    nodeTemplate.strokeOpacity = 1;
+    nodeTemplate.strokeWidth = 0;
     nodeTemplate.cornerRadius = 2;
     nodeTemplate.innerCornerRadius = 0;
     nodeTemplate.events.off("hit"); // avoid hiding the nodes when you click them
@@ -60,6 +60,12 @@ define(["require", "exports"], function (require, exports) {
     linkTemplate.tension = 0.7;
     linkTemplate.colorMode = "gradient";
     linkTemplate.fillOpacity = 0.4;
+    linkTemplate.strokeOpacity = 1;
+    linkTemplate.strokeWidth = 0;
+    // clicking nodes
+    nodeTemplate.events.on("hit", function (event) {
+        event.target.strokeWidth = (event.target.strokeWidth + 1) % 2;
+    });
     // when a node is selected, colour it in red
     var hl = nodeTemplate.states.create("selected");
     hl.properties.fill = am4core.color("#c55");
