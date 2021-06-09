@@ -1,4 +1,4 @@
-import {updateChord} from "./visualisationController";
+import {updateJobChord} from "./visualisationController";
 import makeSankeyBar from "./sankeyBar";
 
 let jq = window["$"]
@@ -52,7 +52,7 @@ jq(function () {
         console.log(end.format('YYYY-MM-DD'));
 
         let fractions: number[] = [];
-        updateChord(window["emails"], window["lookup"], fractions);
+        updateJobChord(window["emails"], window["lookup"], fractions);
         makeSankeyBar(fractions);
     });
 });

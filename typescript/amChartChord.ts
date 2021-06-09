@@ -1,8 +1,8 @@
+import { updateChord } from "./visualisationController";
+
 var am4core = window["am4core"]
 var am4charts = window["am4charts"]
 var am4themes_animated = window["am4themes_animated"]
-import jobChord from "./amChartChordJob"
-import { MailGraph, MailChord } from "./mailGraph"
 
 const defaultData = [
     // real data
@@ -86,6 +86,8 @@ nodeTemplate.events.on("hit", function(event) {
     node.outgoingDataItems.each(function(dataItem) { edgeSet(dataItem._link, value) })
     node.incomingDataItems.each(function(dataItem) { edgeSet(dataItem._link, value) })
 
+    window["selectedJob"] = node.name;
+    updateChord();
 })
 
 let label = nodeTemplate.label;

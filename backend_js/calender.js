@@ -58,7 +58,7 @@ define(["require", "exports", "./visualisationController", "./sankeyBar"], funct
                 console.log(start.format('YYYY-MM-DD'));
                 console.log(end.format('YYYY-MM-DD'));
                 let fractions = [];
-                visualisationController_1.updateChord(window["emails"], window["lookup"], fractions);
+                visualisationController_1.updateJobChord(window["emails"], window["lookup"], fractions);
                 sankeyBar_1.default(fractions);
             });
         });

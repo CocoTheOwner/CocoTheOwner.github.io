@@ -1,16 +1,22 @@
 import chordChart from "./amChartChord"
+import withinJobChart from "./amChartChordJob"
 import sankeyChart from "./amChartSankey"
 import {Email, Employee} from "./csvParser"
 import { MailGraph } from "./mailGraph"
 
 
+let mg: MailGraph;
+let lookup;
+let inJobChartTitle = withinJobChart.titles.create();
+inJobChartTitle.fontSize = 25;
+
 // import {MailGraph, findTimeIndex} from "./MailGraph"
 export function updateCharts(sankeyClusters = 8, sankeyBarFractions: number[]): void {
     let emails = window["emails"]
-    let lookup = window["lookup"]
+    lookup = window["lookup"]
 
     updateSankey(emails, lookup, sankeyClusters)
-    updateChord(emails, lookup, sankeyBarFractions)
+    updateJobChord(emails, lookup, sankeyBarFractions)
 
     sankeyChart.validateData(); // Updates the sankeyChart
 
@@ -133,11 +139,11 @@ function addSankeyConnection(fjob: string, tjob: string, timeslot: number, value
 
 }
 
-export function updateChord(emails: Email[], lookup: {[id: number]: Employee}, sankeyBarFractions: number[]): void {
+export function updateJobChord(emails: Email[], lookup: {[id: number]: Employee}, sankeyBarFractions: number[]): void {
     chordChart.startAngle = 180;
     chordChart.endAngle = chordChart.startAngle + 180;
 
-    let mg = new MailGraph(emails);
+    mg = new MailGraph(emails);
     let dateStrings = (<HTMLInputElement>document.getElementById("calendar")).value.split(" - ");
 
     mg.setDates(new Date(dateStrings[0]), new Date(dateStrings[1]));
@@ -148,6 +154,18 @@ export function updateChord(emails: Email[], lookup: {[id: number]: Employee}, s
 
     chordChart.data = mg.generateJobChordInput(lookup);
     chordChart.validateData(); // Updates the chord diagram
+
+    updateChord();
+}
+
+export function updateChord() {
+    withinJobChart.startAngle = 180;
+    withinJobChart.endAngle = withinJobChart.startAngle + 180;
+
+    inJobChartTitle.text = "Within job title: " + window["selectedJob"];
+
+    withinJobChart.data = mg.generateChordInput(window["selectedJob"], lookup);
+    withinJobChart.validateData();
 }
 
 function removeSankeyLabels(sankeyChart){

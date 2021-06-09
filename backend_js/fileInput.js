@@ -15,6 +15,7 @@ define(["require", "exports", "./csvParser", "./visualisationController", "./san
         modal.style.display = "none";
         window["emails"] = emails;
         window["lookup"] = lookup;
+        window["selectedJob"] = "Unknown";
         visualisationController_1.updateCharts(8, fractions);
         sankeyBar_1.default(fractions, datestrings);
     }

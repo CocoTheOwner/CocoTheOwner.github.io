@@ -1,13 +1,17 @@
-define(["require", "exports", "./amChartChord", "./amChartSankey", "./mailGraph"], function (require, exports, amChartChord_1, amChartSankey_1, mailGraph_1) {
+define(["require", "exports", "./amChartChord", "./amChartChordJob", "./amChartSankey", "./mailGraph"], function (require, exports, amChartChord_1, amChartChordJob_1, amChartSankey_1, mailGraph_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
-    exports.updateChord = exports.updateCharts = void 0;
+    exports.updateChord = exports.updateJobChord = exports.updateCharts = void 0;
+    let mg;
+    let lookup;
+    let inJobChartTitle = amChartChordJob_1.default.titles.create();
+    inJobChartTitle.fontSize = 25;
     // import {MailGraph, findTimeIndex} from "./MailGraph"
     function updateCharts(sankeyClusters = 8, sankeyBarFractions) {
         let emails = window["emails"];
-        let lookup = window["lookup"];
+        lookup = window["lookup"];
         updateSankey(emails, lookup, sankeyClusters);
-        updateChord(emails, lookup, sankeyBarFractions);
+        updateJobChord(emails, lookup, sankeyBarFractions);
         amChartSankey_1.default.validateData(); // Updates the sankeyChart
         removeSankeyLabels(amChartSankey_1.default);
     }
@@ -103,10 +107,10 @@ define(["require", "exports", "./amChartChord", "./amChartSankey", "./mailGraph"
         // Return entry to the diagram
         return { from: from, to: to, value: value, color: window["colorData"][tjob] };
     }
-    function updateChord(emails, lookup, sankeyBarFractions) {
+    function updateJobChord(emails, lookup, sankeyBarFractions) {
         amChartChord_1.default.startAngle = 180;
         amChartChord_1.default.endAngle = amChartChord_1.default.startAngle + 180;
-        let mg = new mailGraph_1.MailGraph(emails);
+        mg = new mailGraph_1.MailGraph(emails);
         let dateStrings = document.getElementById("calendar").value.split(" - ");
         mg.setDates(new Date(dateStrings[0]), new Date(dateStrings[1]));
         let totalMillis = emails[emails.length - 1].date.getTime() - emails[0].date.getTime();
@@ -114,6 +118,15 @@ define(["require", "exports", "./amChartChord", "./amChartSankey", "./mailGraph"
         sankeyBarFractions.push((mg.endDate.getTime() - emails[0].date.getTime()) / totalMillis);
         amChartChord_1.default.data = mg.generateJobChordInput(lookup);
         amChartChord_1.default.validateData(); // Updates the chord diagram
+        updateChord();
+    }
+    exports.updateJobChord = updateJobChord;
+    function updateChord() {
+        amChartChordJob_1.default.startAngle = 180;
+        amChartChordJob_1.default.endAngle = amChartChordJob_1.default.startAngle + 180;
+        inJobChartTitle.text = "Within job title: " + window["selectedJob"];
+        amChartChordJob_1.default.data = mg.generateChordInput(window["selectedJob"], lookup);
+        amChartChordJob_1.default.validateData();
     }
     exports.updateChord = updateChord;
     function removeSankeyLabels(sankeyChart) {

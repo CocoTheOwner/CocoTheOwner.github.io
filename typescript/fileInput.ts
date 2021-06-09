@@ -17,6 +17,7 @@ function analyseCSVData() {
     modal.style.display = "none";
     window["emails"] = emails
     window["lookup"] = lookup
+    window["selectedJob"] = "Unknown"
     updateCharts(8, fractions);
     makeSankeyBar(fractions, datestrings);
 }

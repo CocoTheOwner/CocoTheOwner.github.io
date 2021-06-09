@@ -1,4 +1,4 @@
-define(["require", "exports"], function (require, exports) {
+define(["require", "exports", "./visualisationController"], function (require, exports, visualisationController_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var am4core = window["am4core"];
@@ -75,6 +75,8 @@ define(["require", "exports"], function (require, exports) {
         let value = nodeGet(node);
         node.outgoingDataItems.each(function (dataItem) { edgeSet(dataItem._link, value); });
         node.incomingDataItems.each(function (dataItem) { edgeSet(dataItem._link, value); });
+        window["selectedJob"] = node.name;
+        visualisationController_1.updateChord();
     });
     let label = nodeTemplate.label;
     label.relativeRotation = 90;
