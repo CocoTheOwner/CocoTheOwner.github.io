@@ -3,6 +3,7 @@ define(["require", "exports"], function (require, exports) {
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.findTimeIndex = exports.MailGraph = exports.MailChord = void 0;
     // A chord that represents the amount of emails between two job types
+    // This class is interpretable by the chord diagram from amCharts
     class MailChord {
         constructor(from, to, value) {
             this.from = from;
@@ -111,8 +112,34 @@ define(["require", "exports"], function (require, exports) {
             return chartData;
         }
         //
-        generateChordInput(title) {
+        generateChordInput(title, lookup) {
             let chartData = [];
+            // For all emails in the selected timespan...
+            for (let i = this.startIndex; i <= this.endIndex; i++) {
+                let mail = this.mailArr[i];
+                // If this email is sent and received by someone with the specified job title...
+                if (lookup[mail.fromId].jobTitle === title && lookup[mail.toId].jobTitle === title && mail.fromId != mail.toId) {
+                    // Check if the current sender/receiver already has a chord.
+                    let chordFound = false;
+                    for (const chord of chartData) {
+                        // If they do, increase that chord's count by one
+                        if ("" + mail.fromId == chord.from && "" + mail.toId == chord.to) {
+                            chordFound = true;
+                            chord.value++;
+                            break;
+                        }
+                        else if ("" + mail.fromId == chord.to && "" + mail.toId == chord.from) {
+                            chordFound = true;
+                            chord.value++;
+                            break;
+                        }
+                    }
+                    // If the current sender and receiver don't have a chord, make it.
+                    if (!chordFound) {
+                        chartData.push(new MailChord("" + mail.fromId, "" + mail.toId, 1));
+                    }
+                }
+            }
             return chartData;
         }
         //add single mail to graph (and nodes if they are missing)
