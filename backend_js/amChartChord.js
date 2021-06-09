@@ -72,7 +72,6 @@ define(["require", "exports"], function (require, exports) {
     nodeTemplate.events.on("hit", function (event) {
         let node = event.target;
         nodeToggle(node);
-        window["test"] = node;
         let value = nodeGet(node);
         node.outgoingDataItems.each(function (dataItem) { edgeSet(dataItem._link, value); });
         node.incomingDataItems.each(function (dataItem) { edgeSet(dataItem._link, value); });
