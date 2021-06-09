@@ -75,8 +75,6 @@ export default function updateData(fractions: number[] = fraction, dates: string
     fraction = fractions;
     drawSankeyLabels()
     drawSankeyBar()
-    console.log("RAN WHOOOO");
-    console.log(fractions);
 }
 
 /**
