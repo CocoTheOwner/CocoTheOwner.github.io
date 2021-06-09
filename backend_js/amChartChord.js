@@ -83,7 +83,6 @@ define(["require", "exports"], function (require, exports) {
     let labelSelected = label.states.create("selected");
     labelSelected.properties.fillOpacity = 1;
     nodeTemplate.cursorOverStyle = am4core.MouseCursorStyle.pointer;
-    nodeTemplate.draggable = true;
     // customize edges
     let linkTemplate = chart.links.template;
     linkTemplate.strokeOpacity = 0;
