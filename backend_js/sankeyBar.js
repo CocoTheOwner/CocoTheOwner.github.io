@@ -58,8 +58,6 @@ define(["require", "exports"], function (require, exports) {
         fraction = fractions;
         drawSankeyLabels();
         drawSankeyBar();
-        console.log("RAN WHOOOO");
-        console.log(fractions);
     }
     exports.default = updateData;
     /**
