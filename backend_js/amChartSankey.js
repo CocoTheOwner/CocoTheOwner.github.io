@@ -66,8 +66,8 @@ define(["require", "exports"], function (require, exports) {
     nodeTemplate.events.on("hit", function (event) {
         event.target.strokeWidth = (event.target.strokeWidth + 1) % 2;
     });
-    // when a node is selected, colour it in red
-    var hl = nodeTemplate.states.create("selected");
-    hl.properties.fill = am4core.color("#c55");
+    linkTemplate.events.on("hit", function (event) {
+        event.target.strokeWidth = (event.target.strokeWidth + 1) % 2;
+    });
     exports.default = chart;
 });
