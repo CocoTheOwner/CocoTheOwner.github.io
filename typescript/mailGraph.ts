@@ -1,6 +1,7 @@
 import { Email, Employee } from "./csvParser";
 
 // A chord that represents the amount of emails between two job types
+// This class is interpretable by the chord diagram from amCharts
 export class MailChord {
     public from: string;
     public to: string | undefined;
@@ -81,7 +82,7 @@ export class MailGraph {
     //returns:
     //  -array of chord specifics
     generateJobChordInput(lookup: { [id: number]: Employee }): any[] {
-        let chartData = [];
+        let chartData: MailChord[] = [];
         let visited: string[] = [];
 
         for (let job in window["colorData"]){
@@ -139,8 +140,36 @@ export class MailGraph {
     }
 
     //
-    generateChordInput(title: string): any[] {
-        let chartData: any[] = [];
+    generateChordInput(title: string, lookup: { [id: number]: Employee }): any[] {
+        let chartData: MailChord[] = [];
+
+
+        // For all emails in the selected timespan...
+        for (let i = this.startIndex; i <= this.endIndex; i++) {
+            let mail = this.mailArr[i];
+
+            // If this email is sent and received by someone with the specified job title...
+            if (lookup[mail.fromId].jobTitle === title && lookup[mail.toId].jobTitle === title && mail.fromId != mail.toId) {
+                // Check if the current sender/receiver already has a chord.
+                let chordFound = false;
+                for (const chord of chartData) {
+                    // If they do, increase that chord's count by one
+                    if (""+mail.fromId == chord.from && ""+mail.toId == chord.to) {
+                        chordFound = true;
+                        chord.value++;
+                        break;
+                    } else if (""+mail.fromId == chord.to && ""+mail.toId == chord.from) {
+                        chordFound = true;
+                        chord.value++;
+                        break;
+                    }
+                }
+                // If the current sender and receiver don't have a chord, make it.
+                if (!chordFound) {
+                    chartData.push(new MailChord(""+mail.fromId, ""+mail.toId, 1));
+                }
+            }
+        }
 
         return chartData;
     }
