@@ -9,6 +9,7 @@ define(["require", "exports", "./amChartChord", "./amChartSankey", "./mailGraph"
         updateSankey(emails, lookup, sankeyClusters);
         updateChord(emails, lookup, sankeyBarFractions);
         amChartSankey_1.default.validateData(); // Updates the sankeyChart
+        removeSankeyLabels(amChartSankey_1.default);
     }
     exports.updateCharts = updateCharts;
     function updateSankey(emails, lookup, clusters = 8) {
@@ -84,7 +85,7 @@ define(["require", "exports", "./amChartChord", "./amChartSankey", "./mailGraph"
     }
     //make a sankey data entry to give the first layer a color
     function addSankeyColor(fjob) {
-        return { from: fjob + ".0", color: window["colorData"][fjob] };
+        return { from: fjob, color: window["colorData"][fjob] };
     }
     function addSankeyConnection(fjob, tjob, timeslot, value) {
         // Make the "from" string, which is either, (CEO as example):
@@ -92,24 +93,13 @@ define(["require", "exports", "./amChartChord", "./amChartSankey", "./mailGraph"
         // 0 (X)         -> Xth timeslot entry
         let from = undefined;
         if (timeslot === 0) {
-            from = fjob + ".0";
+            from = fjob;
         }
         else {
-            if (fjob === "Managing Director") {
-                from = "MGD" + timeslot;
-            }
-            else {
-                from = fjob.slice(0, 3).toUpperCase().replace(" ", "") + "." + timeslot;
-            }
+            from = fjob + "." + timeslot;
         }
         // Make the "to" string, which is similar to the second entry for "from", but one higher
-        let to = undefined;
-        if (tjob === "Managing Director") {
-            to = "MGD" + (timeslot + 1);
-        }
-        else {
-            to = tjob.slice(0, 3).toUpperCase().replace(" ", "") + "." + (timeslot + 1);
-        }
+        let to = tjob + "." + (timeslot + 1);
         // Return entry to the diagram
         return { from: from, to: to, value: value, color: window["colorData"][tjob] };
     }
@@ -126,4 +116,13 @@ define(["require", "exports", "./amChartChord", "./amChartSankey", "./mailGraph"
         amChartChord_1.default.validateData(); // Updates the chord diagram
     }
     exports.updateChord = updateChord;
+    function removeSankeyLabels(sankeyChart) {
+        sankeyChart.nodes.each(function (key, node) {
+            console.log(key);
+            if (key.includes(".")) {
+                node.nameLabel.label.text = key.split(".")[0];
+                node.nameLabel.label.disabled = true;
+            }
+        });
+    }
 });

@@ -86,7 +86,7 @@ define(["require", "exports"], function (require, exports) {
     // customize edges
     let linkTemplate = chart.links.template;
     linkTemplate.strokeOpacity = 0;
-    linkTemplate.fillOpacity = 0.15;
+    linkTemplate.fillOpacity = 0.4;
     linkTemplate.tooltipText = "{fromName} sent {toName} {value.value} mails";
     // clicking edges
     window["chord_highlight"] = [];

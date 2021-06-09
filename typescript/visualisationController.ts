@@ -13,6 +13,8 @@ export function updateCharts(sankeyClusters = 8, sankeyBarFractions: number[]): 
     updateChord(emails, lookup, sankeyBarFractions)
 
     sankeyChart.validateData(); // Updates the sankeyChart
+
+    removeSankeyLabels(sankeyChart)
 }
 
 function updateSankey(emails: Email[], lookup: {[id: number]: Employee}, clusters = 8): void {
@@ -107,7 +109,7 @@ function updateSankey(emails: Email[], lookup: {[id: number]: Employee}, cluster
 }
 //make a sankey data entry to give the first layer a color
 function addSankeyColor(fjob: string): {from: string, color}{
-    return {from: fjob + ".0", color: window["colorData"][fjob]}
+    return {from: fjob, color: window["colorData"][fjob]}
 }
 
 function addSankeyConnection(fjob: string, tjob: string, timeslot: number, value: number): {from: string, to: string, value: number, color} {
@@ -116,23 +118,14 @@ function addSankeyConnection(fjob: string, tjob: string, timeslot: number, value
     // 0 (X)         -> Xth timeslot entry
     let from = undefined
     if (timeslot === 0) { 
-        from = fjob + ".0"
+        from = fjob
     }
     else {
-        if (fjob === "Managing Director") {
-            from = "MGD" + timeslot;
-        } else {
-            from = fjob.slice(0, 3).toUpperCase().replace(" ", "") + "." + timeslot;
-        }
+        from = fjob + "." + timeslot;
     }
     
     // Make the "to" string, which is similar to the second entry for "from", but one higher
-    let to = undefined
-    if (tjob === "Managing Director") {
-        to = "MGD" + (timeslot + 1);
-    } else {
-        to = tjob.slice(0, 3).toUpperCase().replace(" ", "") + "." + (timeslot + 1)
-    }
+    let to = tjob + "." + (timeslot + 1)
 
 
     // Return entry to the diagram
@@ -155,4 +148,14 @@ export function updateChord(emails: Email[], lookup: {[id: number]: Employee}, s
 
     chordChart.data = mg.generateJobChordInput(lookup);
     chordChart.validateData(); // Updates the chord diagram
+}
+
+function removeSankeyLabels(sankeyChart){
+    sankeyChart.nodes.each(function(key, node) {
+        console.log(key)
+        if (key.includes(".")){
+            node.nameLabel.label.text = key.split(".")[0]
+            node.nameLabel.label.disabled = true
+        }
+    })
 }

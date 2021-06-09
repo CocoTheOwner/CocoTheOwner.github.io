@@ -37,6 +37,7 @@ define(["require", "exports"], function (require, exports) {
      */
     nodeTemplate.inert = true;
     nodeTemplate.draggable = false;
+    nodeTemplate.hoverable = true;
     nodeTemplate.showSystemTooltip = false;
     nodeTemplate.width = 10;
     nodeTemplate.height = 20;
@@ -47,28 +48,20 @@ define(["require", "exports"], function (require, exports) {
     nodeTemplate.cornerRadius = 2;
     nodeTemplate.innerCornerRadius = 0;
     nodeTemplate.events.off("hit"); // avoid hiding the nodes when you click them
+    nodeTemplate.events.on("over", function (event) {
+        event.target.nameLabel.label.disabled = false;
+    });
+    nodeTemplate.events.on("out", function (event) {
+        event.target.nameLabel.label.disabled = true;
+    });
     /**
      * customize links
      */
     linkTemplate.tension = 0.7;
     linkTemplate.colorMode = "gradient";
-    linkTemplate.fillOpacity = 0.2;
-    // clicking nodes
-    let node;
-    nodeTemplate.events.on("hit", function (event) {
-        console.log("node " + event.target.name + " was clicked");
-        event.target.nameLabel.label.text = "";
-        event.target.scale = event.target.scale * 1.1;
-    });
+    linkTemplate.fillOpacity = 0.4;
     // when a node is selected, colour it in red
     var hl = nodeTemplate.states.create("selected");
     hl.properties.fill = am4core.color("#c55");
-    // // clicking edges
-    // linkTemplate.events.on("hit", function (event) {
-    //   let edge = event.target;
-    //   console.log("edge " + edge.name + " was clicked");
-    //   edge.setAttribute("stroke","#000000");
-    //   edge.setAttribute("fill","#000000");
-    // });
     exports.default = chart;
 });

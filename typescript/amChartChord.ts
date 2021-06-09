@@ -101,7 +101,7 @@ nodeTemplate.cursorOverStyle = am4core.MouseCursorStyle.pointer;
 // customize edges
 let linkTemplate = chart.links.template;
 linkTemplate.strokeOpacity = 0;
-linkTemplate.fillOpacity = 0.15;
+linkTemplate.fillOpacity = 0.4;
 linkTemplate.tooltipText = "{fromName} sent {toName} {value.value} mails";
 
 // clicking edges
