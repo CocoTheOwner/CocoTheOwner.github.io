@@ -73,6 +73,7 @@ nodeTemplate.readerTitle = "Click to select this job";
 nodeTemplate.showSystemTooltip = true;
 nodeTemplate.propertyFields.fill = "color";
 nodeTemplate.tooltipText = "{name} sent {total} mails.";
+nodeTemplate.draggable = false;
 
 // avoid hiding the edge when you click on it
 nodeTemplate.events.off("hit");
@@ -102,7 +103,7 @@ nodeTemplate.draggable = true;
 let linkTemplate = chart.links.template;
 linkTemplate.strokeOpacity = 0;
 linkTemplate.fillOpacity = 0.15;
-linkTemplate.tooltipText = "{fromName} & {toName}:{value.value}";
+linkTemplate.tooltipText = "{fromName} sent {toName} {value.value} mails";
 
 // clicking edges
 window["chord_highlight"] = []
