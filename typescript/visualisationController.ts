@@ -1,8 +1,9 @@
 import chordChart from "./amChartChord"
 import withinJobChart from "./amChartChordJob"
 import sankeyChart from "./amChartSankey"
-import {Email, Employee} from "./csvParser"
-import { MailGraph } from "./mailGraph"
+import { Email, Employee } from "./csvParser"
+import { MailGraph, findTimeIndex } from "./mailGraph"
+import {appendFile} from "fs";
 
 
 let mg: MailGraph;
@@ -10,13 +11,12 @@ let lookup;
 let inJobChartTitle = withinJobChart.titles.create();
 inJobChartTitle.fontSize = 25;
 
-// import {MailGraph, findTimeIndex} from "./MailGraph"
 export function updateCharts(sankeyClusters = 8, sankeyBarFractions: number[]): void {
     let emails = window["emails"]
     lookup = window["lookup"]
 
     updateSankey(emails, lookup, sankeyClusters)
-    updateJobChord(emails, lookup, sankeyBarFractions)
+    updateMainChord(emails, lookup, sankeyBarFractions)
 
     sankeyChart.validateData(); // Updates the sankeyChart
 
@@ -24,9 +24,6 @@ export function updateCharts(sankeyClusters = 8, sankeyBarFractions: number[]): 
 }
 
 function updateSankey(emails: Email[], lookup: {[id: number]: Employee}, clusters = 8): void {
-
-    // Sort emails by date
-    emails.sort(function (e1, e2) { return e1.date.getTime() - e2.date.getTime(); });
 
     // Calculate the time between the first and last mail
     const timeframe = emails[emails.length - 1].date.getTime() - emails[0].date.getTime()
@@ -113,6 +110,7 @@ function updateSankey(emails: Email[], lookup: {[id: number]: Employee}, cluster
         }
     }
 }
+
 //make a sankey data entry to give the first layer a color
 function addSankeyColor(fjob: string): {from: string, color}{
     return {from: fjob, color: window["colorData"][fjob]}
@@ -139,40 +137,90 @@ function addSankeyConnection(fjob: string, tjob: string, timeslot: number, value
 
 }
 
-export function updateJobChord(emails: Email[], lookup: {[id: number]: Employee}, sankeyBarFractions: number[]): void {
+export function updateMainChord(emails: Email[], lookup: {[id: number]: Employee}, sankeyBarFractions: number[]): void {
     chordChart.startAngle = 180;
     chordChart.endAngle = chordChart.startAngle + 180;
 
-    mg = new MailGraph(emails);
-    let dateStrings = (<HTMLInputElement>document.getElementById("calendar")).value.split(" - ");
-
-    mg.setDates(new Date(dateStrings[0]), new Date(dateStrings[1]));
-
     let totalMillis = emails[emails.length - 1].date.getTime() - emails[0].date.getTime();
-    sankeyBarFractions.push((mg.startDate.getTime() - emails[0].date.getTime()) / totalMillis);
-    sankeyBarFractions.push((mg.endDate.getTime() - emails[0].date.getTime()) / totalMillis);
+    sankeyBarFractions.push((window["startDate"].getTime() - emails[0].date.getTime()) / totalMillis);
+    sankeyBarFractions.push((window["endDate"].getTime() - emails[0].date.getTime()) / totalMillis);
 
-    chordChart.data = mg.generateJobChordInput(lookup);
+    let startIndex = findTimeIndex(emails, window["startDate"])
+    let endIndex = findTimeIndex(emails, window["endDate"])
+
+    chordChart.data = []
+    let data = {}
+    for(let i = startIndex; i < endIndex; i++){
+        let mail = emails[i]
+        let from = lookup[mail.fromId].jobTitle
+        let to = lookup[mail.toId].jobTitle
+
+        if(from == to){ continue }
+
+        if(data[from] != undefined && data[from][to] != undefined){ // if an entrie from-> to exists add to that
+            data[from][to]++
+        }else if(data[to] != undefined && data[to][from] != undefined){ // if not, try with to -> from
+            data[to][from]++
+        }else {      // both dont? create from -> to
+            data[from] == undefined ? data[from] = {[to]: 1} : data[from][to] = 1
+        }
+    }
+
+    for(let from in data){
+        for(let to in data[from]){
+            chordChart.data.push({from: from, to: to, value: data[from][to]})
+        }
+    }
+
+    for(let job in window["colorData"]){
+        chordChart.data.push({from: job, color: window["colorData"][job]})
+    }
+
     chordChart.validateData(); // Updates the chord diagram
 
-    updateChord();
+    updateJobChord();
 }
 
-export function updateChord() {
+export function updateJobChord() {
     withinJobChart.startAngle = 180;
     withinJobChart.endAngle = withinJobChart.startAngle + 180;
 
     inJobChartTitle.text = "Within job title: " + window["selectedJob"];
 
-    withinJobChart.data = mg.generateChordInput(window["selectedJob"], lookup);
-    withinJobChart.validateData();
+    let emails = window["emails"]
+    let startIndex = findTimeIndex(emails, window["startDate"])
+    let endIndex = findTimeIndex(emails, window["endDate"])
+
+    withinJobChart.data = []
+    let data = {}
+    for(let i = startIndex; i < endIndex; i++){
+        let mail = emails[i]
+        let from = mail.fromId
+        let to = mail.toId
+        if (lookup[from].jobTitle == window["selectedJob"] && lookup[to].jobTitle == window["selectedJob"]) {
+            if (data[from] != undefined && data[from][to] != undefined) { // if an entrie from-> to exists add to that
+                data[from][to]++
+            } else if (data[to] != undefined && data[to][from] != undefined) { // if not, try with to -> from
+                data[to][from]++
+            } else {      // both dont? create from -> to
+                data[from] == undefined ? data[from] = {[to]: 1} : data[from][to] = 1
+            }
+        }
+    }
+
+    for(let from in data){
+        for(let to in data[from]){
+            withinJobChart.data.push({from: from, to: to, value: data[from][to]})
+        }
+    }
+
+    withinJobChart.validateData(); // Updates the chord diagram
 }
 
 function removeSankeyLabels(sankeyChart){
     sankeyChart.nodes.each(function(key, node) {
-        console.log(key)
+        node.nameLabel.label.text = key.split(".")[0]
         if (key.includes(".")){
-            node.nameLabel.label.text = key.split(".")[0]
             node.nameLabel.label.disabled = true
         }
     })

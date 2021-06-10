@@ -233,7 +233,7 @@ define(["require", "exports"], function (require, exports) {
                 }
                 else {
                     // If we found the right date, look for duplicates that may occur before the current item.
-                    while (mailArr[--m].date.toDateString() === date.toDateString()) { }
+                    while (m > 0 && mailArr[--m].date.toDateString() === date.toDateString()) { }
                     ;
                     // Return the index of the first occurrance of our date.
                     return m + 1;

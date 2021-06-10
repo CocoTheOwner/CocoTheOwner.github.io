@@ -1,4 +1,5 @@
-import { updateChord } from "./visualisationController";
+import { updateJobChord } from "./visualisationController";
+import { select as selSankey, deselect as deselSankey } from "./amChartSankey";
 
 var am4core = window["am4core"]
 var am4charts = window["am4charts"]
@@ -80,14 +81,16 @@ nodeTemplate.events.off("hit");
 
 nodeTemplate.events.on("hit", function(event) {
     let node = event.target;
-    nodeToggle(node);
+    deselect()
+    deselSankey()
 
-    let value = nodeGet(node)
-    node.outgoingDataItems.each(function(dataItem) { edgeSet(dataItem._link, value) })
-    node.incomingDataItems.each(function(dataItem) { edgeSet(dataItem._link, value) })
+    if (window["selectedJob"] != node.name){
+        select(node.name)
+        selSankey(node.name)
+        window["selectedJob"] = node.name
+    }else { window["selectedJob"] = "" }
 
-    window["selectedJob"] = node.name;
-    updateChord();
+    updateJobChord();
 })
 
 let label = nodeTemplate.label;
@@ -108,7 +111,7 @@ linkTemplate.tooltipText = "{fromName} sent {toName} {value.value} mails";
 // clicking edges
 window["chord_highlight"] = []
 linkTemplate.events.on("hit", function (event) {
-    edgeToggle(event.target)
+    //nope
 });
 
 var selectedState = linkTemplate.states.create("selected");
@@ -124,20 +127,21 @@ slice.strokeWidth = 1;
 slice.cornerRadius = 8;
 slice.innerCornerRadius = 0;
 
-function edgeToggle(edge){
-    edge.strokeOpacity = (edge.strokeOpacity+1) %2
+export function deselect(){
+    chart.nodes.each(function (_, node){
+        node.slice.strokeOpacity = 0
+        node.outgoingDataItems.each(function(dataItem) { dataItem.link.strokeOpacity = 0 })
+    })
 }
-function edgeSet(edge, value: boolean){
-    edge.strokeOpacity = value
-}
-function edgeGet(edge): boolean {return edge.strokeOpacity == 1}
 
-function nodeToggle(node){
-    node.slice.strokeOpacity = (node.slice.strokeOpacity+1) %2
+export function select(nodeName){
+    chart.nodes.each(function (name, node){
+        if(name == nodeName){
+            node.slice.strokeOpacity = 1
+            node.outgoingDataItems.each(function(dataItem) { dataItem.link.strokeOpacity = 1 })
+            node.incomingDataItems.each(function(dataItem) { dataItem.link.strokeOpacity = 1 })
+        }
+    })
 }
-function nodeSet(node, value: boolean){
-    node.slice.strokeOpacity = value
-}
-function nodeGet(node): boolean {return node.slice.strokeOpacity == 1}
 
 export default chart

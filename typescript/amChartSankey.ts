@@ -1,3 +1,5 @@
+import { select as selChord, deselect as deselChord } from "./amChartChord";
+
 var am4core = window["am4core"]
 var am4charts = window["am4charts"]
 var am4themes_animated = window["am4themes_animated"]
@@ -47,8 +49,8 @@ nodeTemplate.width = 10;
 nodeTemplate.height = 20;
 nodeTemplate.cursorOverStyle = am4core.MouseCursorStyle.pointer
 nodeTemplate.stroke = am4core.color("#000000"); //should be the same colour of the background
-nodeTemplate.strokeOpacity = 1;
-nodeTemplate.strokeWidth = 0;
+nodeTemplate.strokeOpacity = 0;
+nodeTemplate.strokeWidth = 1;
 nodeTemplate.cornerRadius = 2;
 nodeTemplate.innerCornerRadius = 0;
 nodeTemplate.events.off("hit"); // avoid hiding the nodes when you click them
@@ -66,16 +68,41 @@ nodeTemplate.events.on("out", function(event){
 linkTemplate.tension = 0.7;
 linkTemplate.colorMode = "gradient";
 linkTemplate.fillOpacity = 0.4;
-linkTemplate.strokeOpacity = 1
-linkTemplate.strokeWidth = 0
+linkTemplate.strokeOpacity = 0
+linkTemplate.strokeWidth = 1
 
 // clicking nodes
 nodeTemplate.events.on("hit", function (event) {
-  event.target.strokeWidth = (event.target.strokeWidth + 1) % 2
+  let name = event.target.nameLabel.label.text;
+  deselect()
+  deselChord()
+
+  if (window["selectedJob"] != name) {
+    select(name)
+    selChord(name)
+    window["selectedJob"] = name
+  }else { window["selectedJob"] = "" }
 });
 
 linkTemplate.events.on("hit", function (event) {
-  event.target.strokeWidth = (event.target.strokeWidth + 1) % 2
+  //nope
 });
+
+export function deselect(){
+    chart.nodes.each(function (_, node){
+        node.strokeOpacity = 0
+        node.outgoingDataItems.each(function(dataItem) { dataItem.link.strokeOpacity = 0 })
+    })
+}
+
+export function select(nodeName){
+    chart.nodes.each(function (_, node){
+        if(node.nameLabel.label.text == nodeName){
+            node.strokeOpacity = 1
+            node.outgoingDataItems.each(function(dataItem) { dataItem.value > 0 ? dataItem.link.strokeOpacity = 1 : 0})
+            node.incomingDataItems.each(function(dataItem) { dataItem.value > 0 ? dataItem.link.strokeOpacity = 1 : 0})
+        }
+    })
+}
 
 export default chart

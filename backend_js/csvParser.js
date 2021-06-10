@@ -68,6 +68,8 @@ define(["require", "exports"], function (require, exports) {
         });
         mailArr = mailArr.sort(function (e1, e2) { return e1.date.getTime() - e2.date.getTime(); });
         let totalMillis = mailArr[mailArr.length - 1].date.getTime() - mailArr[0].date.getTime();
+        window["startDate"] = mailArr[0].date;
+        window["endDate"] = mailArr[mailArr.length - 1].date;
         for (var i = 0; i <= 8; i++) {
             let dateInMillis = mailArr[0].date.getTime() + totalMillis * i / 8;
             datestrings.push(new Date(dateInMillis).toISOString().substr(0, 10));

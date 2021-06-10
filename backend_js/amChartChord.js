@@ -1,6 +1,7 @@
-define(["require", "exports", "./visualisationController"], function (require, exports, visualisationController_1) {
+define(["require", "exports", "./visualisationController", "./amChartSankey"], function (require, exports, visualisationController_1, amChartSankey_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
+    exports.select = exports.deselect = void 0;
     var am4core = window["am4core"];
     var am4charts = window["am4charts"];
     var am4themes_animated = window["am4themes_animated"];
@@ -71,12 +72,17 @@ define(["require", "exports", "./visualisationController"], function (require, e
     nodeTemplate.events.off("hit");
     nodeTemplate.events.on("hit", function (event) {
         let node = event.target;
-        nodeToggle(node);
-        let value = nodeGet(node);
-        node.outgoingDataItems.each(function (dataItem) { edgeSet(dataItem._link, value); });
-        node.incomingDataItems.each(function (dataItem) { edgeSet(dataItem._link, value); });
-        window["selectedJob"] = node.name;
-        visualisationController_1.updateChord();
+        deselect();
+        amChartSankey_1.deselect();
+        if (window["selectedJob"] != node.name) {
+            select(node.name);
+            amChartSankey_1.select(node.name);
+            window["selectedJob"] = node.name;
+        }
+        else {
+            window["selectedJob"] = "";
+        }
+        visualisationController_1.updateJobChord();
     });
     let label = nodeTemplate.label;
     label.relativeRotation = 90;
@@ -92,7 +98,7 @@ define(["require", "exports", "./visualisationController"], function (require, e
     // clicking edges
     window["chord_highlight"] = [];
     linkTemplate.events.on("hit", function (event) {
-        edgeToggle(event.target);
+        //nope
     });
     var selectedState = linkTemplate.states.create("selected");
     selectedState.properties.fillOpacity = 1;
@@ -105,19 +111,22 @@ define(["require", "exports", "./visualisationController"], function (require, e
     slice.strokeWidth = 1;
     slice.cornerRadius = 8;
     slice.innerCornerRadius = 0;
-    function edgeToggle(edge) {
-        edge.strokeOpacity = (edge.strokeOpacity + 1) % 2;
+    function deselect() {
+        chart.nodes.each(function (_, node) {
+            node.slice.strokeOpacity = 0;
+            node.outgoingDataItems.each(function (dataItem) { dataItem.link.strokeOpacity = 0; });
+        });
     }
-    function edgeSet(edge, value) {
-        edge.strokeOpacity = value;
+    exports.deselect = deselect;
+    function select(nodeName) {
+        chart.nodes.each(function (name, node) {
+            if (name == nodeName) {
+                node.slice.strokeOpacity = 1;
+                node.outgoingDataItems.each(function (dataItem) { dataItem.link.strokeOpacity = 1; });
+                node.incomingDataItems.each(function (dataItem) { dataItem.link.strokeOpacity = 1; });
+            }
+        });
     }
-    function edgeGet(edge) { return edge.strokeOpacity == 1; }
-    function nodeToggle(node) {
-        node.slice.strokeOpacity = (node.slice.strokeOpacity + 1) % 2;
-    }
-    function nodeSet(node, value) {
-        node.slice.strokeOpacity = value;
-    }
-    function nodeGet(node) { return node.slice.strokeOpacity == 1; }
+    exports.select = select;
     exports.default = chart;
 });

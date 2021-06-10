@@ -55,10 +55,10 @@ define(["require", "exports", "./visualisationController", "./sankeyBar"], funct
         }, function (start, end) {
             return __awaiter(this, void 0, void 0, function* () {
                 yield new Promise(resolve => setTimeout(resolve, 500));
-                console.log(start.format('YYYY-MM-DD'));
-                console.log(end.format('YYYY-MM-DD'));
+                window["startDate"] = start._d;
+                window["endDate"] = end._d;
                 let fractions = [];
-                visualisationController_1.updateJobChord(window["emails"], window["lookup"], fractions);
+                visualisationController_1.updateMainChord(window["emails"], window["lookup"], fractions);
                 sankeyBar_1.default(fractions);
             });
         });

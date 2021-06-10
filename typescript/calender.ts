@@ -1,4 +1,4 @@
-import {updateJobChord} from "./visualisationController";
+import {updateMainChord} from "./visualisationController";
 import makeSankeyBar from "./sankeyBar";
 
 let jq = window["$"]
@@ -48,11 +48,11 @@ jq(function () {
         "showWeekNumbers": true
     }, async function (start, end) {
         await new Promise( resolve => setTimeout(resolve, 500) );
-        console.log(start.format('YYYY-MM-DD'));
-        console.log(end.format('YYYY-MM-DD'));
+        window["startDate"] = start._d
+        window["endDate"] = end._d
 
         let fractions: number[] = [];
-        updateJobChord(window["emails"], window["lookup"], fractions);
+        updateMainChord(window["emails"], window["lookup"], fractions);
         makeSankeyBar(fractions);
     });
 });
