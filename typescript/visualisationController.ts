@@ -2,11 +2,8 @@ import chordChart from "./amChartChord"
 import withinJobChart from "./amChartChordJob"
 import sankeyChart from "./amChartSankey"
 import { Email, Employee } from "./csvParser"
-import { MailGraph, findTimeIndex } from "./mailGraph"
-import {appendFile} from "fs";
+import { findTimeIndex } from "./mailGraph"
 
-
-let mg: MailGraph;
 let lookup;
 let inJobChartTitle = withinJobChart.titles.create();
 inJobChartTitle.fontSize = 25;
@@ -166,16 +163,18 @@ export function updateMainChord(emails: Email[], lookup: {[id: number]: Employee
         }
     }
 
+    for(let job in window["colorData"]){
+        console.log(window["colorData"][job])
+        chordChart.data.push({from: job, color: window["colorData"][job]})
+    }
+
     for(let from in data){
         for(let to in data[from]){
             chordChart.data.push({from: from, to: to, value: data[from][to]})
         }
     }
 
-    for(let job in window["colorData"]){
-        chordChart.data.push({from: job, color: window["colorData"][job]})
-    }
-
+    console.log(chordChart.data)
     chordChart.validateData(); // Updates the chord diagram
 
     updateJobChord();

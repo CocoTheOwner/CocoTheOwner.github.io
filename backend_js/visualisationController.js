@@ -2,7 +2,6 @@ define(["require", "exports", "./amChartChord", "./amChartChordJob", "./amChartS
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.updateJobChord = exports.updateMainChord = exports.updateCharts = void 0;
-    let mg;
     let lookup;
     let inJobChartTitle = amChartChordJob_1.default.titles.create();
     inJobChartTitle.fontSize = 25;
@@ -131,14 +130,16 @@ define(["require", "exports", "./amChartChord", "./amChartChordJob", "./amChartS
                 data[from] == undefined ? data[from] = { [to]: 1 } : data[from][to] = 1;
             }
         }
+        for (let job in window["colorData"]) {
+            console.log(window["colorData"][job]);
+            amChartChord_1.default.data.push({ from: job, color: window["colorData"][job] });
+        }
         for (let from in data) {
             for (let to in data[from]) {
                 amChartChord_1.default.data.push({ from: from, to: to, value: data[from][to] });
             }
         }
-        for (let job in window["colorData"]) {
-            amChartChord_1.default.data.push({ from: job, color: window["colorData"][job] });
-        }
+        console.log(amChartChord_1.default.data);
         amChartChord_1.default.validateData(); // Updates the chord diagram
         updateJobChord();
     }
