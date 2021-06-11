@@ -1,4 +1,4 @@
-define(["require", "exports", "./amChartChord"], function (require, exports, amChartChord_1) {
+define(["require", "exports", "./amChartChord", "./visualisationController"], function (require, exports, amChartChord_1, visualisationController_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.select = exports.deselect = void 0;
@@ -72,6 +72,7 @@ define(["require", "exports", "./amChartChord"], function (require, exports, amC
             select(name);
             amChartChord_1.select(name);
             window["selectedJob"] = name;
+            visualisationController_1.updateJobChord();
         }
         else {
             window["selectedJob"] = "";

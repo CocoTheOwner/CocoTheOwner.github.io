@@ -157,7 +157,7 @@ define(["require", "exports", "./amChartChord", "./amChartChordJob", "./amChartS
             let mail = emails[i];
             let from = mail.fromId;
             let to = mail.toId;
-            if (lookup[from].jobTitle == window["selectedJob"] && lookup[to].jobTitle == window["selectedJob"]) {
+            if (lookup[from].jobTitle == window["selectedJob"] && lookup[to].jobTitle == window["selectedJob"] && from != to) {
                 if (data[from] != undefined && data[from][to] != undefined) { // if an entrie from-> to exists add to that
                     data[from][to]++;
                 }

@@ -1,4 +1,5 @@
 import { select as selChord, deselect as deselChord } from "./amChartChord";
+import { updateJobChord } from "./visualisationController";
 
 var am4core = window["am4core"]
 var am4charts = window["am4charts"]
@@ -81,6 +82,7 @@ nodeTemplate.events.on("hit", function (event) {
     select(name)
     selChord(name)
     window["selectedJob"] = name
+    updateJobChord();
   }else { window["selectedJob"] = "" }
 });
 
