@@ -59,7 +59,7 @@
       <div class="container-fluid" style="height:100%">
 
         <div class="row" style="height:50%">
-          <div style="border:1px solid #FFFFFF; height:5%;border-radius:25px;margin-top:7.5%;padding:2%;width:20%;background-color:rgb(240, 240, 240)" class="col-lg-2">   <!-- Using width to get more control over box size-->
+          <div style="border:1px solid #FFFFFF; height:5%;border-radius:25px;margin-top:7.5%;padding:2%;padding-top:3%;width:20%;background-color:rgb(240, 240, 240)" class="col-lg-2">   <!-- Using width to get more control over box size-->
 
             <!-- Calendar -->
             <div title="Select a specific date range to visualize data for.">
@@ -69,7 +69,7 @@
             </div>
 
 
-            <div class="row" style="margin-left:.1%;padding-top:4%">
+            <!-- <div class="row" style="margin-left:.1%;padding-top:4%"> -->
 
               <!-- Info Button
               <div class="info col-lg-4" style="padding-top:5%;width:32%">
@@ -86,8 +86,15 @@
               <!-- File Load -->
               <!-- Given a fixed width to enable full text to display, 
                 may cause trouble when adding more elements on the same row -->
-              <input id="f_input" type="file" accept=".csv" class="btn col-lg-4" style="margin:auto;padding-top:-70%;width:100%"/>
-            </div>
+              <input id="f_input" type="file" accept=".csv" style="margin-left:.1%;padding-top:8%;margin:auto;padding-top:-70%;width:100%"/>
+              <div class="form-group form-check">
+                <div style="margin-left:.1%;padding-top:6%;">
+                  <input type="checkbox" class="form-check-input" id="checkbox">
+                  Enable self-edges
+                </div>
+                
+              </div>
+            <!-- </div> -->
             
           </div>
           <div style="border:1px solid #FFFFFF; height:480px;border-radius:25px;padding:1%;background-color:rgb(240, 240, 240);margin:1%;margin-bottom:.5%;width:39.5%;margin-right:0" class="col-lg-4">   <!-- Using width to get more control over box size-->
