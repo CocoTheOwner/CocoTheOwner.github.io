@@ -60,7 +60,7 @@ define(["require", "exports", "./visualisationController", "./amChartSankey"], f
     chart.minNodeSize = 0.01;
     chart.startAngle = 0;
     chart.endAngle = chart.startAngle + 180;
-    chart.sortBy = "value";
+    chart.sortBy = "none";
     chart.fontSize = 10;
     var nodeTemplate = chart.nodes.template;
     nodeTemplate.readerTitle = "Click to select this job";

@@ -66,7 +66,7 @@ chart.nodePadding = 0.5;
 chart.minNodeSize = 0.01;
 chart.startAngle = 0;
 chart.endAngle = chart.startAngle + 180;
-chart.sortBy = "value";
+chart.sortBy = "none";
 chart.fontSize = 10;
 
 var nodeTemplate = chart.nodes.template;
