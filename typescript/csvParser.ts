@@ -76,6 +76,11 @@ export function readCsv(csvString: string, mailArr: Email[], lookup: { [id: numb
     window["startDate"] = new Date(0);
     window["endDate"] = new Date(1);
 
+    let s = mailArr[0].date
+    let e = mailArr[mailArr.length - 1].date
+    window['dataStartDate'] = s.getFullYear()  + "/" + (s.getMonth()+1) + "/" + s.getDate()
+    window['dataEndDate'] = e.getFullYear()  + "/" + (e.getMonth()+1) + "/" + e.getDate()
+
     for (var i = 0; i <= 8; i++) {
         let dateInMillis = mailArr[0].date.getTime() + totalMillis * i / 8;
         datestrings.push(new Date(dateInMillis).toISOString().substr(0, 10));

@@ -4,6 +4,8 @@ define(["require", "exports", "./csvParser", "./visualisationController", "./san
     let input1 = document.getElementById("f_input_popup"); //get file input for popup
     let input2 = document.getElementById("f_input"); //get file input button
     let checkbox = document.getElementById("checkbox");
+    let resetDates = document.getElementById("date_reset");
+    let calendar = document.getElementById("calendar");
     let reader;
     function analyseCSVData() {
         let emails = [];
@@ -11,6 +13,7 @@ define(["require", "exports", "./csvParser", "./visualisationController", "./san
         let datestrings = [];
         let fractions = [];
         csvParser_1.readCsv(reader.result, emails, lookup, datestrings);
+        calendar.value = window['dataStartDate'] + " - " + window['dataEndDate'];
         console.log("File uploaded successfully");
         var modal = document.getElementById("myModal");
         modal.style.display = "none";
@@ -36,4 +39,20 @@ define(["require", "exports", "./csvParser", "./visualisationController", "./san
         window['self-edge'] = !window['self-edge'];
         visualisationController_1.updateJobChord();
     });
+    calendar.onchange = function (e) {
+        if (window['reset']) {
+            window['reset'] = false;
+            window["startDate"] = new Date(window['dataStartDate']);
+            window["endDate"] = new Date(window['dataEndDate']);
+            let fractions = [];
+            visualisationController_1.updateMainChord(window["emails"], window["lookup"], fractions);
+            sankeyBar_1.default(fractions);
+        }
+    };
+    resetDates.onclick = function (e) {
+        window['reset'] = true;
+        calendar.value = window['dataStartDate'] + " - " + window['dataEndDate'];
+        calendar.onchange(e);
+        visualisationController_1.updateCharts(8, []);
+    };
 });
