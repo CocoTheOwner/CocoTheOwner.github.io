@@ -111,6 +111,10 @@ define(["require", "exports", "./amChartChord", "./amChartChordJob", "./amChartS
         sankeyBarFractions.push((window["endDate"].getTime() - emails[0].date.getTime()) / totalMillis);
         let startIndex = mailGraph_1.findTimeIndex(emails, window["startDate"]);
         let endIndex = mailGraph_1.findTimeIndex(emails, window["endDate"]);
+        if (startIndex === endIndex) {
+            alert("The time interval you have chosen encompasses no data in the current dataset. The visualization has not been changed.");
+            return;
+        }
         amChartChord_1.default.data = [];
         let data = {};
         for (let i = startIndex; i < endIndex; i++) {

@@ -146,6 +146,11 @@ export function updateMainChord(emails: Email[], lookup: {[id: number]: Employee
 
     let startIndex = findTimeIndex(emails, window["startDate"])
     let endIndex = findTimeIndex(emails, window["endDate"])
+    
+    if (startIndex === endIndex) {
+        alert("The time interval you have chosen encompasses no data in the current dataset. The visualization has not been changed.");
+        return;
+    }
 
     chordChart.data = []
     let data = {}
