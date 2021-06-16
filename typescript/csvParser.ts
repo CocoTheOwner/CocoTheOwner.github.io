@@ -59,7 +59,12 @@ function nextMail(mailData: string, mailArr: Email[], lookup: { [id: number]: Em
 //returns: nothing
 export function readCsv(csvString: string, mailArr: Email[], lookup: { [id: number]: Employee }, datestrings: string[]) {
     let lines = csvString.split("\n");
-    lines.splice(0, 1);             //cut off first line, they are just column names
+    let columns = lines.splice(0, 1)[0].trim();             //cut off first line, they are just column names
+    
+    if (!(columns === "date,fromId,fromEmail,fromJobtitle,toId,toEmail,toJobtitle,messageType,sentiment")) {
+        alert("The data you're trying to upload does not match the accepted format. Please select another document.")
+    }
+
     while (lines[lines.length - 1].length === 0) {  //remove all emptylines from end
         lines.splice(lines.length - 1, 1);
     }
