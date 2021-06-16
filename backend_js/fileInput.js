@@ -3,6 +3,7 @@ define(["require", "exports", "./csvParser", "./visualisationController", "./san
     Object.defineProperty(exports, "__esModule", { value: true });
     let input1 = document.getElementById("f_input_popup"); //get file input for popup
     let input2 = document.getElementById("f_input"); //get file input button
+    let checkbox = document.getElementById("checkbox");
     let reader;
     function analyseCSVData() {
         let emails = [];
@@ -30,5 +31,9 @@ define(["require", "exports", "./csvParser", "./visualisationController", "./san
         reader = new FileReader();
         reader.onload = analyseCSVData;
         reader.readAsText(input2.files[0]);
+    });
+    checkbox.addEventListener('change', function (e) {
+        window['self-edge'] = !window['self-edge'];
+        visualisationController_1.updateJobChord();
     });
 });

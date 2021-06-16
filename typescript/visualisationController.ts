@@ -196,8 +196,8 @@ export function updateJobChord() {
         let mail = emails[i]
         let from = mail.fromId
         let to = mail.toId
-        if (lookup[from].jobTitle == window["selectedJob"] && lookup[to].jobTitle == window["selectedJob"] && from != to) {
-            if (data[from] != undefined && data[from][to] != undefined) { // if an entrie from-> to exists add to that
+        if (lookup[from].jobTitle == window["selectedJob"] && lookup[to].jobTitle == window["selectedJob"] && (!(from == to) || window['self-edge'])) {
+            if (data[from] != undefined && data[from][to] != undefined) { // if an entry from-> to exists add to that
                 data[from][to]++
             } else if (data[to] != undefined && data[to][from] != undefined) { // if not, try with to -> from
                 data[to][from]++
