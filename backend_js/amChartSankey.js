@@ -53,7 +53,9 @@ define(["require", "exports", "./amChartChord", "./visualisationController"], fu
         event.target.nameLabel.label.disabled = false;
     });
     nodeTemplate.events.on("out", function (event) {
-        event.target.nameLabel.label.disabled = true;
+        if (event.target.nameLabel.label.text.includes("~")) {
+            event.target.nameLabel.label.disabled = true;
+        }
     });
     /**
      * customize links
