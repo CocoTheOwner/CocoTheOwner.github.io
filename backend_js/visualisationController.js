@@ -1,7 +1,7 @@
 define(["require", "exports", "./amChartChord", "./amChartChordJob", "./amChartSankey", "./mailGraph"], function (require, exports, amChartChord_1, amChartChordJob_1, amChartSankey_1, mailGraph_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
-    exports.updateJobChord = exports.updateMainChord = exports.updateCharts = void 0;
+    exports.updateJobChord = exports.updateMainChord = exports.updateSankey = exports.updateCharts = void 0;
     let lookup;
     let inJobChartTitle = amChartChordJob_1.default.titles.create();
     inJobChartTitle.fontSize = 25;
@@ -82,6 +82,7 @@ define(["require", "exports", "./amChartChord", "./amChartChordJob", "./amChartS
             }
         }
     }
+    exports.updateSankey = updateSankey;
     //make a sankey data entry to give the first layer a color
     function addSankeyColor(fjob) {
         return { from: fjob, color: window["colorData"][fjob] };

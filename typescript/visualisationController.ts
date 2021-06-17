@@ -20,7 +20,7 @@ export function updateCharts(sankeyClusters = 8, sankeyBarFractions: number[]): 
     removeSankeyLabels(sankeyChart)
 }
 
-function updateSankey(emails: Email[], lookup: {[id: number]: Employee}, clusters = 8): void {
+export function updateSankey(emails: Email[], lookup: {[id: number]: Employee}, clusters = 8): void {
 
     // Calculate the time between the first and last mail
     const timeframe = emails[emails.length - 1].date.getTime() - emails[0].date.getTime()

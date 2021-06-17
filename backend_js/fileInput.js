@@ -4,6 +4,7 @@ define(["require", "exports", "./csvParser", "./visualisationController", "./san
     let input1 = document.getElementById("f_input_popup"); //get file input for popup
     let input2 = document.getElementById("f_input"); //get file input button
     let checkbox = document.getElementById("checkbox");
+    let checkbox_alluvial = document.getElementById("checkbox-alluvial");
     let resetDates = document.getElementById("date_reset");
     let calendar = document.getElementById("calendar");
     let reader;
@@ -38,6 +39,10 @@ define(["require", "exports", "./csvParser", "./visualisationController", "./san
     checkbox.addEventListener('change', function (e) {
         window['self-edge'] = !window['self-edge'];
         visualisationController_1.updateJobChord();
+    });
+    checkbox_alluvial.addEventListener('change', function (e) {
+        window['full-alluvial'] = !window['full-alluvial'];
+        //updateSankey();
     });
     calendar.onchange = function (e) {
         if (window['reset']) {
