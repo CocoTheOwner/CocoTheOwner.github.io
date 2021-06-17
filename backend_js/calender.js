@@ -63,7 +63,7 @@ define(["require", "exports", "./visualisationController", "./sankeyBar"], funct
             });
         });
     });
-    // alert user to change to a biger screen
+    // alert user to change to a bigger screen
     if (/Mobi|Android/i.test(navigator.userAgent) || /Mobi/.test(navigator.userAgent)) {
         alert('Your device\'s screen might be to small to view this project at its best performance. Please switch to a larger screen and continue.');
     }

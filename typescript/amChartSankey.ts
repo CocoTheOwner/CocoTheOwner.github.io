@@ -74,6 +74,8 @@ linkTemplate.fillOpacity = 0.4;
 linkTemplate.strokeOpacity = 0
 linkTemplate.strokeWidth = 1
 
+linkTemplate.tooltipText = "{fromName} sent {toName} {total} mails";
+
 // clicking nodes
 nodeTemplate.events.on("hit", function (event) {
   let name = event.target.nameLabel.label.text;

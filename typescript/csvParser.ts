@@ -59,7 +59,12 @@ function nextMail(mailData: string, mailArr: Email[], lookup: { [id: number]: Em
 //returns: nothing
 export function readCsv(csvString: string, mailArr: Email[], lookup: { [id: number]: Employee }, datestrings: string[]) {
     let lines = csvString.split("\n");
-    lines.splice(0, 1);             //cut off first line, they are just column names
+    let columns = lines.splice(0, 1)[0].trim();             //cut off first line, they are just column names
+    
+    if (!(columns === "date,fromId,fromEmail,fromJobtitle,toId,toEmail,toJobtitle,messageType,sentiment")) {
+        alert("The data you're trying to upload does not match the accepted format. Please select another document.")
+    }
+
     while (lines[lines.length - 1].length === 0) {  //remove all emptylines from end
         lines.splice(lines.length - 1, 1);
     }
@@ -73,8 +78,13 @@ export function readCsv(csvString: string, mailArr: Email[], lookup: { [id: numb
     
     let totalMillis = mailArr[mailArr.length - 1].date.getTime() - mailArr[0].date.getTime();
 
-    window["startDate"] = mailArr[0].date
-    window["endDate"] = mailArr[mailArr.length - 1].date
+    window["startDate"] = new Date(0);
+    window["endDate"] = new Date(1);
+
+    let s = mailArr[0].date
+    let e = mailArr[mailArr.length - 1].date
+    window['dataStartDate'] = s.getFullYear()  + "/" + (s.getMonth()+1) + "/" + s.getDate()
+    window['dataEndDate'] = e.getFullYear()  + "/" + (e.getMonth()+1) + "/" + e.getDate()
 
     for (var i = 0; i <= 8; i++) {
         let dateInMillis = mailArr[0].date.getTime() + totalMillis * i / 8;

@@ -99,10 +99,9 @@ function updateSankey(emails: Email[], lookup: {[id: number]: Employee}, cluster
                 let jobTotal = mailCounters[timeslot][fjob][tjob] ? mailCounters[timeslot][fjob][tjob] : 0
 
                 // Calculate the fraction for the timeslot
-                let fraction = jobTotal / timeslotTotal * 100
 
                 // add the number to sankey
-                sankeyChart.data.push(addSankeyConnection(fjob, tjob, Number(timeslot), fraction))
+                sankeyChart.data.push(addSankeyConnection(fjob, tjob, Number(timeslot), jobTotal, timeslotTotal))
             }
         }
     }
@@ -113,7 +112,7 @@ function addSankeyColor(fjob: string): {from: string, color}{
     return {from: fjob, color: window["colorData"][fjob]}
 }
 
-function addSankeyConnection(fjob: string, tjob: string, timeslot: number, value: number): {from: string, to: string, value: number, color} {
+function addSankeyConnection(fjob: string, tjob: string, timeslot: number, part: number, total: number): {from: string, to: string, value: number, total: number, color} {
     // Make the "from" string, which is either, (CEO as example):
     // 0 CEO (0)     -> First entry
     // 0 (X)         -> Xth timeslot entry
@@ -128,9 +127,12 @@ function addSankeyConnection(fjob: string, tjob: string, timeslot: number, value
     // Make the "to" string, which is similar to the second entry for "from", but one higher
     let to = tjob + "." + (timeslot + 1)
 
+    let fraction = part / total
 
     // Return entry to the diagram
-    return{from:from, to:to, value:value, color:window["colorData"][tjob]}
+
+
+    return{from:from, to:to, value:fraction, color:window["colorData"][tjob], total: part}
 
 }
 
@@ -144,6 +146,11 @@ export function updateMainChord(emails: Email[], lookup: {[id: number]: Employee
 
     let startIndex = findTimeIndex(emails, window["startDate"])
     let endIndex = findTimeIndex(emails, window["endDate"])
+    
+    if (startIndex === endIndex) {
+        alert("The time interval you have chosen encompasses no data in the current dataset. The visualization has not been changed.");
+        return;
+    }
 
     chordChart.data = []
     let data = {}
@@ -164,7 +171,6 @@ export function updateMainChord(emails: Email[], lookup: {[id: number]: Employee
     }
 
     for(let job in window["colorData"]){
-        console.log(window["colorData"][job])
         chordChart.data.push({from: job, color: window["colorData"][job]})
     }
 
@@ -174,7 +180,6 @@ export function updateMainChord(emails: Email[], lookup: {[id: number]: Employee
         }
     }
 
-    console.log(chordChart.data)
     chordChart.validateData(); // Updates the chord diagram
 
     updateJobChord();
@@ -196,8 +201,8 @@ export function updateJobChord() {
         let mail = emails[i]
         let from = mail.fromId
         let to = mail.toId
-        if (lookup[from].jobTitle == window["selectedJob"] && lookup[to].jobTitle == window["selectedJob"] && from != to) {
-            if (data[from] != undefined && data[from][to] != undefined) { // if an entrie from-> to exists add to that
+        if (lookup[from].jobTitle == window["selectedJob"] && lookup[to].jobTitle == window["selectedJob"] && (!(from == to) || window['self-edge'])) {
+            if (data[from] != undefined && data[from][to] != undefined) { // if an entry from-> to exists add to that
                 data[from][to]++
             } else if (data[to] != undefined && data[to][from] != undefined) { // if not, try with to -> from
                 data[to][from]++
