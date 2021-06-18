@@ -8,6 +8,8 @@ define(["require", "exports", "./csvParser", "./visualisationController", "./san
     let resetDates = document.getElementById("date_reset");
     let calendar = document.getElementById("calendar");
     let reader;
+    let close = document.getElementsByClassName("close")[0];
+    var modal = document.getElementById("myModal");
     function analyseCSVData() {
         let emails = [];
         let lookup = [];
@@ -16,7 +18,6 @@ define(["require", "exports", "./csvParser", "./visualisationController", "./san
         csvParser_1.readCsv(reader.result, emails, lookup, datestrings);
         calendar.value = window['dataStartDate'] + " - " + window['dataEndDate'];
         console.log("File uploaded successfully");
-        var modal = document.getElementById("myModal");
         modal.style.display = "none";
         window["emails"] = emails;
         window["lookup"] = lookup;
@@ -30,6 +31,16 @@ define(["require", "exports", "./csvParser", "./visualisationController", "./san
         reader.onload = analyseCSVData;
         reader.readAsText(input1.files[0]);
     });
+    // When the user clicks on <span> (x), close the modal
+    close.onclick = function () {
+        modal.style.display = "none";
+    };
+    // When the user clicks anywhere outside of the modal, close it
+    window.onclick = function (event) {
+        if (event.target == modal) {
+            modal.style.display = "none";
+        }
+    };
     //when input changes, update file
     input2.addEventListener('change', function (e) {
         reader = new FileReader();

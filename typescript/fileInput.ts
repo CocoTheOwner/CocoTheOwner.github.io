@@ -9,6 +9,8 @@ let checkbox_alluvial = (document.getElementById("checkbox-alluvial") as HTMLInp
 let resetDates = (document.getElementById("date_reset") as HTMLButtonElement);
 let calendar = (document.getElementById("calendar") as HTMLInputElement);
 let reader;
+let close = document.getElementsByClassName("close")[0];
+var modal = document.getElementById("myModal");
 
 function analyseCSVData() {
     let emails = []
@@ -18,7 +20,6 @@ function analyseCSVData() {
     readCsv(reader.result as string, emails, lookup, datestrings);
     calendar.value = window['dataStartDate'] + " - " + window['dataEndDate'];
     console.log("File uploaded successfully");
-    var modal = document.getElementById("myModal");
     modal.style.display = "none";
     window["emails"] = emails
     window["lookup"] = lookup
@@ -33,6 +34,20 @@ input1.addEventListener('change', function (e) {
     reader.onload = analyseCSVData;
     reader.readAsText(input1.files[0]);
 });
+
+
+
+// When the user clicks on <span> (x), close the modal
+close.onclick = function() {
+    modal.style.display = "none";
+  }
+  
+// When the user clicks anywhere outside of the modal, close it
+window.onclick = function(event) {
+    if (event.target == modal) {
+      modal.style.display = "none";
+    }
+}
 
 
 //when input changes, update file
