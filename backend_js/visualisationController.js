@@ -182,12 +182,9 @@ define(["require", "exports", "./amChartChord", "./amChartChordJob", "./amChartS
     exports.updateJobChord = updateJobChord;
     function removeSankeyLabels(sankeyChart) {
         sankeyChart.nodes.each(function (key, node) {
+            node.nameLabel.label.text = key.split(".")[0];
             if (key.includes(".")) {
-                node.nameLabel.label.text = "~" + key.split(".")[0];
                 node.nameLabel.label.disabled = true;
-            }
-            else {
-                node.nameLabel.label.text = key.split(".")[0];
             }
         });
     }

@@ -53,7 +53,7 @@ define(["require", "exports", "./amChartChord", "./visualisationController"], fu
         event.target.nameLabel.label.disabled = false;
     });
     nodeTemplate.events.on("out", function (event) {
-        if (event.target.nameLabel.label.text.includes("~")) {
+        if (event.target.incomingDataItems.length > 0) {
             event.target.nameLabel.label.disabled = true;
         }
     });

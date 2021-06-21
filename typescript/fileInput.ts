@@ -9,7 +9,7 @@ let checkbox_alluvial = (document.getElementById("checkbox-alluvial") as HTMLInp
 let resetDates = (document.getElementById("date_reset") as HTMLButtonElement);
 let calendar = (document.getElementById("calendar") as HTMLInputElement);
 let reader;
-let close = document.getElementsByClassName("close")[0];
+let close = document.getElementsByClassName("close")[0] as HTMLElement;
 var modal = document.getElementById("myModal");
 
 function analyseCSVData() {
