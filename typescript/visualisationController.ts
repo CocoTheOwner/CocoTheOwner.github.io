@@ -154,49 +154,54 @@ export function updateMainChord(emails: Email[], lookup: {[id: number]: Employee
 
     chordChart.data = []
     let data = {}
+    let sentiments = {}
     for(let i = startIndex; i < endIndex; i++){
         let mail = emails[i]
         let from = lookup[mail.fromId].jobTitle
         let to = lookup[mail.toId].jobTitle
 
-        if(from == to){ continue }
+        if (from == to) { continue }
 
-        if(data[from] != undefined && data[from][to] != undefined){ // if an entrie from-> to exists add to that
+        if (data[from] != undefined && data[from][to] != undefined) { // if an entry from -> to exists add to that
             data[from][to]++
-        }else if(data[to] != undefined && data[to][from] != undefined){ // if not, try with to -> from
+            sentiments[from][to] = (sentiments[from][to] + mail.appreciation) / 2;
+        } else if (data[to] != undefined && data[to][from] != undefined) { // if not, try with to -> from
             data[to][from]++
+            sentiments[to][from] = (sentiments[to][from] + mail.appreciation) / 2;
         }else {      // both dont? create from -> to
             data[from] == undefined ? data[from] = {[to]: 1} : data[from][to] = 1
+            sentiments[from] == undefined ? sentiments[from] = {[to]: mail.appreciation} : sentiments[from][to] = mail.appreciation;
         }
     }
-
-    for(let job in window["colorData"]){
+    
+    for (let job in window["colorData"]) {
         chordChart.data.push({from: job, color: window["colorData"][job]})
     }
 
-    for(let from in data){
-        for(let to in data[from]){
-            chordChart.data.push({from: from, to: to, value: data[from][to]})
+    for (let from in data) {
+        for (let to in data[from]) {
+            chordChart.data.push({from: from, to: to, value: data[from][to], sentiment: sentiments[from][to]})
         }
     }
 
     chordChart.validateData(); // Updates the chord diagram
-
+    
     updateJobChord();
 }
 
 export function updateJobChord() {
     withinJobChart.startAngle = 180;
     withinJobChart.endAngle = withinJobChart.startAngle + 180;
-
+    
     inJobChartTitle.text = "Within job title: " + window["selectedJob"];
-
+    
     let emails = window["emails"]
     let startIndex = findTimeIndex(emails, window["startDate"])
     let endIndex = findTimeIndex(emails, window["endDate"])
-
+    
     withinJobChart.data = []
     let data = {}
+    let sentiments = {};
     for(let i = startIndex; i < endIndex; i++){
         let mail = emails[i]
         let from = mail.fromId
@@ -204,17 +209,22 @@ export function updateJobChord() {
         if (lookup[from].jobTitle == window["selectedJob"] && lookup[to].jobTitle == window["selectedJob"] && (!(from == to) || window['self-edge'])) {
             if (data[from] != undefined && data[from][to] != undefined) { // if an entry from-> to exists add to that
                 data[from][to]++
+                sentiments[from][to] = (sentiments[from][to] + mail.appreciation) / 2;
             } else if (data[to] != undefined && data[to][from] != undefined) { // if not, try with to -> from
                 data[to][from]++
+                sentiments[to][from] = (sentiments[to][from] + mail.appreciation) / 2;
             } else {      // both dont? create from -> to
                 data[from] == undefined ? data[from] = {[to]: 1} : data[from][to] = 1
+                sentiments[from] == undefined ? sentiments[from] = {[to]: mail.appreciation} : sentiments[from][to] = mail.appreciation;
             }
         }
     }
 
     for(let from in data){
         for(let to in data[from]){
-            withinJobChart.data.push({from: from, to: to, value: data[from][to]})
+            let fromName = getNameFromEmail(lookup[from].email);
+            let toName = getNameFromEmail(lookup[to].email);
+            withinJobChart.data.push({from: fromName, to: toName, value: data[from][to], sentiment: sentiments[from][to]})
         }
     }
 
@@ -229,3 +239,15 @@ function removeSankeyLabels(sankeyChart){
         }
     })
 }
+
+function getNameFromEmail(email: string): string {
+    let first = email.split("@")[0];
+    let parts = first.split(".");
+    let lastname = parts.pop();
+    
+    if (parts.length > 0) {
+        return parts[0][0].toUpperCase() + ". " + lastname[0].toUpperCase() + lastname.substr(1);
+    } else {
+        return lastname[0].toUpperCase() + lastname.substr(1);
+    }
+} 

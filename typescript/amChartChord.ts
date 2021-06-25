@@ -61,6 +61,7 @@ chart.colors.step = 3;
 chart.dataFields.fromName = "from";
 chart.dataFields.toName = "to";
 chart.dataFields.value = "value";
+chart.dataFields.sentiment = "sentiment";
 
 chart.nodePadding = 0.5;
 chart.minNodeSize = 0.01;
@@ -106,7 +107,7 @@ nodeTemplate.cursorOverStyle = am4core.MouseCursorStyle.pointer;
 let linkTemplate = chart.links.template;
 linkTemplate.strokeOpacity = 0;
 linkTemplate.fillOpacity = 0.4;
-linkTemplate.tooltipText = "{fromName} sent {toName} {value.value} mails";
+linkTemplate.tooltipText = "{fromName} sent {toName} {value.value} mails\navg. sentiment: {sentiment}";
 
 // clicking edges
 window["chord_highlight"] = []

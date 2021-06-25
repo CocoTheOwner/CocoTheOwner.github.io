@@ -118,6 +118,7 @@ define(["require", "exports", "./amChartChord", "./amChartChordJob", "./amChartS
         }
         amChartChord_1.default.data = [];
         let data = {};
+        let sentiments = {};
         for (let i = startIndex; i < endIndex; i++) {
             let mail = emails[i];
             let from = lookup[mail.fromId].jobTitle;
@@ -125,14 +126,17 @@ define(["require", "exports", "./amChartChord", "./amChartChordJob", "./amChartS
             if (from == to) {
                 continue;
             }
-            if (data[from] != undefined && data[from][to] != undefined) { // if an entrie from-> to exists add to that
+            if (data[from] != undefined && data[from][to] != undefined) { // if an entry from -> to exists add to that
                 data[from][to]++;
+                sentiments[from][to] = (sentiments[from][to] + mail.appreciation) / 2;
             }
             else if (data[to] != undefined && data[to][from] != undefined) { // if not, try with to -> from
                 data[to][from]++;
+                sentiments[to][from] = (sentiments[to][from] + mail.appreciation) / 2;
             }
             else { // both dont? create from -> to
                 data[from] == undefined ? data[from] = { [to]: 1 } : data[from][to] = 1;
+                sentiments[from] == undefined ? sentiments[from] = { [to]: mail.appreciation } : sentiments[from][to] = mail.appreciation;
             }
         }
         for (let job in window["colorData"]) {
@@ -140,7 +144,7 @@ define(["require", "exports", "./amChartChord", "./amChartChordJob", "./amChartS
         }
         for (let from in data) {
             for (let to in data[from]) {
-                amChartChord_1.default.data.push({ from: from, to: to, value: data[from][to] });
+                amChartChord_1.default.data.push({ from: from, to: to, value: data[from][to], sentiment: sentiments[from][to] });
             }
         }
         amChartChord_1.default.validateData(); // Updates the chord diagram
@@ -156,6 +160,7 @@ define(["require", "exports", "./amChartChord", "./amChartChordJob", "./amChartS
         let endIndex = mailGraph_1.findTimeIndex(emails, window["endDate"]);
         amChartChordJob_1.default.data = [];
         let data = {};
+        let sentiments = {};
         for (let i = startIndex; i < endIndex; i++) {
             let mail = emails[i];
             let from = mail.fromId;
@@ -163,18 +168,23 @@ define(["require", "exports", "./amChartChord", "./amChartChordJob", "./amChartS
             if (lookup[from].jobTitle == window["selectedJob"] && lookup[to].jobTitle == window["selectedJob"] && (!(from == to) || window['self-edge'])) {
                 if (data[from] != undefined && data[from][to] != undefined) { // if an entry from-> to exists add to that
                     data[from][to]++;
+                    sentiments[from][to] = (sentiments[from][to] + mail.appreciation) / 2;
                 }
                 else if (data[to] != undefined && data[to][from] != undefined) { // if not, try with to -> from
                     data[to][from]++;
+                    sentiments[to][from] = (sentiments[to][from] + mail.appreciation) / 2;
                 }
                 else { // both dont? create from -> to
                     data[from] == undefined ? data[from] = { [to]: 1 } : data[from][to] = 1;
+                    sentiments[from] == undefined ? sentiments[from] = { [to]: mail.appreciation } : sentiments[from][to] = mail.appreciation;
                 }
             }
         }
         for (let from in data) {
             for (let to in data[from]) {
-                amChartChordJob_1.default.data.push({ from: from, to: to, value: data[from][to] });
+                let fromName = getNameFromEmail(lookup[from].email);
+                let toName = getNameFromEmail(lookup[to].email);
+                amChartChordJob_1.default.data.push({ from: fromName, to: toName, value: data[from][to], sentiment: sentiments[from][to] });
             }
         }
         amChartChordJob_1.default.validateData(); // Updates the chord diagram
@@ -187,5 +197,16 @@ define(["require", "exports", "./amChartChord", "./amChartChordJob", "./amChartS
                 node.nameLabel.label.disabled = true;
             }
         });
+    }
+    function getNameFromEmail(email) {
+        let first = email.split("@")[0];
+        let parts = first.split(".");
+        let lastname = parts.pop();
+        if (parts.length > 0) {
+            return parts[0][0].toUpperCase() + ". " + lastname[0].toUpperCase() + lastname.substr(1);
+        }
+        else {
+            return lastname[0].toUpperCase() + lastname.substr(1);
+        }
     }
 });

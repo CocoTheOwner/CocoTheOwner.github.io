@@ -51,6 +51,7 @@ define(["require", "exports"], function (require, exports) {
     chart.dataFields.fromName = "from";
     chart.dataFields.toName = "to";
     chart.dataFields.value = "value";
+    chart.dataFields.sentiment = "sentiment";
     chart.nodePadding = 0.5;
     chart.minNodeSize = 0.01;
     chart.startAngle = 0;
@@ -106,7 +107,7 @@ define(["require", "exports"], function (require, exports) {
     let linkTemplate = chart.links.template;
     linkTemplate.strokeOpacity = 0;
     linkTemplate.fillOpacity = 0.15;
-    linkTemplate.tooltipText = "{fromName} & {toName}:{value.value}";
+    linkTemplate.tooltipText = "{fromName} sent {toName} {value.value} emails\nagv. sentiment: {sentiment}";
     var hoverState = linkTemplate.states.create("hover");
     hoverState.properties.fillOpacity = 0.7;
     hoverState.properties.strokeOpacity = 0.7;
