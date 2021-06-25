@@ -119,7 +119,7 @@ nodeTemplate.cursorOverStyle = am4core.MouseCursorStyle.pointer;
 let linkTemplate = chart.links.template;
 linkTemplate.strokeOpacity = 0;
 linkTemplate.fillOpacity = 0.15;
-linkTemplate.tooltipText = "{fromName} sent {toName} {value.value} emails\nagv. sentiment: {sentiment}";
+linkTemplate.tooltipText = "{fromName} sent {toName} {value.value} emails\navg. sentiment: {sentiment}";
 
 var hoverState = linkTemplate.states.create("hover");
 hoverState.properties.fillOpacity = 0.7;
