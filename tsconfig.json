@@ -23,5 +23,6 @@
         "./typescript/sankeyBar.ts",
         "./typescript/visualisationController.ts",
         "./typescript/visualiseCollection.ts",
+        "./typescript/sliderUpdates.ts"
     ]
 }

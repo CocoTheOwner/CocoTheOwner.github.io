@@ -24,7 +24,8 @@ function analyseCSVData() {
     window["emails"] = emails
     window["lookup"] = lookup
     window["selectedJob"] = "Unknown"
-    updateCharts(8, fractions);
+    window["sankeyFractions"] = fractions
+    updateCharts();
     makeSankeyBar(fractions, datestrings);
 }
 
@@ -84,5 +85,6 @@ resetDates.onclick = function (e) {
     window['reset'] = true;
     calendar.value = window['dataStartDate'] + " - " + window['dataEndDate'];
     calendar.onchange(e);
-    updateCharts(8, []);
+    window["sankeyFractions"] = []
+    updateCharts();
 }

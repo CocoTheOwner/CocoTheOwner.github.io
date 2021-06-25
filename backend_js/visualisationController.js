@@ -5,16 +5,16 @@ define(["require", "exports", "./amChartChord", "./amChartChordJob", "./amChartS
     let lookup;
     let inJobChartTitle = amChartChordJob_1.default.titles.create();
     inJobChartTitle.fontSize = 25;
-    function updateCharts(sankeyClusters = 8, sankeyBarFractions) {
+    function updateCharts(sankeyBarFractions = window["sankeyFractions"]) {
         let emails = window["emails"];
         lookup = window["lookup"];
-        updateSankey(emails, lookup, sankeyClusters);
+        updateSankey(emails, lookup);
         updateMainChord(emails, lookup, sankeyBarFractions);
         amChartSankey_1.default.validateData(); // Updates the sankeyChart
         removeSankeyLabels(amChartSankey_1.default);
     }
     exports.updateCharts = updateCharts;
-    function updateSankey(emails, lookup, clusters = 8) {
+    function updateSankey(emails = window["emails"], lookup = window["lookup"], clusters = window["sClusters"]) {
         // Calculate the time between the first and last mail
         const timeframe = emails[emails.length - 1].date.getTime() - emails[0].date.getTime();
         // Calculate the dates between which the clusters exist.

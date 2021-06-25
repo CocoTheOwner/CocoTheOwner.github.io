@@ -22,7 +22,8 @@ define(["require", "exports", "./csvParser", "./visualisationController", "./san
         window["emails"] = emails;
         window["lookup"] = lookup;
         window["selectedJob"] = "Unknown";
-        visualisationController_1.updateCharts(8, fractions);
+        window["sankeyFractions"] = fractions;
+        visualisationController_1.updateCharts();
         sankeyBar_1.default(fractions, datestrings);
     }
     //when input changes, update file
@@ -69,6 +70,7 @@ define(["require", "exports", "./csvParser", "./visualisationController", "./san
         window['reset'] = true;
         calendar.value = window['dataStartDate'] + " - " + window['dataEndDate'];
         calendar.onchange(e);
-        visualisationController_1.updateCharts(8, []);
+        window["sankeyFractions"] = [];
+        visualisationController_1.updateCharts();
     };
 });

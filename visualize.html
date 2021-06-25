@@ -107,8 +107,14 @@
                   Alluvial full dataset
                 </div>
                 <div style="margin-left:.1%;padding-top:6%;margin-top:10%">
-                  <p id="alluvial-text">Number of clusters in Alluvial: 5</p>
-                  <input type="range" min="1" max="10" value="5" class="slider" id="alluvial-slider">
+                  <p id="alluvial-text">Number of clusters in Alluvial: 8</p>
+                  <input type="range" min="1" max="15" value="8" class="slider" id="alluvial-slider" (change)="getSliderValue($event)" (oninput)="getSliderValue($event)" />
+                  <script>
+                    var slider = document.getElementById("alluvial-slider");
+                    var output = document.getElementById("alluvial-text");
+                    output.innerHTML = "Number of clusters in Alluvial: " + slider.value.toString(); // Display the default slider value
+                    window["sClusters"] = slider.value
+                  </script>
                 </div>
                 
               </div>

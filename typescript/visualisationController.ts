@@ -8,11 +8,11 @@ let lookup;
 let inJobChartTitle = withinJobChart.titles.create();
 inJobChartTitle.fontSize = 25;
 
-export function updateCharts(sankeyClusters = 8, sankeyBarFractions: number[]): void {
+export function updateCharts(sankeyBarFractions: number[] = window["sankeyFractions"]): void {
     let emails = window["emails"]
     lookup = window["lookup"]
 
-    updateSankey(emails, lookup, sankeyClusters)
+    updateSankey(emails, lookup)
     updateMainChord(emails, lookup, sankeyBarFractions)
 
     sankeyChart.validateData(); // Updates the sankeyChart
@@ -20,7 +20,7 @@ export function updateCharts(sankeyClusters = 8, sankeyBarFractions: number[]): 
     removeSankeyLabels(sankeyChart)
 }
 
-export function updateSankey(emails: Email[], lookup: {[id: number]: Employee}, clusters = 8): void {
+export function updateSankey(emails: Email[] = window["emails"], lookup: {[id: number]: Employee} = window["lookup"], clusters = window["sClusters"]): void {
 
     // Calculate the time between the first and last mail
     const timeframe = emails[emails.length - 1].date.getTime() - emails[0].date.getTime()
