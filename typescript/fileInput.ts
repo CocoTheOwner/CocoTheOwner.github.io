@@ -27,6 +27,7 @@ function analyseCSVData() {
     window["sankeyFractions"] = fractions
     updateCharts();
     makeSankeyBar(fractions, datestrings);
+    input1.value = null;
 }
 
 //when input changes, update file

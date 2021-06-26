@@ -9,6 +9,6 @@ define(["require", "exports", "./visualisationController"], function (require, e
         output.innerHTML = "Number of clusters in Alluvial: " + slider.value.toString(); // Display the default slider value
         window["sClusters"] = slider.value;
         console.log("Updating sankey");
-        visualisationController_1.updateCharts();
+        visualisationController_1.updateSankey();
     };
 });

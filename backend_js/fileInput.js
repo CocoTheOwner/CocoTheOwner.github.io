@@ -25,6 +25,7 @@ define(["require", "exports", "./csvParser", "./visualisationController", "./san
         window["sankeyFractions"] = fractions;
         visualisationController_1.updateCharts();
         sankeyBar_1.default(fractions, datestrings);
+        input1.value = null;
     }
     //when input changes, update file
     input1.addEventListener('change', function (e) {
