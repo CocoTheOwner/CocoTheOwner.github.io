@@ -14,8 +14,6 @@ export function updateCharts(sankeyBarFractions: number[] = window["sankeyFracti
 
     updateSankey(emails, lookup)
     updateMainChord(emails, lookup, sankeyBarFractions)
-
-    removeSankeyLabels(sankeyChart)
 }
 
 export function updateSankey(emails: Email[] = window["emails"], lookup: {[id: number]: Employee} = window["lookup"], clusters = window["sClusters"]): void {
@@ -105,6 +103,7 @@ export function updateSankey(emails: Email[] = window["emails"], lookup: {[id: n
     }
 
     sankeyChart.validateData(); // Updates the sankeyChart
+    removeSankeyLabels(sankeyChart);
 }
 
 //make a sankey data entry to give the first layer a color

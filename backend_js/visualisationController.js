@@ -10,7 +10,6 @@ define(["require", "exports", "./amChartChord", "./amChartChordJob", "./amChartS
         lookup = window["lookup"];
         updateSankey(emails, lookup);
         updateMainChord(emails, lookup, sankeyBarFractions);
-        removeSankeyLabels(amChartSankey_1.default);
     }
     exports.updateCharts = updateCharts;
     function updateSankey(emails = window["emails"], lookup = window["lookup"], clusters = window["sClusters"]) {
@@ -81,6 +80,7 @@ define(["require", "exports", "./amChartChord", "./amChartChordJob", "./amChartS
             }
         }
         amChartSankey_1.default.validateData(); // Updates the sankeyChart
+        removeSankeyLabels(amChartSankey_1.default);
     }
     exports.updateSankey = updateSankey;
     //make a sankey data entry to give the first layer a color
