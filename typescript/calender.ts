@@ -52,8 +52,8 @@ jq(function () {
         window["endDate"] = end._d
 
         let fractions: number[] = [];
-        updateMainChord(window["emails"], window["lookup"], fractions);
-        makeSankeyBar(fractions);
+        updateMainChord();
+        makeSankeyBar();
     });
 });
 

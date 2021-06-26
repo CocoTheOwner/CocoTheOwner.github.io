@@ -1,5 +1,5 @@
 import {readCsv} from "./csvParser"
-import {updateCharts, updateJobChord, updateMainChord, updateSankey} from "./visualisationController"
+import {updateCharts, updateJobChord, updateMainChord} from "./visualisationController"
 import makeSankeyBar from "./sankeyBar"
 
 let input1 = (document.getElementById("f_input_popup") as HTMLInputElement); //get file input for popup
@@ -16,7 +16,6 @@ function analyseCSVData() {
     let emails = []
     let lookup = []
     let datestrings = []
-    let fractions = [];
     readCsv(reader.result as string, emails, lookup, datestrings);
     calendar.value = window['dataStartDate'] + " - " + window['dataEndDate'];
     console.log("File uploaded successfully");
@@ -24,9 +23,8 @@ function analyseCSVData() {
     window["emails"] = emails
     window["lookup"] = lookup
     window["selectedJob"] = "Unknown"
-    window["sankeyFractions"] = fractions
     updateCharts();
-    makeSankeyBar(fractions, datestrings);
+    makeSankeyBar(datestrings);
     input1.value = null;
 }
 
@@ -76,9 +74,8 @@ calendar.onchange = function (e) {
         window["startDate"] = new Date(window['dataStartDate'])
         window["endDate"] = new Date(window['dataEndDate'])
     
-        let fractions: number[] = [];
-        updateMainChord(window["emails"], window["lookup"], fractions);
-        makeSankeyBar(fractions);
+        updateMainChord();
+        makeSankeyBar();
     }
 };
 

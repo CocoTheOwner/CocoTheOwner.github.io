@@ -58,8 +58,8 @@ define(["require", "exports", "./visualisationController", "./sankeyBar"], funct
                 window["startDate"] = start._d;
                 window["endDate"] = end._d;
                 let fractions = [];
-                visualisationController_1.updateMainChord(window["emails"], window["lookup"], fractions);
-                sankeyBar_1.default(fractions);
+                visualisationController_1.updateMainChord();
+                sankeyBar_1.default();
             });
         });
     });

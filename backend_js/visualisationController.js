@@ -1,36 +1,34 @@
-define(["require", "exports", "./amChartChord", "./amChartChordJob", "./amChartSankey", "./mailGraph"], function (require, exports, amChartChord_1, amChartChordJob_1, amChartSankey_1, mailGraph_1) {
+define(["require", "exports", "./amChartChord", "./amChartChordJob", "./amChartSankey"], function (require, exports, amChartChord_1, amChartChordJob_1, amChartSankey_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.updateJobChord = exports.updateMainChord = exports.updateSankey = exports.updateCharts = void 0;
     let lookup;
     let inJobChartTitle = amChartChordJob_1.default.titles.create();
     inJobChartTitle.fontSize = 25;
-    function updateCharts(sankeyBarFractions = window["sankeyFractions"]) {
-        let emails = window["emails"];
-        lookup = window["lookup"];
-        updateSankey(emails, lookup);
-        updateMainChord(emails, lookup, sankeyBarFractions);
+    function updateCharts() {
+        updateSankey();
+        updateMainChord();
     }
     exports.updateCharts = updateCharts;
-    function updateSankey(emails = window["emails"], lookup = window["lookup"], clusters = window["sClusters"]) {
+    function updateSankey(clusters = window["sClusters"]) {
         // Calculate the time between the first and last mail
-        const timeframe = emails[emails.length - 1].date.getTime() - emails[0].date.getTime();
+        const timeframe = window["emails"][window["emails"].length - 1].date.getTime() - window["emails"][0].date.getTime();
         // Calculate the dates between which the clusters exist.
         const dates = []; // Will contain as first element the first date and as the last, the last.
         for (let i = 0; i < clusters; i++) {
-            dates[i] = emails[0].date.getTime() + timeframe / clusters * (i + 1);
+            dates[i] = window["emails"][0].date.getTime() + timeframe / clusters * (i + 1);
         }
         // Loop over all mails and set counters, totals and colors
         window["colorData"] = {};
         amChartSankey_1.default.colors.reset();
         let mailCounters = { 0: { "total": 1 } };
         let timeslot = 0;
-        for (let mailNum in emails) {
+        for (let mailNum in window["emails"]) {
             // Get the mail
-            let mail = emails[mailNum];
+            let mail = window["emails"][mailNum];
             // Get the job titles
-            let fjob = lookup[mail.fromId].jobTitle;
-            let tjob = lookup[mail.toId].jobTitle;
+            let fjob = window["lookup"][mail.fromId].jobTitle;
+            let tjob = window["lookup"][mail.toId].jobTitle;
             // Check if the f/tjobs are in the jobID list, and add them if not
             if (window["colorData"][fjob] === undefined) {
             }
@@ -104,14 +102,14 @@ define(["require", "exports", "./amChartChord", "./amChartChordJob", "./amChartS
         // Return entry to the diagram
         return { from: from, to: to, value: fraction, color: window["colorData"][tjob], total: part };
     }
-    function updateMainChord(emails, lookup, sankeyBarFractions) {
+    function updateMainChord() {
         amChartChord_1.default.startAngle = 180;
         amChartChord_1.default.endAngle = amChartChord_1.default.startAngle + 180;
-        let totalMillis = emails[emails.length - 1].date.getTime() - emails[0].date.getTime();
-        sankeyBarFractions.push((window["startDate"].getTime() - emails[0].date.getTime()) / totalMillis);
-        sankeyBarFractions.push((window["endDate"].getTime() - emails[0].date.getTime()) / totalMillis);
-        let startIndex = mailGraph_1.findTimeIndex(emails, window["startDate"]);
-        let endIndex = mailGraph_1.findTimeIndex(emails, window["endDate"]);
+        let totalMillis = window["emails"][window["emails"].length - 1].date.getTime() - window["emails"][0].date.getTime();
+        window['sankeyFractions'][0] = (window["startDate"].getTime() - window["emails"][0].date.getTime()) / totalMillis;
+        window['sankeyFractions'][1] = (window["endDate"].getTime() - window["emails"][0].date.getTime()) / totalMillis;
+        let startIndex = findTimeIndex(window["startDate"]);
+        let endIndex = findTimeIndex(window["endDate"]);
         if (startIndex === endIndex) {
             alert("The time interval you have chosen encompasses no data in the current dataset. The visualization has not been changed.");
             return;
@@ -120,9 +118,9 @@ define(["require", "exports", "./amChartChord", "./amChartChordJob", "./amChartS
         let data = {};
         let sentiments = {};
         for (let i = startIndex; i < endIndex; i++) {
-            let mail = emails[i];
-            let from = lookup[mail.fromId].jobTitle;
-            let to = lookup[mail.toId].jobTitle;
+            let mail = window["emails"][i];
+            let from = window["lookup"][mail.fromId].jobTitle;
+            let to = window["lookup"][mail.toId].jobTitle;
             if (from == to) {
                 continue;
             }
@@ -155,17 +153,16 @@ define(["require", "exports", "./amChartChord", "./amChartChordJob", "./amChartS
         amChartChordJob_1.default.startAngle = 180;
         amChartChordJob_1.default.endAngle = amChartChordJob_1.default.startAngle + 180;
         inJobChartTitle.text = "Within job title: " + window["selectedJob"];
-        let emails = window["emails"];
-        let startIndex = mailGraph_1.findTimeIndex(emails, window["startDate"]);
-        let endIndex = mailGraph_1.findTimeIndex(emails, window["endDate"]);
+        let startIndex = findTimeIndex(window["startDate"]);
+        let endIndex = findTimeIndex(window["endDate"]);
         amChartChordJob_1.default.data = [];
         let data = {};
         let sentiments = {};
         for (let i = startIndex; i < endIndex; i++) {
-            let mail = emails[i];
+            let mail = window["emails"][i];
             let from = mail.fromId;
             let to = mail.toId;
-            if (lookup[from].jobTitle == window["selectedJob"] && lookup[to].jobTitle == window["selectedJob"] && (!(from == to) || window['self-edge'])) {
+            if (window["lookup"][from].jobTitle == window["selectedJob"] && window["lookup"][to].jobTitle == window["selectedJob"] && (!(from == to) || window['self-edge'])) {
                 if (data[from] != undefined && data[from][to] != undefined) { // if an entry from-> to exists add to that
                     data[from][to]++;
                     sentiments[from][to] = (sentiments[from][to] + mail.appreciation) / 2;
@@ -182,8 +179,8 @@ define(["require", "exports", "./amChartChord", "./amChartChordJob", "./amChartS
         }
         for (let from in data) {
             for (let to in data[from]) {
-                let fromName = getNameFromEmail(lookup[from].email);
-                let toName = getNameFromEmail(lookup[to].email);
+                let fromName = getNameFromEmail(window["lookup"][from].email);
+                let toName = getNameFromEmail(window["lookup"][to].email);
                 amChartChordJob_1.default.data.push({ from: fromName, to: toName, value: data[from][to], sentiment: sentiments[from][to] });
             }
         }
@@ -207,6 +204,42 @@ define(["require", "exports", "./amChartChord", "./amChartChordJob", "./amChartS
         }
         else {
             return lastname[0].toUpperCase() + lastname.substr(1);
+        }
+    }
+    //finds first email sent on/after a date
+    //params:
+    //  -date:    date to find (if Date(0), returns first element; if Date(1), return last)
+    //returns:
+    //  -index of mail found
+    function findTimeIndex(date) {
+        if (date.getTime() === 0) {
+            return 0;
+        } // Special case: Return the first element of the array
+        else if (date.getTime() === 1) {
+            return window["emails"].length;
+        } // Special case: Return the last element of the array
+        else { // Normal case: Perform binary search to find the correct indices.
+            let l = 0;
+            let r = window["emails"].length - 1;
+            // While true, keep searching
+            while (l <= r) {
+                let m = Math.floor((l + r) / 2); //find middle of search area
+                if (window["emails"][m].date < date) {
+                    l = m + 1;
+                }
+                else if (window["emails"][m].date > date) {
+                    r = m - 1;
+                }
+                else {
+                    // If we found the right date, look for duplicates that may occur before the current item.
+                    while (m > 0 && window["emails"][--m].date.toDateString() === date.toDateString()) { }
+                    ;
+                    // Return the index of the first occurrance of our date.
+                    return m + 1;
+                }
+            }
+            // If we did not find our date in the array, return the first mail after what we looked for.
+            return r + 1;
         }
     }
 });

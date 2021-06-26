@@ -14,7 +14,6 @@ define(["require", "exports", "./csvParser", "./visualisationController", "./san
         let emails = [];
         let lookup = [];
         let datestrings = [];
-        let fractions = [];
         csvParser_1.readCsv(reader.result, emails, lookup, datestrings);
         calendar.value = window['dataStartDate'] + " - " + window['dataEndDate'];
         console.log("File uploaded successfully");
@@ -22,9 +21,8 @@ define(["require", "exports", "./csvParser", "./visualisationController", "./san
         window["emails"] = emails;
         window["lookup"] = lookup;
         window["selectedJob"] = "Unknown";
-        window["sankeyFractions"] = fractions;
         visualisationController_1.updateCharts();
-        sankeyBar_1.default(fractions, datestrings);
+        sankeyBar_1.default(datestrings);
         input1.value = null;
     }
     //when input changes, update file
@@ -62,9 +60,8 @@ define(["require", "exports", "./csvParser", "./visualisationController", "./san
             window['reset'] = false;
             window["startDate"] = new Date(window['dataStartDate']);
             window["endDate"] = new Date(window['dataEndDate']);
-            let fractions = [];
-            visualisationController_1.updateMainChord(window["emails"], window["lookup"], fractions);
-            sankeyBar_1.default(fractions);
+            visualisationController_1.updateMainChord();
+            sankeyBar_1.default();
         }
     };
     resetDates.onclick = function (e) {

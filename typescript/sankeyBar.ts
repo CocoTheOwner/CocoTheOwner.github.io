@@ -2,7 +2,8 @@
 var data: string[] = [
     "monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday", "monday", "tuesday"
 ]
-var fraction: number[] = [0.2, 0.8]
+
+window['sankeyFractions'] = [0., 1.]
 
 /// Create the labels underneath the SankeyDiagram
 const table = <HTMLTableElement> document.getElementById("sankeylabels")
@@ -61,15 +62,14 @@ function drawSankeyBar(){
     // Fill the canvas with a light pink block (the background)
     ctx.fillStyle = "rgb(169, 169, 255)"
     roundRect(ctx, 0, 0, canvas.width, canvas.height, 7.5, true, false)
-
+	
     // Fill the selection with a dark purple block (the foreground)
     ctx.fillStyle = "#AB00CC"
-    roundRect(ctx, canvas.width * fraction[0], 0, canvas.width * (fraction[1]-fraction[0]), canvas.height, 7.5, true, false)
+    roundRect(ctx, canvas.width * window['sankeyFractions'][0], 0, canvas.width * (window['sankeyFractions'][1]-window['sankeyFractions'][0]), canvas.height, 7.5, true, false)
 }
 
-export default function updateData(fractions: number[] = fraction, dates: string[] = data) {
+export default function updateData(dates: string[] = data) {
     data = dates;
-    fraction = fractions;
     drawSankeyLabels()
     drawSankeyBar()
 }
@@ -93,20 +93,20 @@ export default function updateData(fractions: number[] = fraction, dates: string
  * @param {Boolean} [fill = false] Whether to fill the rectangle.
  * @param {Boolean} [stroke = true] Whether to stroke the rectangle.
  */
- function roundRect(ctx, x, y, width, height, radius, fill, stroke) {
+function roundRect(ctx, x, y, width, height, radius, fill, stroke) {
     if (typeof stroke === 'undefined') {
-      stroke = true;
+    	stroke = true;
     }
     if (typeof radius === 'undefined') {
-      radius = 5;
+		radius = 5;
     }
     if (typeof radius === 'number') {
-      radius = {tl: radius, tr: radius, br: radius, bl: radius};
+		radius = {tl: radius, tr: radius, br: radius, bl: radius};
     } else {
-      var defaultRadius = {tl: 0, tr: 0, br: 0, bl: 0};
-      for (var side in defaultRadius) {
-        radius[side] = radius[side] || defaultRadius[side];
-      }
+		var defaultRadius = {tl: 0, tr: 0, br: 0, bl: 0};
+		for (var side in defaultRadius) {
+			radius[side] = radius[side] || defaultRadius[side];
+		}
     }
     ctx.beginPath();
     ctx.moveTo(x + radius.tl, y);
@@ -120,10 +120,9 @@ export default function updateData(fractions: number[] = fraction, dates: string
     ctx.quadraticCurveTo(x, y, x + radius.tl, y);
     ctx.closePath();
     if (fill) {
-      ctx.fill();
+		ctx.fill();
     }
     if (stroke) {
-      ctx.stroke();
-    }
-  
-  }
+		ctx.stroke();
+    } 
+}

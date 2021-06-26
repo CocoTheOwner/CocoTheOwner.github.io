@@ -1,4 +1,0 @@
-main page css
-imports from files
-correct references of the correct files in the correct locations
-external imports (modules such as fp and readline)

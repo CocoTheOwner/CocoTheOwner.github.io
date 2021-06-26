@@ -71,10 +71,10 @@ define(["require", "exports"], function (require, exports) {
         });
         mailArr = mailArr.sort(function (e1, e2) { return e1.date.getTime() - e2.date.getTime(); });
         let totalMillis = mailArr[mailArr.length - 1].date.getTime() - mailArr[0].date.getTime();
-        window["startDate"] = new Date(0);
-        window["endDate"] = new Date(1);
         let s = mailArr[0].date;
         let e = mailArr[mailArr.length - 1].date;
+        window["startDate"] = s;
+        window["endDate"] = e;
         window['dataStartDate'] = s.getFullYear() + "/" + (s.getMonth() + 1) + "/" + s.getDate();
         window['dataEndDate'] = e.getFullYear() + "/" + (e.getMonth() + 1) + "/" + e.getDate();
         for (var i = 0; i <= 8; i++) {

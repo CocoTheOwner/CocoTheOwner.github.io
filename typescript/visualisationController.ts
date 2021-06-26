@@ -1,30 +1,25 @@
 import chordChart from "./amChartChord"
 import withinJobChart from "./amChartChordJob"
 import sankeyChart from "./amChartSankey"
-import { Email, Employee } from "./csvParser"
-import { findTimeIndex } from "./mailGraph"
 
 let lookup;
 let inJobChartTitle = withinJobChart.titles.create();
 inJobChartTitle.fontSize = 25;
 
-export function updateCharts(sankeyBarFractions: number[] = window["sankeyFractions"]): void {
-    let emails = window["emails"]
-    lookup = window["lookup"]
-
-    updateSankey(emails, lookup)
-    updateMainChord(emails, lookup, sankeyBarFractions)
+export function updateCharts() {
+    updateSankey();
+    updateMainChord();
 }
 
-export function updateSankey(emails: Email[] = window["emails"], lookup: {[id: number]: Employee} = window["lookup"], clusters = window["sClusters"]): void {
+export function updateSankey(clusters = window["sClusters"]): void {
 
     // Calculate the time between the first and last mail
-    const timeframe = emails[emails.length - 1].date.getTime() - emails[0].date.getTime()
+    const timeframe = window["emails"][window["emails"].length - 1].date.getTime() - window["emails"][0].date.getTime()
 
     // Calculate the dates between which the clusters exist.
     const dates = [] // Will contain as first element the first date and as the last, the last.
     for (let i = 0; i < clusters; i++) {
-        dates[i] = emails[0].date.getTime() + timeframe / clusters * (i+1)
+        dates[i] = window["emails"][0].date.getTime() + timeframe / clusters * (i+1)
     }
 
     // Loop over all mails and set counters, totals and colors
@@ -32,14 +27,14 @@ export function updateSankey(emails: Email[] = window["emails"], lookup: {[id: n
     sankeyChart.colors.reset()
     let mailCounters = {0: {"total":1}}
     let timeslot = 0
-    for (let mailNum in emails){
+    for (let mailNum in window["emails"]){
 
         // Get the mail
-        let mail = emails[mailNum]
+        let mail = window["emails"][mailNum]
 
         // Get the job titles
-        let fjob = lookup[mail.fromId].jobTitle
-        let tjob = lookup[mail.toId].jobTitle
+        let fjob = window["lookup"][mail.fromId].jobTitle
+        let tjob = window["lookup"][mail.toId].jobTitle
 
         // Check if the f/tjobs are in the jobID list, and add them if not
         if (window["colorData"][fjob] === undefined) {
@@ -107,7 +102,7 @@ export function updateSankey(emails: Email[] = window["emails"], lookup: {[id: n
 }
 
 //make a sankey data entry to give the first layer a color
-function addSankeyColor(fjob: string): {from: string, color}{
+function addSankeyColor(fjob: string): {from: string, color} {
     return {from: fjob, color: window["colorData"][fjob]}
 }
 
@@ -135,16 +130,16 @@ function addSankeyConnection(fjob: string, tjob: string, timeslot: number, part:
 
 }
 
-export function updateMainChord(emails: Email[], lookup: {[id: number]: Employee}, sankeyBarFractions: number[]): void {
+export function updateMainChord() {
     chordChart.startAngle = 180;
     chordChart.endAngle = chordChart.startAngle + 180;
 
-    let totalMillis = emails[emails.length - 1].date.getTime() - emails[0].date.getTime();
-    sankeyBarFractions.push((window["startDate"].getTime() - emails[0].date.getTime()) / totalMillis);
-    sankeyBarFractions.push((window["endDate"].getTime() - emails[0].date.getTime()) / totalMillis);
+    let totalMillis = window["emails"][window["emails"].length - 1].date.getTime() - window["emails"][0].date.getTime();
+    window['sankeyFractions'][0] = (window["startDate"].getTime() - window["emails"][0].date.getTime()) / totalMillis;
+    window['sankeyFractions'][1] = (window["endDate"].getTime() - window["emails"][0].date.getTime()) / totalMillis;
 
-    let startIndex = findTimeIndex(emails, window["startDate"])
-    let endIndex = findTimeIndex(emails, window["endDate"])
+    let startIndex = findTimeIndex(window["startDate"])
+    let endIndex = findTimeIndex(window["endDate"])
     
     if (startIndex === endIndex) {
         alert("The time interval you have chosen encompasses no data in the current dataset. The visualization has not been changed.");
@@ -155,9 +150,9 @@ export function updateMainChord(emails: Email[], lookup: {[id: number]: Employee
     let data = {}
     let sentiments = {}
     for(let i = startIndex; i < endIndex; i++){
-        let mail = emails[i]
-        let from = lookup[mail.fromId].jobTitle
-        let to = lookup[mail.toId].jobTitle
+        let mail = window["emails"][i]
+        let from = window["lookup"][mail.fromId].jobTitle
+        let to = window["lookup"][mail.toId].jobTitle
 
         if (from == to) { continue }
 
@@ -194,18 +189,17 @@ export function updateJobChord() {
     
     inJobChartTitle.text = "Within job title: " + window["selectedJob"];
     
-    let emails = window["emails"]
-    let startIndex = findTimeIndex(emails, window["startDate"])
-    let endIndex = findTimeIndex(emails, window["endDate"])
+    let startIndex = findTimeIndex(window["startDate"])
+    let endIndex = findTimeIndex(window["endDate"])
     
     withinJobChart.data = []
     let data = {}
     let sentiments = {};
     for(let i = startIndex; i < endIndex; i++){
-        let mail = emails[i]
+        let mail = window["emails"][i]
         let from = mail.fromId
         let to = mail.toId
-        if (lookup[from].jobTitle == window["selectedJob"] && lookup[to].jobTitle == window["selectedJob"] && (!(from == to) || window['self-edge'])) {
+        if (window["lookup"][from].jobTitle == window["selectedJob"] && window["lookup"][to].jobTitle == window["selectedJob"] && (!(from == to) || window['self-edge'])) {
             if (data[from] != undefined && data[from][to] != undefined) { // if an entry from-> to exists add to that
                 data[from][to]++
                 sentiments[from][to] = (sentiments[from][to] + mail.appreciation) / 2;
@@ -221,8 +215,8 @@ export function updateJobChord() {
 
     for(let from in data){
         for(let to in data[from]){
-            let fromName = getNameFromEmail(lookup[from].email);
-            let toName = getNameFromEmail(lookup[to].email);
+            let fromName = getNameFromEmail(window["lookup"][from].email);
+            let toName = getNameFromEmail(window["lookup"][to].email);
             withinJobChart.data.push({from: fromName, to: toName, value: data[from][to], sentiment: sentiments[from][to]})
         }
     }
@@ -249,4 +243,35 @@ function getNameFromEmail(email: string): string {
     } else {
         return lastname[0].toUpperCase() + lastname.substr(1);
     }
-} 
+}
+
+//finds first email sent on/after a date
+//params:
+//  -date:    date to find (if Date(0), returns first element; if Date(1), return last)
+//returns:
+//  -index of mail found
+function findTimeIndex(date: Date): number {
+    if (date.getTime() === 0) { return 0; }                     // Special case: Return the first element of the array
+    else if (date.getTime() === 1) { return window["emails"].length; }   // Special case: Return the last element of the array
+    else {                                                      // Normal case: Perform binary search to find the correct indices.
+        let l = 0;
+        let r = window["emails"].length - 1;
+
+        // While true, keep searching
+        while(l <= r) {
+            let m = Math.floor((l + r) / 2);    //find middle of search area
+            if (window["emails"][m].date < date) { l = m + 1; }
+            else if (window["emails"][m].date > date) { r = m - 1; }
+            else {
+                // If we found the right date, look for duplicates that may occur before the current item.
+                while (m > 0 && window["emails"][--m].date.toDateString() === date.toDateString()){};
+
+                // Return the index of the first occurrance of our date.
+                return m + 1;
+            }
+        }
+
+        // If we did not find our date in the array, return the first mail after what we looked for.
+        return r + 1;
+    }
+}

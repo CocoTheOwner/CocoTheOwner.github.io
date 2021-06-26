@@ -5,7 +5,7 @@ define(["require", "exports"], function (require, exports) {
     var data = [
         "monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday", "monday", "tuesday"
     ];
-    var fraction = [0.2, 0.8];
+    window['sankeyFractions'] = [0., 1.];
     /// Create the labels underneath the SankeyDiagram
     const table = document.getElementById("sankeylabels");
     // Draw the sankey labels
@@ -49,11 +49,10 @@ define(["require", "exports"], function (require, exports) {
         roundRect(ctx, 0, 0, canvas.width, canvas.height, 7.5, true, false);
         // Fill the selection with a dark purple block (the foreground)
         ctx.fillStyle = "#AB00CC";
-        roundRect(ctx, canvas.width * fraction[0], 0, canvas.width * (fraction[1] - fraction[0]), canvas.height, 7.5, true, false);
+        roundRect(ctx, canvas.width * window['sankeyFractions'][0], 0, canvas.width * (window['sankeyFractions'][1] - window['sankeyFractions'][0]), canvas.height, 7.5, true, false);
     }
-    function updateData(fractions = fraction, dates = data) {
+    function updateData(dates = data) {
         data = dates;
-        fraction = fractions;
         drawSankeyLabels();
         drawSankeyBar();
     }
