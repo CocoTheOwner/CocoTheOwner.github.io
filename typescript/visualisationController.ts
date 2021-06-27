@@ -68,8 +68,10 @@ export function updateSankey(clusters = window["sClusters"]) {
     let backupJob;
 
     // Make sure the colors in the first column are set correctly
-    for (const fjob in connections[0]) {
-        sankeyChart.data.push(addSankeyColor(fjob));
+    for (const fjob in window['colorData']) {
+        if (fjob in connections[0]) {
+            sankeyChart.data.push(addSankeyColor(fjob));
+        }
     }
 
     // For all connections between columns...

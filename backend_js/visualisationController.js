@@ -56,8 +56,10 @@ define(["require", "exports", "./amChartChord", "./amChartChordJob", "./amChartS
         // First job that we're certain exists in the left column \a\
         let backupJob;
         // Make sure the colors in the first column are set correctly
-        for (const fjob in connections[0]) {
-            amChartSankey_1.default.data.push(addSankeyColor(fjob));
+        for (const fjob in window['colorData']) {
+            if (fjob in connections[0]) {
+                amChartSankey_1.default.data.push(addSankeyColor(fjob));
+            }
         }
         // For all connections between columns...
         for (const timeslot in mailCounters) {
