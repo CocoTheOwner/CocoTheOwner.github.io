@@ -1,4 +1,4 @@
-import {updateMainChord} from "./visualisationController";
+import {updateMainChord, updateSankey} from "./visualisationController";
 import makeSankeyBar from "./sankeyBar";
 
 let jq = window["$"]
@@ -51,9 +51,11 @@ jq(function () {
         window["startDate"] = start._d
         window["endDate"] = end._d
 
-        let fractions: number[] = [];
         updateMainChord();
         makeSankeyBar();
+        if(!window["full-alluvial"]){
+            updateSankey()
+        }
     });
 });
 

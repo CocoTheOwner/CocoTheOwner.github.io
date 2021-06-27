@@ -13,13 +13,18 @@ export function updateCharts() {
 
 export function updateSankey(clusters = window["sClusters"]): void {
 
+    let maillist = window["emails"]
+    if (!window["full-alluvial"]){
+        maillist = maillist.slice(findTimeIndex(window["startDate"]), findTimeIndex(window["endDate"]))
+    }
+
     // Calculate the time between the first and last mail
-    const timeframe = window["emails"][window["emails"].length - 1].date.getTime() - window["emails"][0].date.getTime()
+    const timeframe = maillist[maillist.length - 1].date.getTime() - maillist[0].date.getTime()
 
     // Calculate the dates between which the clusters exist.
     const dates = [] // Will contain as first element the first date and as the last, the last.
     for (let i = 0; i < clusters; i++) {
-        dates[i] = window["emails"][0].date.getTime() + timeframe / clusters * (i+1)
+        dates[i] = maillist[0].date.getTime() + timeframe / clusters * (i+1)
     }
 
     // Loop over all mails and set counters, totals and colors
@@ -27,10 +32,10 @@ export function updateSankey(clusters = window["sClusters"]): void {
     sankeyChart.colors.reset()
     let mailCounters = {0: {"total":1}}
     let timeslot = 0
-    for (let mailNum in window["emails"]){
+    for (let mailNum in maillist){
 
         // Get the mail
-        let mail = window["emails"][mailNum]
+        let mail = maillist[mailNum]
 
         // Get the job titles
         let fjob = window["lookup"][mail.fromId].jobTitle

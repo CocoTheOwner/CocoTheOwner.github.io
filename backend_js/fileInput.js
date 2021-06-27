@@ -53,7 +53,7 @@ define(["require", "exports", "./csvParser", "./visualisationController", "./san
     });
     checkbox_alluvial.addEventListener('change', function (e) {
         window['full-alluvial'] = !window['full-alluvial'];
-        //updateSankey();
+        visualisationController_1.updateSankey();
     });
     calendar.onchange = function (e) {
         if (window['reset']) {

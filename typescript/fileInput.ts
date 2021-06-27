@@ -1,5 +1,5 @@
 import {readCsv} from "./csvParser"
-import {updateCharts, updateJobChord, updateMainChord} from "./visualisationController"
+import {updateCharts, updateJobChord, updateMainChord, updateSankey} from "./visualisationController"
 import makeSankeyBar from "./sankeyBar"
 
 let input1 = (document.getElementById("f_input_popup") as HTMLInputElement); //get file input for popup
@@ -64,7 +64,7 @@ checkbox_selfedge.addEventListener('change', function (e) {
 
 checkbox_alluvial.addEventListener('change', function (e) {
     window['full-alluvial'] = !window['full-alluvial']
-    //updateSankey();
+    updateSankey();
 });
 
 calendar.onchange = function (e) {

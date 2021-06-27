@@ -57,9 +57,11 @@ define(["require", "exports", "./visualisationController", "./sankeyBar"], funct
                 yield new Promise(resolve => setTimeout(resolve, 500));
                 window["startDate"] = start._d;
                 window["endDate"] = end._d;
-                let fractions = [];
                 visualisationController_1.updateMainChord();
                 sankeyBar_1.default();
+                if (!window["full-alluvial"]) {
+                    visualisationController_1.updateSankey();
+                }
             });
         });
     });
