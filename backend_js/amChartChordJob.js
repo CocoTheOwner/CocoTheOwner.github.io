@@ -107,7 +107,7 @@ define(["require", "exports"], function (require, exports) {
     let linkTemplate = chart.links.template;
     linkTemplate.strokeOpacity = 0;
     linkTemplate.fillOpacity = 0.15;
-    linkTemplate.tooltipText = "{fromName} sent {toName} {value.value} emails\navg. sentiment: {sentiment}";
+    linkTemplate.tooltipText = "{fromName} and {toName} exchanged {value.value} emails\navg. sentiment: {sentiment}";
     var hoverState = linkTemplate.states.create("hover");
     hoverState.properties.fillOpacity = 0.7;
     hoverState.properties.strokeOpacity = 0.7;

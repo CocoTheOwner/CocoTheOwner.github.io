@@ -107,7 +107,7 @@ nodeTemplate.cursorOverStyle = am4core.MouseCursorStyle.pointer;
 let linkTemplate = chart.links.template;
 linkTemplate.strokeOpacity = 0;
 linkTemplate.fillOpacity = 0.4;
-linkTemplate.tooltipText = "{fromName} sent {toName} {value.value} mails\navg. sentiment: {sentiment}";
+linkTemplate.tooltipText = "{fromName} and {toName} exchanged {value.value} mails\navg. sentiment: {sentiment}";
 
 // clicking edges
 window["chord_highlight"] = []

@@ -2,7 +2,7 @@ define(["require", "exports", "./amChartChord", "./amChartChordJob", "./amChartS
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.updateJobChord = exports.updateMainChord = exports.updateSankey = exports.updateCharts = void 0;
-    let lookup;
+    window['colorData'] = {};
     let inJobChartTitle = amChartChordJob_1.default.titles.create();
     inJobChartTitle.fontSize = 25;
     function updateCharts() {
@@ -20,66 +20,87 @@ define(["require", "exports", "./amChartChord", "./amChartChordJob", "./amChartS
         // Calculate the dates between which the clusters exist.
         const dates = []; // Will contain as first element the first date and as the last, the last.
         for (let i = 0; i < clusters; i++) {
-            dates[i] = maillist[0].date.getTime() + timeframe / clusters * (i + 1);
+            dates[i] = new Date(maillist[0].date.getTime() + timeframe / clusters * (i + 1));
         }
         // Loop over all mails and set counters, totals and colors
-        window["colorData"] = {};
         amChartSankey_1.default.colors.reset();
-        let mailCounters = { 0: { "total": 1 } };
+        let mailCounters = {};
+        let connections = {};
         let timeslot = 0;
-        for (let mailNum in maillist) {
-            // Get the mail
-            let mail = maillist[mailNum];
-            // Get the job titles
-            let fjob = window["lookup"][mail.fromId].jobTitle;
-            let tjob = window["lookup"][mail.toId].jobTitle;
-            // Check if the f/tjobs are in the jobID list, and add them if not
-            if (window["colorData"][fjob] === undefined) {
+        let firstIndex = findTimeIndex(maillist[0].date);
+        for (const date of dates) {
+            let lastIndex = findTimeIndex(date);
+            mailCounters[timeslot] = { 'total': 0 };
+            connections[timeslot] = {};
+            for (let i = firstIndex; i <= lastIndex; i++) {
+                // Get the mail
+                let mail = window['emails'][i];
+                // Get the job titles
+                let fjob = window["lookup"][mail.fromId].jobTitle;
+                let tjob = window["lookup"][mail.toId].jobTitle;
+                mailCounters[timeslot]['total']++;
+                // Make sure there is a section for the fromJob
+                if (connections[timeslot][fjob] === undefined)
+                    connections[timeslot][fjob] = {};
+                // Add one to the counter of the current fromJob->toJob
+                if (connections[timeslot][fjob][tjob] === undefined)
+                    connections[timeslot][fjob][tjob] = 1;
+                else
+                    connections[timeslot][fjob][tjob]++;
             }
-            if (window["colorData"][tjob] === undefined) {
-                window["colorData"][tjob] = amChartSankey_1.default.colors.next();
-            }
-            // Get the date (as a numeric value)
-            let date = mail.date.getTime();
-            // Check if we are in the next timeslot
-            if (date > dates[timeslot]) {
-                timeslot++;
-                mailCounters[timeslot] = { "total": 0 };
-            }
-            // Add one to the counter of the current timeslot
-            mailCounters[timeslot]["total"]++;
-            // Make sure there is a section for the fromJob
-            if (mailCounters[timeslot][fjob] === undefined)
-                mailCounters[timeslot][fjob] = {};
-            // Add one to the counter of the current fromJob->toJob
-            if (mailCounters[timeslot][fjob][tjob] === undefined)
-                mailCounters[timeslot][fjob][tjob] = 1;
-            else
-                mailCounters[timeslot][fjob][tjob]++;
+            firstIndex = lastIndex + 1;
+            timeslot++;
         }
         // Reset sankey data
         amChartSankey_1.default.data = [];
-        // Calculate fractions per job for the timeslot it is in
-        for (let timeslot in mailCounters) {
+        // First job that we're certain exists in the left column \a\
+        let backupJob;
+        // Make sure the colors in the first column are set correctly
+        for (const fjob in connections[0]) {
+            amChartSankey_1.default.data.push(addSankeyColor(fjob));
+        }
+        // For all connections between columns...
+        for (const timeslot in mailCounters) {
             // Get total for timeslot
-            let timeslotTotal = mailCounters[timeslot]["total"];
-            // Loop over all jobs and get their total (in the timeslot) and calculate&save fraction
-            for (let fjob in window["colorData"]) {
-                if (timeslot == "0") {
-                    amChartSankey_1.default.data.push(addSankeyColor(fjob));
+            const timeslotTotal = mailCounters[timeslot]["total"];
+            // Keep track of one of the job titles present on the left of the current cluster \a\
+            for (const fjob in connections[timeslot]) {
+                backupJob = fjob;
+                break;
+            }
+            // Dictionary to store the links we have to draw. \b\
+            let links = {};
+            for (const fjob in connections[timeslot]) {
+                // Create links for all outgoing links from left to right
+                for (const tjob in connections[timeslot][fjob]) {
+                    if (links[tjob] === undefined)
+                        links[tjob] = [];
+                    links[tjob].push(addSankeyConnection(fjob, tjob, parseInt(timeslot), connections[timeslot][fjob][tjob], timeslotTotal));
                 }
-                // Make sure the dict exists
-                if (mailCounters[timeslot][fjob] === undefined)
-                    mailCounters[timeslot][fjob] = {};
-                // Loop over the to jobs
-                for (let tjob in window["colorData"]) {
-                    // Retrieve the job total if it exists, else 0
-                    let jobTotal = mailCounters[timeslot][fjob][tjob] ? mailCounters[timeslot][fjob][tjob] : 0;
-                    // Calculate the fraction for the timeslot
-                    // add the number to sankey
-                    amChartSankey_1.default.data.push(addSankeyConnection(fjob, tjob, Number(timeslot), jobTotal, timeslotTotal));
+                // In case there are nodes on the left that are not supported, support them so they don't 'fall' further to the left. \a\
+                for (const tjob in connections[parseInt(timeslot) + 1]) {
+                    if (links[tjob] === undefined) {
+                        links[tjob] = [{
+                                from: backupJob + (parseInt(timeslot) === 0 ? "" : "." + timeslot),
+                                to: tjob + "." + (parseInt(timeslot) + 1),
+                                color: window['colorData'][tjob]
+                            }];
+                    }
                 }
             }
+            for (const tjob in window['colorData']) {
+                if (tjob in links) {
+                    for (const link of links[tjob]) {
+                        amChartSankey_1.default.data.push(link);
+                    }
+                }
+            }
+        }
+        // Make it so that the rightmost cluster features all job titles instead of the leftmost.
+        // The rightmost cluster usually has more nodes and some space leftover to the right of it.
+        // Moving the cluster with job title descriptions to the right fills this space and saves computations.
+        for (const tjob in window['colorData']) {
+            amChartSankey_1.default.data.push({ from: backupJob + (clusters === 1 ? "" : "." + (clusters - 1)), to: tjob + "." + clusters, color: window["colorData"][tjob] });
         }
         amChartSankey_1.default.validateData(); // Updates the sankeyChart
         removeSankeyLabels(amChartSankey_1.default);
@@ -194,7 +215,7 @@ define(["require", "exports", "./amChartChord", "./amChartChordJob", "./amChartS
     function removeSankeyLabels(sankeyChart) {
         sankeyChart.nodes.each(function (key, node) {
             node.nameLabel.label.text = key.split(".")[0];
-            if (key.includes(".")) {
+            if (!key.includes("." + window['sClusters'])) {
                 node.nameLabel.label.disabled = true;
             }
         });
@@ -212,7 +233,7 @@ define(["require", "exports", "./amChartChord", "./amChartChordJob", "./amChartS
     }
     //finds first email sent on/after a date
     //params:
-    //  -date:    date to find (if Date(0), returns first element; if Date(1), return last)
+    //  -date:    date to find (if Date(0), returns first element; if Date(1), return last+1th)
     //returns:
     //  -index of mail found
     function findTimeIndex(date) {
@@ -221,7 +242,7 @@ define(["require", "exports", "./amChartChord", "./amChartChordJob", "./amChartS
         } // Special case: Return the first element of the array
         else if (date.getTime() === 1) {
             return window["emails"].length;
-        } // Special case: Return the last element of the array
+        } // Special case: Return the length of the array
         else { // Normal case: Perform binary search to find the correct indices.
             let l = 0;
             let r = window["emails"].length - 1;

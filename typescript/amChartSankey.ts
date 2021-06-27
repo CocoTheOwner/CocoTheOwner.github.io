@@ -60,7 +60,7 @@ nodeTemplate.events.on("over", function(event){
   event.target.nameLabel.label.disabled = false;
 })
 nodeTemplate.events.on("out", function(event){
-  if (event.target.incomingDataItems.length > 0){
+  if (!event.target.name.includes("." + window['sClusters'])){
     event.target.nameLabel.label.disabled = true;
   }
 })

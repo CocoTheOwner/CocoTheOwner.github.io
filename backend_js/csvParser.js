@@ -1,4 +1,4 @@
-define(["require", "exports"], function (require, exports) {
+define(["require", "exports", "./amChartSankey"], function (require, exports, amChartSankey_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.readCsv = exports.Employee = exports.Email = void 0;
@@ -42,10 +42,18 @@ define(["require", "exports"], function (require, exports) {
         // If the sender is not registered in the lookup table, add them.
         if (!(fromId in lookup)) {
             lookup[fromId] = new Employee(tokens[2], tokens[3]);
+            // If this is the first time we see this job title, assign it a color
+            if (window["colorData"][tokens[3]] === undefined) {
+                window["colorData"][tokens[3]] = amChartSankey_1.default.colors.next();
+            }
         }
         // If the receiver is not registered in the lookup table, add them.
         if (!(toId in lookup)) {
             lookup[toId] = new Employee(tokens[5], tokens[6]);
+            // If this is the first time we see this job title, assign it a color
+            if (window["colorData"][tokens[6]] === undefined) {
+                window["colorData"][tokens[6]] = amChartSankey_1.default.colors.next();
+            }
         }
         // Add the email to the emails array and return the object
         mailArr.push(mail);
