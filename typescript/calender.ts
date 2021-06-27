@@ -1,4 +1,4 @@
-import {updateMainChord, updateSankey} from "./visualisationController";
+import {updateMainChord, updateSankey, findTimeIndex} from "./visualisationController";
 import makeSankeyBar from "./sankeyBar";
 
 let jq = window["$"]
@@ -50,6 +50,17 @@ jq(function () {
         await new Promise( resolve => setTimeout(resolve, 500) );
         window["startDate"] = start._d
         window["endDate"] = end._d
+
+        let startIndex = findTimeIndex(window["startDate"])
+        let endIndex = findTimeIndex(window["endDate"])
+        
+        console.log(`Start: ${window['startDate']}\nEnd: ${window['endDate']}\nIndices: ${findTimeIndex(window['startDate'])}, ${findTimeIndex(window['endDate'])}`)
+
+        // Either the user selected the same date twice
+        if (startIndex === endIndex) {
+            alert("The time interval you have chosen encompasses no data in the current dataset. The visualizations have not been changed.");
+            return;
+        }
 
         updateMainChord();
         makeSankeyBar();

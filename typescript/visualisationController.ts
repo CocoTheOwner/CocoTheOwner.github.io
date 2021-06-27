@@ -134,7 +134,7 @@ function addSankeyColor(fjob: string): {from: string, color} {
     return {from: fjob, color: window["colorData"][fjob]}
 }
 
-function addSankeyConnection(fjob: string, tjob: string, timeslot: number, part: number, total: number): {from: string, to: string, value: number, total: number, color} {
+function addSankeyConnection(fjob, tjob: string, timeslot, part, total: number): {from, to: string, value, total: number, color} {
     // Make the "from" string, which is either, (CEO as example):
     // 0 CEO (0)     -> First entry
     // 0 (X)         -> Xth timeslot entry
@@ -162,17 +162,13 @@ export function updateMainChord() {
     chordChart.startAngle = 180;
     chordChart.endAngle = chordChart.startAngle + 180;
 
+    // Set the values for where and how wide the bar above the alluvial diagram should be
     let totalMillis = window["emails"][window["emails"].length - 1].date.getTime() - window["emails"][0].date.getTime();
     window['sankeyFractions'][0] = (window["startDate"].getTime() - window["emails"][0].date.getTime()) / totalMillis;
     window['sankeyFractions'][1] = (window["endDate"].getTime() - window["emails"][0].date.getTime()) / totalMillis;
 
     let startIndex = findTimeIndex(window["startDate"])
     let endIndex = findTimeIndex(window["endDate"])
-    
-    if (startIndex === endIndex) {
-        alert("The time interval you have chosen encompasses no data in the current dataset. The visualization has not been changed.");
-        return;
-    }
 
     chordChart.data = []
     let data = {}
@@ -278,7 +274,7 @@ function getNameFromEmail(email: string): string {
 //  -date:    date to find (if Date(0), returns first element; if Date(1), return last+1th)
 //returns:
 //  -index of mail found
-function findTimeIndex(date: Date): number {
+export function findTimeIndex(date: Date): number {
     if (date.getTime() === 0) { return 0; }                     // Special case: Return the first element of the array
     else if (date.getTime() === 1) { return window["emails"].length; }   // Special case: Return the length of the array
     else {                                                      // Normal case: Perform binary search to find the correct indices.

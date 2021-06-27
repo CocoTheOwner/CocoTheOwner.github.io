@@ -57,6 +57,14 @@ define(["require", "exports", "./visualisationController", "./sankeyBar"], funct
                 yield new Promise(resolve => setTimeout(resolve, 500));
                 window["startDate"] = start._d;
                 window["endDate"] = end._d;
+                let startIndex = visualisationController_1.findTimeIndex(window["startDate"]);
+                let endIndex = visualisationController_1.findTimeIndex(window["endDate"]);
+                console.log(`Start: ${window['startDate']}\nEnd: ${window['endDate']}\nIndices: ${visualisationController_1.findTimeIndex(window['startDate'])}, ${visualisationController_1.findTimeIndex(window['endDate'])}`);
+                // Either the user selected the same date twice
+                if (startIndex === endIndex) {
+                    alert("The time interval you have chosen encompasses no data in the current dataset. The visualizations have not been changed.");
+                    return;
+                }
                 visualisationController_1.updateMainChord();
                 sankeyBar_1.default();
                 if (!window["full-alluvial"]) {
