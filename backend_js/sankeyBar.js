@@ -20,9 +20,7 @@ define(["require", "exports"], function (require, exports) {
             }
         }
         let clusters = Number(window["sClusters"]);
-        console.log(typeof clusters);
         let n = (91.4 / clusters) * (clusters + 1);
-        console.log(n);
         table.style.width = n + "%";
         let row_ = document.getElementById("sankeyLabelsRow");
         if (row_ !== null) {

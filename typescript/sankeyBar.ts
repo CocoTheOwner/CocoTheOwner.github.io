@@ -23,9 +23,7 @@ export function drawSankeyLabels(){
     }
 
     let clusters = Number(window["sClusters"])
-    console.log(typeof clusters)
     let n = (91.4 / clusters) * (clusters + 1)
-    console.log(n)
     table.style.width = n + "%"
 
 
