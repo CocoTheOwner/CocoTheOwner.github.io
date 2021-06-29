@@ -70,7 +70,7 @@ function nextMail(mailData: string, mailArr: Email[], lookup: { [id: number]: Em
 //  -mailArr:   emailArray to add the mails to
 //  -lookup:    lookupTable to add the data to
 //returns: nothing
-export function readCsv(csvString: string, mailArr: Email[], lookup: { [id: number]: Employee }, datestrings: string[]) {
+export function readCsv(csvString: string, mailArr: Email[], lookup: { [id: number]: Employee }) {
     let lines = csvString.split("\n");
     let columns = lines.splice(0, 1)[0].trim();             //cut off first line, they are just column names
     
@@ -88,8 +88,7 @@ export function readCsv(csvString: string, mailArr: Email[], lookup: { [id: numb
     });
     
     mailArr = mailArr.sort(function (e1, e2) { return e1.date.getTime() - e2.date.getTime(); });
-    
-    let totalMillis = mailArr[mailArr.length - 1].date.getTime() - mailArr[0].date.getTime();
+
     
     let s = mailArr[0].date
     let e = mailArr[mailArr.length - 1].date
@@ -99,9 +98,4 @@ export function readCsv(csvString: string, mailArr: Email[], lookup: { [id: numb
     
     window['dataStartDate'] = s.getFullYear()  + "/" + (s.getMonth()+1) + "/" + s.getDate()
     window['dataEndDate'] = e.getFullYear()  + "/" + (e.getMonth()+1) + "/" + e.getDate()
-
-    for (var i = 0; i <= 8; i++) {
-        let dateInMillis = mailArr[0].date.getTime() + totalMillis * i / 8;
-        datestrings.push(new Date(dateInMillis).toISOString().substr(0, 10));
-    }
 }

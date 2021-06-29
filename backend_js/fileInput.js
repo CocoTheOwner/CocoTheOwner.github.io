@@ -14,7 +14,7 @@ define(["require", "exports", "./csvParser", "./visualisationController", "./san
         let emails = [];
         let lookup = [];
         let datestrings = [];
-        csvParser_1.readCsv(reader.result, emails, lookup, datestrings);
+        csvParser_1.readCsv(reader.result, emails, lookup);
         calendar.value = window['dataStartDate'] + " - " + window['dataEndDate'];
         console.log("File uploaded successfully");
         modal.style.display = "none";
@@ -22,7 +22,7 @@ define(["require", "exports", "./csvParser", "./visualisationController", "./san
         window["lookup"] = lookup;
         window["selectedJob"] = "Unknown";
         visualisationController_1.updateCharts();
-        sankeyBar_1.default(datestrings);
+        sankeyBar_1.default();
         input1.value = null;
     }
     //when input changes, update file

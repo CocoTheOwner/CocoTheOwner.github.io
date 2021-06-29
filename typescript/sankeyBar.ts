@@ -1,8 +1,3 @@
-// plz overwrite with import :)
-var data: string[] = [
-    "monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday", "monday", "tuesday"
-]
-
 window['sankeyFractions'] = [0., 1.]
 
 /// Create the labels underneath the SankeyDiagram
@@ -15,9 +10,26 @@ drawSankeyLabels()
 var row = document.createElement("tr")
 row.id = "sankeyLabelsRow"
 
-function drawSankeyLabels(){
+export function drawSankeyLabels(){
+    let data: string[] = []
 
-    var row_ = document.getElementById("sankeyLabelsRow")
+    if (window["emails"]) {
+        let totaltime = window["emails"][window["emails"].length - 1].date.getTime() - window["emails"][0].date.getTime();
+
+        for (let i = 0; i <= window["sClusters"]; i++) {
+            let dateInMillis = window["emails"][0].date.getTime() + (totaltime * i / window["sClusters"])
+            data.push(new Date(dateInMillis).toISOString().substr(0, 10));
+        }
+    }
+
+    let clusters = Number(window["sClusters"])
+    console.log(typeof clusters)
+    let n = (91.4 / clusters) * (clusters + 1)
+    console.log(n)
+    table.style.width = n + "%"
+
+
+    let row_ = document.getElementById("sankeyLabelsRow")
     if (row_ !== null)  {
         table.removeChild(row_)
     }
@@ -68,8 +80,7 @@ function drawSankeyBar(){
     roundRect(ctx, canvas.width * window['sankeyFractions'][0], 0, canvas.width * (window['sankeyFractions'][1]-window['sankeyFractions'][0]), canvas.height, 7.5, true, false)
 }
 
-export default function updateData(dates: string[] = data) {
-    data = dates;
+export default function updateData() {
     drawSankeyLabels()
     drawSankeyBar()
 }

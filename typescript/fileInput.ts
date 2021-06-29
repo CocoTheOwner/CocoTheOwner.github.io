@@ -16,7 +16,7 @@ function analyseCSVData() {
     let emails = []
     let lookup = []
     let datestrings = []
-    readCsv(reader.result as string, emails, lookup, datestrings);
+    readCsv(reader.result as string, emails, lookup);
     calendar.value = window['dataStartDate'] + " - " + window['dataEndDate'];
     console.log("File uploaded successfully");
     modal.style.display = "none";
@@ -24,7 +24,7 @@ function analyseCSVData() {
     window["lookup"] = lookup
     window["selectedJob"] = "Unknown"
     updateCharts();
-    makeSankeyBar(datestrings);
+    makeSankeyBar();
     input1.value = null;
 }
 

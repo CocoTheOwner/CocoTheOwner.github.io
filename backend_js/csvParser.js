@@ -64,7 +64,7 @@ define(["require", "exports", "./amChartSankey"], function (require, exports, am
     //  -mailArr:   emailArray to add the mails to
     //  -lookup:    lookupTable to add the data to
     //returns: nothing
-    function readCsv(csvString, mailArr, lookup, datestrings) {
+    function readCsv(csvString, mailArr, lookup) {
         let lines = csvString.split("\n");
         let columns = lines.splice(0, 1)[0].trim(); //cut off first line, they are just column names
         if (!(columns === "date,fromId,fromEmail,fromJobtitle,toId,toEmail,toJobtitle,messageType,sentiment")) {
@@ -78,17 +78,12 @@ define(["require", "exports", "./amChartSankey"], function (require, exports, am
             let date = nextMail(line, mailArr, lookup);
         });
         mailArr = mailArr.sort(function (e1, e2) { return e1.date.getTime() - e2.date.getTime(); });
-        let totalMillis = mailArr[mailArr.length - 1].date.getTime() - mailArr[0].date.getTime();
         let s = mailArr[0].date;
         let e = mailArr[mailArr.length - 1].date;
         window["startDate"] = s;
         window["endDate"] = e;
         window['dataStartDate'] = s.getFullYear() + "/" + (s.getMonth() + 1) + "/" + s.getDate();
         window['dataEndDate'] = e.getFullYear() + "/" + (e.getMonth() + 1) + "/" + e.getDate();
-        for (var i = 0; i <= 8; i++) {
-            let dateInMillis = mailArr[0].date.getTime() + totalMillis * i / 8;
-            datestrings.push(new Date(dateInMillis).toISOString().substr(0, 10));
-        }
     }
     exports.readCsv = readCsv;
 });

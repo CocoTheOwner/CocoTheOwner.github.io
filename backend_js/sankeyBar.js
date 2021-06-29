@@ -1,10 +1,7 @@
 define(["require", "exports"], function (require, exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
-    // plz overwrite with import :)
-    var data = [
-        "monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday", "monday", "tuesday"
-    ];
+    exports.drawSankeyLabels = void 0;
     window['sankeyFractions'] = [0., 1.];
     /// Create the labels underneath the SankeyDiagram
     const table = document.getElementById("sankeylabels");
@@ -14,7 +11,20 @@ define(["require", "exports"], function (require, exports) {
     var row = document.createElement("tr");
     row.id = "sankeyLabelsRow";
     function drawSankeyLabels() {
-        var row_ = document.getElementById("sankeyLabelsRow");
+        let data = [];
+        if (window["emails"]) {
+            let totaltime = window["emails"][window["emails"].length - 1].date.getTime() - window["emails"][0].date.getTime();
+            for (let i = 0; i <= window["sClusters"]; i++) {
+                let dateInMillis = window["emails"][0].date.getTime() + (totaltime * i / window["sClusters"]);
+                data.push(new Date(dateInMillis).toISOString().substr(0, 10));
+            }
+        }
+        let clusters = Number(window["sClusters"]);
+        console.log(typeof clusters);
+        let n = (91.4 / clusters) * (clusters + 1);
+        console.log(n);
+        table.style.width = n + "%";
+        let row_ = document.getElementById("sankeyLabelsRow");
         if (row_ !== null) {
             table.removeChild(row_);
         }
@@ -32,6 +42,7 @@ define(["require", "exports"], function (require, exports) {
         // Add the row to the table
         table.appendChild(row);
     }
+    exports.drawSankeyLabels = drawSankeyLabels;
     /// Draw a progress-like bar underneath the labels to display the current date selection
     const canvas = document.getElementById("sankeyCanvas");
     // Set the internal pixel width for the bar
@@ -51,8 +62,7 @@ define(["require", "exports"], function (require, exports) {
         ctx.fillStyle = "#AB00CC";
         roundRect(ctx, canvas.width * window['sankeyFractions'][0], 0, canvas.width * (window['sankeyFractions'][1] - window['sankeyFractions'][0]), canvas.height, 7.5, true, false);
     }
-    function updateData(dates = data) {
-        data = dates;
+    function updateData() {
         drawSankeyLabels();
         drawSankeyBar();
     }
