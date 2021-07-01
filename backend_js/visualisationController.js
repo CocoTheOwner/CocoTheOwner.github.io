@@ -133,9 +133,15 @@ define(["require", "exports", "./amChartChord", "./amChartChordJob", "./amChartS
         amChartChord_1.default.startAngle = 180;
         amChartChord_1.default.endAngle = amChartChord_1.default.startAngle + 180;
         // Set the values for where and how wide the bar above the alluvial diagram should be
-        let totalMillis = window["emails"][window["emails"].length - 1].date.getTime() - window["emails"][0].date.getTime();
-        window['sankeyFractions'][0] = (window["startDate"].getTime() - window["emails"][0].date.getTime()) / totalMillis;
-        window['sankeyFractions'][1] = (window["endDate"].getTime() - window["emails"][0].date.getTime()) / totalMillis;
+        if (window["full-alluvial"]) {
+            let totalMillis = window["emails"][window["emails"].length - 1].date.getTime() - window["emails"][0].date.getTime();
+            window['sankeyFractions'][0] = (window["startDate"].getTime() - window["emails"][0].date.getTime()) / totalMillis;
+            window['sankeyFractions'][1] = (window["endDate"].getTime() - window["emails"][0].date.getTime()) / totalMillis;
+        }
+        else {
+            window['sankeyFractions'][0] = 0;
+            window['sankeyFractions'][1] = 1;
+        }
         let startIndex = findTimeIndex(window["startDate"]);
         let endIndex = findTimeIndex(window["endDate"]);
         amChartChord_1.default.data = [];

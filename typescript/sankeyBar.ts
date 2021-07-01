@@ -14,11 +14,17 @@ export function drawSankeyLabels(){
     let data: string[] = []
 
     if (window["emails"]) {
-        let totaltime = window["emails"][window["emails"].length - 1].date.getTime() - window["emails"][0].date.getTime();
-
+        let totalTime, startTime
+        if (window["full-alluvial"]) {
+            totalTime = window["emails"][window["emails"].length - 1].date.getTime() - window["emails"][0].date.getTime();
+            startTime = window["emails"][0].date.getTime()
+        } else {
+            totalTime = window["endDate"].getTime() - window["startDate"].getTime()
+            startTime = window["startDate"].getTime()
+        }
         for (let i = 0; i <= window["sClusters"]; i++) {
-            let dateInMillis = window["emails"][0].date.getTime() + (totaltime * i / window["sClusters"])
-            data.push(new Date(dateInMillis).toISOString().substr(0, 10));
+                let dateInMillis = startTime + (totalTime * i / window["sClusters"])
+                data.push(new Date(dateInMillis).toISOString().substr(0, 10));
         }
     }
 
