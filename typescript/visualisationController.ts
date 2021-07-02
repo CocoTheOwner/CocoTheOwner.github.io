@@ -74,6 +74,8 @@ export function updateSankey(clusters = window["sClusters"]) {
         }
     }
 
+    let lastLinks = {};
+
     // For all connections between columns...
     for (const timeslot in mailCounters) {
 
@@ -109,12 +111,16 @@ export function updateSankey(clusters = window["sClusters"]) {
             }
         }
 
-        for (const tjob in window['colorData']) {
-            if (tjob in links) {
-                for (const link of links[tjob]) {
-                    sankeyChart.data.push(link);
+        if (parseInt(timeslot) != parseInt(window['sClusters']) - 1) {
+            for (const tjob in window['colorData']) {
+                if (tjob in links) {
+                    for (const link of links[tjob]) {
+                        sankeyChart.data.push(link);
+                    }
                 }
             }
+        } else {
+            lastLinks = links;
         }
     }
 
@@ -122,7 +128,13 @@ export function updateSankey(clusters = window["sClusters"]) {
     // The rightmost cluster usually has more nodes and some space leftover to the right of it.
     // Moving the cluster with job title descriptions to the right fills this space and saves computations.
     for (const tjob in window['colorData']) {
-        sankeyChart.data.push({from: backupJob + (clusters === 1 ? "" : "." + (clusters - 1)), to: tjob + "." + clusters, color: window["colorData"][tjob]});
+        if (tjob in lastLinks) {
+            for (const link of lastLinks[tjob]) {
+                sankeyChart.data.push(link);
+            }
+        } else {
+            sankeyChart.data.push({from: backupJob + (clusters === 1 ? "" : "." + (clusters - 1)), to: tjob + "." + clusters, color: window["colorData"][tjob]});
+        }
     }
 
     sankeyChart.validateData(); // Updates the sankeyChart
